@@ -9,29 +9,29 @@
                         <v-icon>dashboard</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('views.dashboard') }}</v-list-tile-title>
+                        <v-list-tile-title class="body-2">{{ $t('views.dashboard') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
 
             <v-list>
-                <v-list-tile to="/plan">
+                <v-list-tile :to="{name: 'plan'}">
                     <v-list-tile-action>
                         <v-icon>calendar_today</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('views.plan') }}</v-list-tile-title>
+                        <v-list-tile-title class="body-2">{{ $t('views.plan') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
 
             <v-list v-if="this.$store.state.user.role.admin">
-                <v-list-tile to="/plansettings">
+                <v-list-tile :to="{name: 'plansettings'}">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('views.plansettings') }}</v-list-tile-title>
+                        <v-list-tile-title class="body-2">{{ $t('views.plansettings') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -40,7 +40,7 @@
 
             <v-list>
 
-                <v-list-tile to="/help">
+                <v-list-tile :to="{name: 'help'}">
                     <v-list-tile-action>
                         <v-icon>question_answer</v-icon>
                     </v-list-tile-action>
@@ -49,7 +49,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
-                <v-list-tile to="/settings">
+                <v-list-tile :to="{name: 'settings'}">
                     <v-list-tile-action>
                         <v-icon>settings</v-icon>
                     </v-list-tile-action>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 Vue.use(Router)
 
 export default new Router({
@@ -9,8 +10,8 @@ export default new Router({
             name: 'dashboard',
             component: () => import('./views/Secure/Dashboard.vue'),
             meta: {
-                secure: true,
-                admin: false
+                requiresAuth: true,
+                requiresAdmin: false
             }
         },
         {
@@ -18,8 +19,8 @@ export default new Router({
             name: 'plan',
             component: () => import('./views/Secure/Plan.vue'),
             meta: {
-                secure: true,
-                admin: false
+                requiresAuth: true,
+                requiresAdmin: false
             }
         },
         {
@@ -27,8 +28,8 @@ export default new Router({
             name: 'plansettings',
             component: () => import('./views/Secure/PlanSettings.vue'),
             meta: {
-                secure: true,
-                admin: true
+                requiresAuth: true,
+                requiresAdmin: true
             }
         },
         {
@@ -36,8 +37,8 @@ export default new Router({
             name: 'help',
             component: () => import('./views/Secure/Help.vue'),
             meta: {
-                secure: true,
-                admin: false
+                requiresAuth: true,
+                requiresAdmin: false
             }
         },
         {
@@ -45,8 +46,8 @@ export default new Router({
             name: 'settings',
             component: () => import('./views/Secure/Settings.vue'),
             meta: {
-                secure: true,
-                admin: false
+                requiresAuth: true,
+                requiresAdmin: false
             }
         },
         {
@@ -54,8 +55,8 @@ export default new Router({
             name: 'nopermission',
             component: () => import('./views/Shared/NoPermission'),
             meta: {
-                secure: null,
-                admin: false
+                requiresAuth: null,
+                requiresAdmin: false
             }
         },
         {
@@ -63,8 +64,8 @@ export default new Router({
             name: 'notfound',
             component: () => import('./views/Shared/NotFound'),
             meta: {
-                secure: null,
-                admin: false
+                requiresAuth: null,
+                requiresAdmin: false
             }
         }
     ]
