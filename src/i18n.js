@@ -10,10 +10,26 @@ export default new VueI18n({
 
     messages: {
         en: {
-
+            views: {
+                dashboard: 'Dashboard',
+                plan: 'Duty Roster',
+                settings: 'Settings',
+                help: 'Support',
+                plansettings: 'Edit Roster',
+                notfound: 'Page not found',
+                nopermission: 'No Permissions'
+            }
         },
         de: {
-
+            views: {
+                dashboard: 'Dashboard',
+                plan: 'Dienstplan',
+                settings: 'Einstellungen',
+                help: 'Support',
+                plansettings: 'Plan bearbeiten',
+                notfound: 'Seite nicht gefunden',
+                nopermission: 'Keine Rechte'
+            }
         }
     }
 
