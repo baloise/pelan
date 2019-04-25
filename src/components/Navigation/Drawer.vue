@@ -74,20 +74,14 @@
 <script>
 export default {
     name: 'Drawer',
-    i18n: {
-        messages: {
-            en: {
-            },
-            de: {
-            }
-        }
-    },
     computed: {
 
+        // Get Infos about the App
         info () {
             return this.$store.state.app.title + ' v' + this.$store.state.app.version
         },
 
+        // Change state (visible/hidden) of drawer
         drawer: {
             get () {
                 return this.$store.state.app.drawer

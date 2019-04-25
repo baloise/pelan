@@ -22,21 +22,13 @@ export default new Vuex.Store({
 
         // User-Details
         user: {
-            email: null,
-            firstname: null,
-            lastname: null,
-            nickname: null,
-            language: 'de',
-            role: {
-                id: null,
-                title: null,
-                description: null,
-                admin: false
-            },
-            team: {
-                id: null,
-                title: null
-            }
+            language: 'de'
+        },
+
+        content: {
+            users: [],
+            shifts: [],
+            times: []
         }
 
     },

@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import Drawer from '@/components/Shared/Drawer'
-import Toolbar from '@/components/Shared/Toolbar'
+import Drawer from '@/components/Navigation/Drawer'
+import Toolbar from '@/components/Navigation/Toolbar'
 import { mapActions } from 'vuex'
 
 export default {
@@ -32,17 +32,6 @@ export default {
 
     components: {
         Drawer, Toolbar
-    },
-
-    i18n: {
-        messages: {
-            en: {
-                authFail: 'Authentication was not successful.'
-            },
-            de: {
-                authFail: 'Authentifizierung war nicht erfolgreich.'
-            }
-        }
     },
 
     methods: {
@@ -60,7 +49,7 @@ export default {
                 vm.checkHeaders()
                 callback(true)
             }).catch(function () {
-                vm.$notify({ type: 'error', text: vm.$t('authFail') })
+                vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
                 callback(false)
             })
         },
@@ -96,7 +85,7 @@ export default {
             }
         })
 
-        // Use correct Language at startup & watch changes
+        // Use correct Language at startup & watch Changes
         vm.$i18n.locale = vm.$store.state.user.language
         vm.$store.watch((state) => {
             return vm.$store.state.user.language
@@ -114,74 +103,6 @@ export default {
 </script>
 
 <style>
-
-    ::-webkit-scrollbar {
-        height: 8px;
-        width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-        background: #f7f7f7;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #dddddd;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #dddddd;
-    }
-
     @import url('https://fonts.googleapis.com/css?family=Material+Icons');
-
-    @font-face{
-        font-family: 'MetaPro Normal';
-        src: url('./assets/fonts/meta/Normal.ttf') format("truetype");
-    }
-    @font-face{
-        font-family: 'MetaPro Light';
-        src: url('./assets/fonts/meta/Light.ttf') format("truetype");
-    }
-    @font-face{
-        font-family: 'MetaPro Medium';
-        src: url('./assets/fonts/meta/Medium.ttf') format("truetype");
-    }
-
-    * {
-        font-family: 'MetaPro Normal', sans-serif;
-    }
-
-    .display-1, .display-2, .display-3, .display-4, .headline, .title, .body-1 {
-        font-family: 'MetaPro Medium', sans-serif !important;
-    }
-
-    .body-2 {
-        font-family: 'MetaPro Normal', sans-serif !important;
-    }
-
-    .caption {
-        font-family: 'MetaPro Light', sans-serif !important;
-        font-size: 15px !important;
-    }
-
-    .display-1, .display-2, .display-3, .display-4 {
-        font-size: 44px !important;
-        line-height: 50px !important;
-    }
-
-    .headline {
-        font-size: 32px !important;
-        line-height: 40px !important;
-    }
-
-    .title {
-        font-size: 22px !important;
-        line-height: 28px !important;
-    }
-
-    .body-1, .body-2 {
-        font-size: 18px !important;
-        line-height: 26px !important;
-    }
-
+    @import 'assets/css/app.css';
 </style>

@@ -12,15 +12,23 @@
 <script>
 export default {
     name: 'Toolbar',
+
     computed: {
+
         appTitle () {
             return this.$store.state.app.title
         }
+
     },
+
     methods: {
+
+        // Show/Hide drawer
         drawer () {
             this.$store.commit('drawer', !this.$store.state.app.drawer)
         }
+
     }
+
 }
 </script>

@@ -29,14 +29,7 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 Vue.prototype.$http = axios.create({
     baseURL: 'http://localhost/pelan-api/api/',
-    withCredentials: true,
-    validateStatus: function (status) {
-        if (status >= 200 && status < 300 && status !== 204) {
-            return true
-        } else {
-            return false
-        }
-    }
+    withCredentials: true
 })
 
 new Vue({
