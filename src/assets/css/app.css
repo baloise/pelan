@@ -26,10 +26,10 @@
     src: url('../fonts/meta/Medium.ttf') format("truetype");
 }
 
+
 * {
     font-family: 'MetaPro Normal', sans-serif;
 }
-
 .display-1, .display-2, .display-3, .display-4, .headline, .title, .body-1 {
     font-family: 'MetaPro Medium', sans-serif !important;
 }
@@ -57,12 +57,14 @@
     line-height: 26px !important;
 }
 
+
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
 }
 .fade-enter, .fade-leave-to {
     opacity: 0;
 }
+
 
 .spinning-loader {
     animation: loader 1s infinite;

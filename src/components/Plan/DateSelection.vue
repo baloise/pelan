@@ -1,66 +1,59 @@
 <template>
-    <v-container fluid class="pa-0">
-        <v-layout row wrap class="pa-3">
+    <v-dialog v-model="value.show" max-width="500">
+        <v-card>
+            <v-card-title class="headline">Filter</v-card-title>
+            <v-card-text>
+                <v-flex xs12>
+                    <v-menu v-model="pickMenu" :close-on-content-click="false" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+                        <template v-slot:activator="{ on }">
+                            <v-text-field :value="selected" :label="$t('month')" append-icon="event" readonly v-on="on"></v-text-field>
+                        </template>
+                        <v-date-picker :locale="$store.state.user.language" v-model="value.pickMonth" @input="pickMenu = false" type="month" color="primary"></v-date-picker>
+                    </v-menu>
+                </v-flex>
 
-            <v-flex xs12 sm6>
-                <h1 class="display-1 primary--text">{{ $t('views.plan') }}</h1>
-            </v-flex>
+                <v-flex xs12>
+                    <v-checkbox v-model="value.weekends" color="primary" :label="$t('weekends')"></v-checkbox>
+                </v-flex>
 
-            <v-spacer></v-spacer>
-
-            <v-flex xs12 sm4 md3 pa-2>
-                <h1 class="title text-sm-right clickable" @click.stop="selector.show = true">{{selected}}<v-icon>edit</v-icon></h1>
-            </v-flex>
-
-            <DateSelection v-model="selector"/>
-
-        </v-layout>
-
-        <div class="plan-container">
-            <PlanBase class="plan-inner" :autoUpdate="selector.autoUpdate" :startDate="startDate" :endDate="endDate" :weekends="selector.weekends" />
-        </div>
-
-    </v-container>
+                <v-flex xs12>
+                    <v-checkbox v-model="value.autoUpdate" color="primary" :label="$t('autoupdate')"></v-checkbox>
+                </v-flex>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat @click="value.show = false">
+                    {{ $t('close') }}
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
-import PlanBase from '@/components/Plan/'
-import DateSelection from '@/components/Plan/DateSelection'
-
 export default {
-    name: 'Plan',
-
-    components: {
-        PlanBase, DateSelection
-    },
+    name: 'DateSelection',
+    props: ['value'],
 
     data () {
         return {
-            selector: {
-                show: false,
-                pickMonth: new Date().getFullYear() + '-' + (new Date().getMonth() + 1),
-                weekends: false,
-                autoUpdate: false
-            }
+            pickMenu: false
         }
+    },
+
+    methods: {
+
+        wat (ele) {
+            console.log(ele)
+        }
+
     },
 
     computed: {
 
         selected () {
-            var date = new Date(this.selector.pickMonth + '-1')
+            var date = new Date(this.value.pickMonth + '-1')
             return this.$t('months.' + (date.getMonth() + 1)) + ' ' + date.getFullYear()
-        },
-
-        startDate () {
-            var date = new Date(this.selector.pickMonth + '-1')
-            return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate())
-        },
-
-        endDate () {
-            var date = new Date(this.selector.pickMonth + '-1')
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-            return (lastDay.getFullYear() + '/' + (lastDay.getMonth() + 1) + '/' + lastDay.getDate())
         }
 
     },
@@ -123,6 +116,6 @@ export default {
         display: absolute;
     }
     .plan-inner {
-        min-width: 1200px;
+        min-width: 1000px;
     }
 </style>

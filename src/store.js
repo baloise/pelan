@@ -25,10 +25,12 @@ export default new Vuex.Store({
             language: 'de'
         },
 
+        // Application-Data
         content: {
             users: [],
             shifts: [],
-            times: []
+            times: [],
+            assignments: []
         }
 
     },

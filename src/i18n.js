@@ -43,7 +43,7 @@ export default new VueI18n({
         },
         de: {
             $vuetify: {
-                noDataText: 'No data found',
+                noDataText: 'Keine Einträge gefunden',
                 dataTable: {
                     rowsPerPageText: 'Einträge pro Seite:'
                 },
