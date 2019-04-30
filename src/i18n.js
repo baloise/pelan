@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-
 Vue.use(VueI18n)
 
 export default new VueI18n({
 
     locale: 'en',
     fallbackLocale: 'en',
-    silentTranslationWarn: process.env.NODE_ENV !== 'production',
+    silentTranslationWarn: true,
 
     messages: {
+
         en: {
             $vuetify: {
                 noDataText: 'No data found',
@@ -39,8 +39,14 @@ export default new VueI18n({
                 require: 'Required value',
                 authFail: 'Authentication was not successful',
                 loadFail: 'There was an error while loading the data'
+            },
+            btn: {
+                save: 'Save',
+                close: 'Close',
+                cancel: 'Cancel'
             }
         },
+
         de: {
             $vuetify: {
                 noDataText: 'Keine Einträge gefunden',
@@ -70,8 +76,14 @@ export default new VueI18n({
                 require: 'Wert wird benötigt',
                 authFail: 'Authentifizierung war nicht erfolgreich',
                 loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.'
+            },
+            btn: {
+                save: 'Speichern',
+                close: 'Schliessen',
+                cancel: 'Abbrechen'
             }
         }
+
     }
 
 })

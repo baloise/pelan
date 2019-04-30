@@ -1,3 +1,5 @@
+
+/* Change default Scrollbar */
 ::-webkit-scrollbar {
     height: 8px;
     width: 10px;
@@ -12,7 +14,15 @@
     background: #dddddd;
 }
 
+/* Create animation for changing views */
+.router-view-enter-active {
+    animation: zoomIn 0.2s;
+}
+.router-view-leave-active {
+    animation: zoomOut 0.2s;
+}
 
+/* Get/Assign Baloise fonts */
 @font-face{
     font-family: 'MetaPro Normal';
     src: url('../fonts/meta/Normal.ttf') format("truetype");
@@ -26,7 +36,7 @@
     src: url('../fonts/meta/Medium.ttf') format("truetype");
 }
 
-
+/* Set type, size & color of fonts */
 * {
     font-family: 'MetaPro Normal', sans-serif;
 }
@@ -57,7 +67,7 @@
     line-height: 26px !important;
 }
 
-
+/* Define default fade transition/animation */
 .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
 }
@@ -65,7 +75,7 @@
     opacity: 0;
 }
 
-
+/* Define spinning-loader for buttons etc */
 .spinning-loader {
     animation: loader 1s infinite;
     display: flex;

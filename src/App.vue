@@ -14,8 +14,9 @@
                 </template>
             </notifications>
 
-            <router-view>
-            </router-view>
+            <transition name="router-view" mode="out-in">
+                <router-view></router-view>
+            </transition>
 
         </v-content>
 
@@ -70,7 +71,7 @@ export default {
         // Check permissions before resolving a view
         vm.$router.beforeResolve((to, from, next) => {
             vm.$store.dispatch('checkAuth')
-            document.title = vm.$store.state.app.title + ' | ' + vm.$t('views.' + to.name)
+            document.title = vm.$store.state.pelan.title + ' | ' + vm.$t('views.' + to.name)
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {
                 vm.getLogin(function (success) {
                     if (success && !(to.meta.requiresAdmin === true && !vm.$store.state.user.role.admin)) {

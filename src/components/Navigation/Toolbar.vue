@@ -2,7 +2,7 @@
     <v-toolbar app class="primary" flat dark clipped-left>
         <v-toolbar-side-icon aria-label="OpenMenu" @click.stop="drawer()"></v-toolbar-side-icon>
         <v-toolbar-title class="white--text">
-            <h1>{{ appTitle }}</h1>
+            <h1 class="title">{{ appTitle }}</h1>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-img :src="require('@/assets/baloise/logo.svg')" max-height="40px" contain position="right"></v-img>
@@ -16,7 +16,7 @@ export default {
     computed: {
 
         appTitle () {
-            return this.$store.state.app.title
+            return this.$store.state.pelan.title
         }
 
     },
@@ -25,7 +25,7 @@ export default {
 
         // Show/Hide drawer
         drawer () {
-            this.$store.commit('drawer', !this.$store.state.app.drawer)
+            this.$store.commit('drawer', !this.$store.state.pelan.drawer)
         }
 
     }

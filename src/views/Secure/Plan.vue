@@ -1,24 +1,25 @@
 <template>
     <v-container fluid class="pa-0">
-        <v-layout row wrap class="pa-3">
 
-            <v-flex xs12 sm6>
-                <h1 class="display-1 primary--text">{{ $t('views.plan') }}</h1>
+        <v-layout row wrap class="pl-3 pr-1 pt-3">
+
+            <v-flex xs12 sm6 class="text-xs-center text-sm-left">
+                <h1 class="display-1 accent--text">{{ $t('views.plan') }}</h1>
             </v-flex>
 
             <v-spacer></v-spacer>
 
-            <v-flex xs12 sm4 md3 pa-2>
-                <h1 class="title text-sm-right clickable" @click.stop="selector.show = true">{{selected}}<v-icon>edit</v-icon></h1>
+            <v-flex xs12 sm4 class="text-xs-center text-sm-right">
+                <v-btn flat class="title text-capitalize" @click.stop="filter.show = true">
+                    {{selected}} <v-icon right>edit</v-icon>
+                </v-btn>
             </v-flex>
 
-            <DateSelection v-model="selector"/>
+            <DateSelection v-model="filter"/>
 
         </v-layout>
 
-        <div class="plan-container">
-            <PlanBase class="plan-inner" :autoUpdate="selector.autoUpdate" :startDate="startDate" :endDate="endDate" :weekends="selector.weekends" />
-        </div>
+        <PlanBase :startDate="startDate" :endDate="endDate" :weekends="filter.weekends" />
 
     </v-container>
 </template>
@@ -36,11 +37,10 @@ export default {
 
     data () {
         return {
-            selector: {
+            filter: {
                 show: false,
                 pickMonth: new Date().getFullYear() + '-' + (new Date().getMonth() + 1),
-                weekends: false,
-                autoUpdate: false
+                weekends: false
             }
         }
     },
@@ -48,17 +48,17 @@ export default {
     computed: {
 
         selected () {
-            var date = new Date(this.selector.pickMonth + '-1')
+            var date = new Date(this.filter.pickMonth + '-1')
             return this.$t('months.' + (date.getMonth() + 1)) + ' ' + date.getFullYear()
         },
 
         startDate () {
-            var date = new Date(this.selector.pickMonth + '-1')
+            var date = new Date(this.filter.pickMonth + '-1')
             return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate())
         },
 
         endDate () {
-            var date = new Date(this.selector.pickMonth + '-1')
+            var date = new Date(this.filter.pickMonth + '-1')
             var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
             return (lastDay.getFullYear() + '/' + (lastDay.getMonth() + 1) + '/' + lastDay.getDate())
         }
@@ -68,10 +68,6 @@ export default {
     i18n: {
         messages: {
             en: {
-                month: 'Month',
-                weekends: 'Weekends',
-                autoupdate: 'Update automaticly',
-                close: 'Close',
                 months: {
                     1: 'January',
                     2: 'February',
@@ -88,10 +84,6 @@ export default {
                 }
             },
             de: {
-                month: 'Monat',
-                weekends: 'Wochenenden',
-                autoupdate: 'Automatisch aktualisieren',
-                close: 'Schliessen',
                 months: {
                     1: 'Januar',
                     2: 'Februar',
@@ -112,17 +104,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-    .clickable {
-        cursor: pointer;
-    }
-    .plan-container {
-        overflow-y: hidden;
-        overflow-x: scroll;
-        display: absolute;
-    }
-    .plan-inner {
-        min-width: 1200px;
-    }
-</style>

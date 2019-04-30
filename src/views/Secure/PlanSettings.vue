@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid fill-height>
+    <v-container fill-height>
         <v-layout row wrap align-center>
 
             <v-flex xs12>
@@ -32,8 +32,7 @@ export default {
     name: 'PlanSettings',
 
     components: {
-        Shifts,
-        Times
+        Shifts, Times
     },
 
     i18n: {

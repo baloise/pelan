@@ -1,21 +1,19 @@
 <template>
-    <v-container fluid fill-height>
-        <v-layout row wrap>
-
+    <v-container fill-height>
+        <v-layout row wrap align-center>
             <v-flex xs12>
+
                 <h1 class="display-1 accent--text">{{ $t('views.settings') }}</h1>
-            </v-flex>
 
-            <v-flex xs12>
-                <h1 class="headline primary--text">{{ $t('lang') }}</h1>
+                <h1 class="headline primary--text pt-3">{{ $t('lang') }}</h1>
                 <LangChanger />
-            </v-flex>
 
-            <v-flex xs12 v-if="$store.state.user.role.admin">
-                <h1 class="headline primary--text">{{ $t('users') }}</h1>
-                <Users />
-            </v-flex>
+                <h1 v-if="$store.state.user.role.admin" class="headline primary--text pt-3">
+                    {{ $t('users') }}
+                </h1>
+                <Users v-if="$store.state.user.role.admin" />
 
+            </v-flex>
         </v-layout>
     </v-container>
 </template>

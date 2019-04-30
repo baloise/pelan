@@ -9,7 +9,7 @@
 
         <v-flex xs6>
             <v-btn :loading="rules.loading" :disabled="rules.loading" @click="changeLang()" depressed large color="primary">
-                {{ $t('save') }}
+                {{ $t('btn.save') }}
                 <span slot="loader" class="spinning-loader">
                     <v-icon light>cached</v-icon>
                 </span>
@@ -22,36 +22,6 @@
 <script>
 export default {
     name: 'LangChanger',
-
-    i18n: {
-        messages: {
-            en: {
-                langs: {
-                    ger: 'German',
-                    eng: 'English'
-                },
-                save: 'Save'
-            },
-            de: {
-                langs: {
-                    ger: 'Deutsch',
-                    eng: 'Englisch'
-                },
-                save: 'Speichern'
-            }
-        }
-    },
-
-    computed: {
-
-        langItems () {
-            return [
-                { text: this.$t('langs.eng'), value: 'en' },
-                { text: this.$t('langs.ger'), value: 'de' }
-            ]
-        }
-
-    },
 
     data () {
         return {
@@ -66,6 +36,17 @@ export default {
                 ]
             }
         }
+    },
+
+    computed: {
+
+        langItems () {
+            return [
+                { text: this.$t('langs.eng'), value: 'en' },
+                { text: this.$t('langs.ger'), value: 'de' }
+            ]
+        }
+
     },
 
     methods: {
@@ -90,6 +71,23 @@ export default {
             }
         }
 
+    },
+
+    i18n: {
+        messages: {
+            en: {
+                langs: {
+                    ger: 'German',
+                    eng: 'English'
+                }
+            },
+            de: {
+                langs: {
+                    ger: 'Deutsch',
+                    eng: 'Englisch'
+                }
+            }
+        }
     }
 
 }

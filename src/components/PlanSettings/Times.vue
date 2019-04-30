@@ -3,7 +3,7 @@
 
         <v-layout row wrap class="mb-2" align-center>
             <v-flex xs12 md3>
-                <v-btn :disabled="!changes" @click="saveChange()" color="primary" block>{{ $t('save') }}</v-btn>
+                <v-btn :disabled="!changes" @click="saveChange()" color="primary" block>{{ $t('btn.save') }}</v-btn>
             </v-flex>
             <v-flex xs12 md2 class="text-md-center">
                 <h3 class="title warning--text" v-html="$t('attention.title')"></h3>
@@ -60,7 +60,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-btn aria-label="close" flat @click="validTitle()">
-                            {{ $t('edit.close') }}
+                            {{ $t('btn.close') }}
                         </v-btn>
                     </v-card-actions>
                 </v-card>
@@ -73,35 +73,6 @@
 <script>
 export default {
     name: 'Times',
-
-    i18n: {
-        messages: {
-            en: {
-                edit: {
-                    title: 'Edit Title',
-                    close: 'Done',
-                    desc: 'Title'
-                },
-                save: 'Save changes',
-                attention: {
-                    title: 'Keep in mind',
-                    text: "Deleting a Time will remove it and all it's assignments from the Duty Roster. This <b>cannot</b> be undone."
-                }
-            },
-            de: {
-                edit: {
-                    title: 'Titel bearbeiten',
-                    close: 'Fertig',
-                    desc: 'Titel'
-                },
-                save: 'Änderungen speichern',
-                attention: {
-                    title: 'Achtung',
-                    text: 'Das Löschen einer Zeit entfernt sie und alle ihr zugeordneten Einsätze aus dem Einsatzplan. Dies kann <b>nicht</b> rückgängig gemacht werden.'
-                }
-            }
-        }
-    },
 
     data () {
         return {
@@ -125,7 +96,7 @@ export default {
 
         // Sort received times by their position-number before showing
         list () {
-            var storeElems = this.$store.state.content.times
+            var storeElems = this.$store.state.app.times
             if (storeElems) {
                 storeElems.sort((a, b) => (parseInt(a.position) > parseInt(b.position)) ? 1 : ((parseInt(b.position) > parseInt(a.position)) ? -1 : 0))
                 return storeElems
@@ -135,36 +106,19 @@ export default {
 
     },
 
-    mounted () {
-        var vm = this
-
-        // Get times (even if they are in store, bc there may be new ones)
-        vm.$http.get('daytime/read/').then(function (response) {
-            if (response.data.content) { vm.$store.state.content.times = response.data.content }
-        }).catch(function () {
-            vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
-        })
-    },
-
     methods: {
 
         // Check if new title (from editor-dialog) is valid
         validTitle () {
             this.$refs.editorForm.validate()
-            if (this.$data.rules.valid) {
-                this.dialog = false
-            }
+            if (this.$data.rules.valid) this.dialog = false
         },
 
         // Add new Time
         add () {
-            var vm = this
+            var vm = this; var newPosition = 1
             vm.$refs.adderForm.validate()
-
-            var newPosition = 1
-            if (vm.list.length) {
-                newPosition = parseInt(vm.list[vm.list.length - 1].position) + 1
-            }
+            if (vm.list.length) newPosition = parseInt(vm.list[vm.list.length - 1].position) + 1
 
             if (vm.$data.rules.valid) {
                 vm.$http.post('daytime/create/', {
@@ -173,8 +127,9 @@ export default {
                     description: vm.newElement.title,
                     position: newPosition
                 }).then(function (response) {
-                    vm.$store.state.content.times.push({
+                    vm.$store.state.app.times.push({
                         title: vm.newElement.title,
+                        abbreviation: vm.newElement.title.substring(0, 4),
                         position: newPosition,
                         id: response.data.content
                     })
@@ -188,16 +143,17 @@ export default {
 
         // Save changes and/or delete shift, if selected
         saveChange () {
-            var vm = this
-            var error = false
-            var storeElems = vm.$store.state.content.times
+            var vm = this; var error = false; var storeElems = vm.$store.state.app.times
             vm.$refs.editorForm.validate()
 
             for (var i = 0; i < storeElems.length; i++) {
                 if (storeElems[i].deleted) {
                     vm.$http.post('daytime/delete/', {
                         id: storeElems[i].id
-                    }).then(function (response) {}).catch(function () { error = true })
+                    }).then(function (response) {
+                        var elem = vm.$store.state.app.times.indexOf(storeElems[i])
+                        vm.$store.state.app.times.splice(elem, 1)
+                    }).catch(function () { error = true })
                 } else if (storeElems[i].edited) {
                     vm.$http.post('daytime/edit/', {
                         id: storeElems[i].id,
@@ -219,7 +175,7 @@ export default {
 
         // Process changes made to a time
         editElem (elem) {
-            var storeElems = this.$store.state.content.times
+            var storeElems = this.$store.state.app.times
             for (var i = 0; i < storeElems.length; i++) {
                 if (storeElems[i].id === elem.id) { storeElems[i].edited = true }
             }
@@ -231,7 +187,7 @@ export default {
         // Process delete-changes made to a time
         deleteElem (elem) {
             var deletePos = elem.position
-            var storeElems = this.$store.state.content.times
+            var storeElems = this.$store.state.app.times
             for (var i = 0; i < storeElems.length; i++) {
                 if (storeElems[i].id === elem.id) {
                     storeElems[i].deleted = true
@@ -249,7 +205,7 @@ export default {
         // Process and move time
         moveDown (currElem) {
             var currPos = parseInt(currElem.position)
-            var storeElems = this.$store.state.content.times
+            var storeElems = this.$store.state.app.times
             if (storeElems.length > 1) {
                 for (var i = 0; i < storeElems.length; i++) {
                     if (storeElems[i].id === currElem.id) {
@@ -268,7 +224,7 @@ export default {
         // Process and move time
         moveUp (currElem) {
             var currPos = parseInt(currElem.position)
-            var storeElems = this.$store.state.content.times
+            var storeElems = this.$store.state.app.times
             if (storeElems.length > 1) {
                 for (var i = 0; i < storeElems.length; i++) {
                     if (storeElems[i].id === currElem.id) {
@@ -284,6 +240,42 @@ export default {
             }
         }
 
+    },
+
+    mounted () {
+        var vm = this
+
+        // Get times (even if they are in store, bc there may be new ones)
+        vm.$http.get('daytime/read/').then(function (response) {
+            if (response.data.content) { vm.$store.state.app.times = response.data.content }
+        }).catch(function () {
+            vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
+        })
+    },
+
+    i18n: {
+        messages: {
+            en: {
+                edit: {
+                    title: 'Edit Title',
+                    desc: 'Title'
+                },
+                attention: {
+                    title: 'Keep in mind',
+                    text: "Deleting a Time will remove it and all it's assignments from the Duty Roster. This <b>cannot</b> be undone."
+                }
+            },
+            de: {
+                edit: {
+                    title: 'Titel bearbeiten',
+                    desc: 'Titel'
+                },
+                attention: {
+                    title: 'Achtung',
+                    text: 'Das Löschen einer Zeit entfernt sie und alle ihr zugeordneten Einsätze aus dem Einsatzplan. Dies kann <b>nicht</b> rückgängig gemacht werden.'
+                }
+            }
+        }
     }
 
 }

@@ -3,7 +3,7 @@
         <v-flex xs12>
 
             <v-form v-model="isValid" ref="formData">
-                <v-data-table :loading="isLoading" :headers="headers" :items="userList" :pagination.sync="pagination">
+                <v-data-table :loading="loading.users" :headers="headers" :items="userList" :pagination.sync="pagination">
                     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
                     <template v-slot:items="props">
                         <td :class="{'error': !props.item.firstname.length}">
@@ -32,10 +32,14 @@
                         </td>
                         <td>
                             <v-edit-dialog @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                                {{ (getGroup(props.item.role))['text'] }}
+
+                                <span v-if="loading.roles" class="spinning-loader"><v-icon light>cached</v-icon></span>
+                                {{ (getGroup(props.item.role))['title'] }}
+
                                 <template v-slot:input>
-                                    <v-select v-model="props.item.role" :items="groupItems" item-text="text" item-value="id"></v-select>
+                                    <v-select v-model="props.item.role" :items="roleItems" item-text="title" item-value="id"></v-select>
                                 </template>
+
                             </v-edit-dialog>
                         </td>
                     </template>
@@ -50,59 +54,33 @@
 export default {
     name: 'Users',
 
-    i18n: {
-        messages: {
-            en: {
-                length: 'Value is too long',
-                valueWrong: 'Invalid value set',
-                useredits: 'Edit Users',
-                user: {
-                    firstname: 'Firstname',
-                    lastname: 'Lastname',
-                    nickname: 'Nickname',
-                    role: 'Role'
-                },
-                btn: {
-                    save: 'Save',
-                    cancel: 'Cancel'
-                }
-            },
-            de: {
-                length: 'Wert ist zu lang',
-                valueWrong: 'Fehlerhafte Eingabe',
-                useredits: 'Benutzer anpassen',
-                user: {
-                    firstname: 'Vorname',
-                    lastname: 'Nachname',
-                    nickname: 'Nickname',
-                    role: 'Rolle'
-                },
-                btn: {
-                    save: 'Speichern',
-                    cancel: 'Abbrechen'
-                }
-            }
-        }
-    },
-
     data () {
         return {
             pagination: { rowsPerPage: 10 },
             minChars: v => v.length >= 1 || this.$t('alert.require'),
             maxChars: v => v.length < 11 || this.$t('length'),
             isValid: false,
-            isLoading: false,
-
-            // TODO get from api
-            groupItems: [
-                { id: '1', text: 'Teamleiter', admin: 1 },
-                { id: '2', text: 'Mitglied', admin: 0 }
-            ]
-
+            roleList: []
         }
     },
 
     computed: {
+
+        // To see if data is loaded
+        loading () {
+            var vm = this; var users = true; var roles = true
+            if (vm.$store.state.app.users.length) users = false
+            if (vm.roleItems) roles = false
+            return { users: users, roles: roles }
+        },
+
+        // Return list for select
+        roleItems () {
+            if (this.roleList.length) return this.roleList
+            return false
+        },
+
+        // Table-headers
         headers () {
             return [
                 { text: this.$t('user.firstname'), value: 'firstname' },
@@ -111,41 +89,28 @@ export default {
                 { text: this.$t('user.role'), value: 'role' }
             ]
         },
+
+        // Return list of users
         userList () {
-            return this.$store.state.content.users
+            return this.$store.state.app.users
         }
-    },
 
-    mounted () {
-        var vm = this
-
-        // Get users from store or api
-        if (!vm.$store.state.content.users.length) {
-            vm.isLoading = true
-            vm.$http.get('user/read/').then(function (response) {
-                vm.$store.state.content.users = response.data.content
-            }).catch(function () {
-                vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
-            }).then(function () {
-                vm.isLoading = false
-            })
-        }
     },
 
     methods: {
 
         // Get group by ID
         getGroup (id) {
-            for (var i = 0; i < this.groupItems.length; i++) {
-                if (this.groupItems[i].id === id) {
-                    return this.groupItems[i]
-                }
+            if (!this.roleItems) return { title: '' }
+            for (var i = 0; i < this.roleItems.length; i++) {
+                if (this.roleItems[i].id === id) return this.roleItems[i]
             }
         },
 
         // Save changes and close dialog
         close (item) {
             var vm = this
+
             vm.$refs.formData.validate()
             if (!vm.$data.isValid) {
                 vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
@@ -169,6 +134,52 @@ export default {
             }
         }
 
+    },
+
+    mounted () {
+        var vm = this
+
+        // Get users from store or api
+        if (!vm.$store.state.app.users.length) {
+            vm.$http.get('user/read/').then(function (response) {
+                vm.$store.state.app.users = response.data.content
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
+            })
+        }
+
+        // Get available roles of team
+        vm.$http.get('role/read/').then(function (response) {
+            if (response.data.content) vm.roleList = response.data.content
+            else vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
+        }).catch(function () {
+            vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
+        })
+    },
+
+    i18n: {
+        messages: {
+            en: {
+                length: 'Value is too long',
+                valueWrong: 'Invalid value set',
+                user: {
+                    firstname: 'Firstname',
+                    lastname: 'Lastname',
+                    nickname: 'Nickname',
+                    role: 'Role'
+                }
+            },
+            de: {
+                length: 'Wert ist zu lang',
+                valueWrong: 'Fehlerhafte Eingabe',
+                user: {
+                    firstname: 'Vorname',
+                    lastname: 'Nachname',
+                    nickname: 'Nickname',
+                    role: 'Rolle'
+                }
+            }
+        }
     }
 
 }

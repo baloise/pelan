@@ -74,17 +74,18 @@
 <script>
 export default {
     name: 'Drawer',
+
     computed: {
 
         // Get Infos about the App
         info () {
-            return this.$store.state.app.title + ' v' + this.$store.state.app.version
+            return this.$store.state.pelan.title + ' v' + this.$store.state.pelan.version
         },
 
         // Change state (visible/hidden) of drawer
         drawer: {
             get () {
-                return this.$store.state.app.drawer
+                return this.$store.state.pelan.drawer
             },
             set (val) {
                 this.$store.commit('drawer', val)
@@ -92,5 +93,6 @@ export default {
         }
 
     }
+
 }
 </script>
