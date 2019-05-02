@@ -6,14 +6,14 @@
                 <h1 class="display-1 accent--text">{{ $t('views.help') }}</h1>
                 <p class="body-2">{{ $t('subText') }}</p>
 
-                <v-layout row wrap class="mt-3">
+                <v-layout row wrap>
 
-                    <v-flex xs12 sm6>
-                        <v-card class="ma-1 fill-height">
+                    <v-flex xs12 sm6 class="pa-1">
+                        <v-card class="fill-height">
                             <v-card-title primary-title>
-                                <h1 class="subtitle primary--text">Baloise Helpdesk</h1>
+                                <h1 class="headline primary--text">Baloise Helpdesk</h1>
                             </v-card-title>
-                            <v-card-text>
+                            <v-card-text class="pt-0 pb-0">
                                 Basler Versicherungen <br />
                                 Aeschengraben 21 <br />
                                 4002 Basel
@@ -25,12 +25,12 @@
                         </v-card>
                     </v-flex>
 
-                    <v-flex xs12 sm6>
-                        <v-card class="ma-1 fill-height">
+                    <v-flex xs12 sm6 class="pa-1">
+                        <v-card class="fill-height">
                             <v-card-title primary-title>
-                                <h1 class="subtitle primary--text">Elia Reutlinger</h1>
+                                <h1 class="headline primary--text">Elia Reutlinger</h1>
                             </v-card-title>
-                            <v-card-text>
+                            <v-card-text class="pt-0 pb-0">
                                 Elia Reutlinger <br />
                                 Schwarzwaldallee 33 <br />
                                 4058 Basel

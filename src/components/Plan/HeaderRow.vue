@@ -10,14 +10,14 @@
             <table>
                 <tr>
                     <td>
-                        <div class="hd-titles-inner caption">
+                        <div class="hd-titles-inner">
                             <i>{{ $t('week') }}</i>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="hd-titles-inner caption">
+                        <div class="hd-titles-inner">
                             <i>{{ $t('day') }}</i>
                         </div>
                     </td>
@@ -25,7 +25,7 @@
             </table>
         </td>
 
-        <td class="hd-dates caption" width="100%">
+        <td class="hd-dates" width="100%">
             <table width="100%">
                 <tr>
                     <td v-for="week in hrc.weeks" :colspan="week.days" :key="week.week">
@@ -36,7 +36,7 @@
                 </tr>
                 <tr>
                     <td v-for="date in hrc.dates" :key="date.short">
-                        <div :class="dayStyle(date)">
+                        <div :class="dayStyle(date)" class="caption">
                             {{ $t('weekdays.'+date.day) }}<br />
                             {{ date.shorter }}
                         </div>

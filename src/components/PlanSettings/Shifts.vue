@@ -24,7 +24,7 @@
                     <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="fill-height clickable" @click="addNew()">
                         <v-sheet class="d-flex" color="secondary" height="15"></v-sheet>
                         <v-card-title primary-title>
-                            <h2 class="title text--secondary"><i><v-icon>add</v-icon> {{ $t('create.title') }}</i></h2>
+                            <h2 class="text--secondary"><i class="title"><v-icon>add</v-icon> {{ $t('create.title') }}</i></h2>
                         </v-card-title>
                         <v-card-text>
                             <i class="text--secondary">{{ $t('create.text') }}</i><br />‌‌
@@ -33,13 +33,13 @@
                 </v-hover>
             </v-flex>
 
-            <v-dialog persistent v-model="dialog" max-width="500" :fullscreen="$vuetify.breakpoint.xsOnly">
-                <v-form ref="formData">
-                    <v-card class="">
-                        <v-card-title v-if="dialogAction == 1" class="headline">{{ $t('editor.shift.add') }}</v-card-title>
-                        <v-card-title v-if="dialogAction == 2" class="headline">{{ $t('editor.shift.edit') }}</v-card-title>
+            <v-dialog persistent v-model="dialog" max-width="500px" :fullscreen="$vuetify.breakpoint.xsOnly">
+                <v-card class="">
+                    <v-card-title v-if="dialogAction == 1" class="headline">{{ $t('editor.shift.add') }}</v-card-title>
+                    <v-card-title v-if="dialogAction == 2" class="headline">{{ $t('editor.shift.edit') }}</v-card-title>
 
-                        <v-card-text class="pt-0 pb-0">
+                    <v-card-text class="pt-0 pb-0">
+                        <v-form ref="formData">
                             <v-layout row wrap class="body-2 baloise-input">
                                 <v-flex xs12 md4>
                                     <span>{{ $t('editor.title') }}</span>
@@ -60,20 +60,20 @@
                                     <Chrome class="colorPicker" v-model="formdata.color" />
                                 </v-flex>
                             </v-layout>
-                        </v-card-text>
+                        </v-form>
+                    </v-card-text>
 
-                        <v-card-actions>
-                            <v-btn aria-label="add" block large flat class="baloise-button" v-if="dialogAction == 1" @click="add()" :disabled="disabled">{{ $t('editor.add') }}</v-btn>
-                            <v-btn aria-label="save" block large flat class="baloise-button" v-if="dialogAction == 2" @click="save()" :disabled="disabled">{{ $t('btn.save') }}</v-btn>
-                        </v-card-actions>
-                        <v-card-actions>
-                            <v-btn aria-label="close" flat @click="dialog = false" :disabled="disabled">{{ $t('btn.close') }}</v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn aria-label="delete" flat @click="dialog = false, youSure = true"><v-icon>delete</v-icon></v-btn>
-                        </v-card-actions>
+                    <v-card-actions>
+                        <v-btn aria-label="add" block large flat class="baloise-button" v-if="dialogAction == 1" @click="add()" :disabled="disabled">{{ $t('editor.add') }}</v-btn>
+                        <v-btn aria-label="save" block large flat class="baloise-button" v-if="dialogAction == 2" @click="save()" :disabled="disabled">{{ $t('btn.save') }}</v-btn>
+                    </v-card-actions>
+                    <v-card-actions>
+                        <v-btn aria-label="close" flat @click="dialog = false" :disabled="disabled">{{ $t('btn.close') }}</v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn aria-label="delete" flat @click="dialog = false, youSure = true"><v-icon>delete</v-icon></v-btn>
+                    </v-card-actions>
 
-                    </v-card>
-                </v-form>
+                </v-card>
             </v-dialog>
 
             <v-dialog persistent v-model="youSure" max-width="700">
@@ -170,6 +170,7 @@ export default {
         save () {
             var vm = this
             if (!vm.isValid()) vm.$notify({ type: 'error', text: vm.$t('invalid') })
+
             else {
                 vm.disabled = true
                 vm.$http.post('shift/edit/', {
@@ -228,13 +229,15 @@ export default {
         delet () {
             var vm = this
             vm.disabled = true
-            var storeElems = vm.$store.state.app.shifts
             vm.$http.post('shift/delete/', { id: vm.formdata.id }).then(function (response) {
-                var elem = storeElems.indexOf(vm.formdata)
-                storeElems.splice(elem, 1)
+                var str = vm.$store.state.app.shifts
+                for (var i = 0; i < str.length; i++) {
+                    if (str[i].id === vm.formdata.id) str.splice(i, 1)
+                }
+
                 vm.youSure = false
-                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                 vm.disabled = false
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 vm.disabled = false

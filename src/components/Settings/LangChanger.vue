@@ -1,13 +1,13 @@
 <template>
     <v-layout row wrap>
 
-        <v-flex xs6>
+        <v-flex xs7>
             <v-form v-model="rules.valid" ref="formData">
                 <v-select v-model="form.language" :rules="rules.require" :items="langItems" item-text="text" item-value="value"></v-select>
             </v-form>
         </v-flex>
 
-        <v-flex xs6>
+        <v-flex xs4>
             <v-btn :loading="rules.loading" :disabled="rules.loading" @click="changeLang()" depressed large color="primary">
                 {{ $t('btn.save') }}
                 <span slot="loader" class="spinning-loader">

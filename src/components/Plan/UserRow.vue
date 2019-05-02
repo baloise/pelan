@@ -5,7 +5,7 @@
             <div class="ur-user-inner">
                 <v-tooltip right>
                     <template v-slot:activator="{ on }">
-                        <span v-on="on">{{usr.nickname}}</span>
+                        <span v-on="on" class="caption">{{usr.nickname}}</span>
                     </template>
                     <span>{{usr.firstname}} {{usr.lastname}}</span>
                 </v-tooltip>
@@ -19,7 +19,7 @@
                         <div class="ur-times-inner">
                             <v-tooltip right>
                                 <template v-slot:activator="{ on }">
-                                    <span v-on="on">{{time.abbreviation}}</span>
+                                    <span v-on="on" class="caption">{{time.abbreviation}}</span>
                                 </template>
                                 <span>{{time.title}}</span>
                             </v-tooltip>
@@ -34,7 +34,7 @@
                 <tr v-for="row in entries" :key="usr.id+row.time.id">
                     <td v-for="date in row.dates" @click="openEdit(date, row.time)" :key="usr.id+row.time+date.date">
                         <div :class="style(date)" :style="date.style">
-                            <v-icon small v-if="date.note">speaker_notes</v-icon>
+                            <v-icon v-if="date.note">speaker_notes</v-icon>
                         </div>
                     </td>
                 </tr>
@@ -267,6 +267,10 @@ export default {
     .ur-assigns-inner:hover {
         animation: jello 1s;
     }
+    .ur-assigns-inner .v-icon {
+        font-size: 17px !important;
+        color: #444 !important;
+    }
 
     .loading-entry {
         cursor: not-allowed;
@@ -285,10 +289,7 @@ export default {
         animation-iteration-count: 1;
     }
     .note-only {
-        border-color: rgba(0,0,0,0.54);
-    }
-    .is-monday {
-        border-color: rgba(0,0,0,0.54);
+        border-color: #444;
     }
 
 </style>

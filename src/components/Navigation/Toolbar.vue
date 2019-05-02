@@ -3,7 +3,7 @@
 
         <v-toolbar-side-icon aria-label="OpenMenu" @click.stop="drawer()"></v-toolbar-side-icon>
 
-        <v-toolbar-title class="white--text" to="/">
+        <v-toolbar-title class="white--text" @click="$router.push('/')">
             <h1 class="title">{{ appTitle }}</h1>
         </v-toolbar-title>
 

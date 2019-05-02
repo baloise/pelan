@@ -4,7 +4,7 @@
         <v-flex xs12 v-if="$store.state.app.shifts" class="pa-2 text-xs-center">
             <v-chip v-for="shift in $store.state.app.shifts" :key="shift.id">
                 <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
-                {{shift.title}}
+                <span class="body-2">{{shift.title}}</span>
             </v-chip>
         </v-flex>
 

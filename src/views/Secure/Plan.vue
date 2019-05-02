@@ -11,7 +11,8 @@
 
             <v-flex xs12 sm4 class="text-xs-center text-sm-right">
                 <v-btn flat class="title text-capitalize" @click.stop="filter.show = true">
-                    {{dt.select}} <v-icon right>edit</v-icon>
+                    <span class="title">{{dt.select}}</span>
+                    <v-icon right>edit</v-icon>
                 </v-btn>
             </v-flex>
 

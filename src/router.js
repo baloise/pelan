@@ -35,7 +35,7 @@ export default new Router({
         {
             path: '/help',
             name: 'help',
-            component: () => import('./views/Secure/Help.vue'),
+            component: () => import('./views/Shared/Help.vue'),
             meta: {
                 requiresAuth: false,
                 requiresAdmin: false

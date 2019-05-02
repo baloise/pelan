@@ -20,7 +20,8 @@ Vue.use(Vuetify, {
         success: '#2DB200',
         error: '#FF3366',
         info: '#008AC9',
-        warning: '#FF9900'
+        warning: '#FF9900',
+        black: '#444444'
     }
 })
 

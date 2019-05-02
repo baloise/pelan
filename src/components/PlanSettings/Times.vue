@@ -3,7 +3,7 @@
 
         <v-layout row wrap class="mb-2" align-center>
             <v-flex xs12 md3>
-                <v-btn :disabled="!changes" @click="saveChange()" color="primary" block>{{ $t('btn.save') }}</v-btn>
+                <v-btn :disabled="!changes" @click="save()" color="primary" block>{{ $t('btn.save') }}</v-btn>
             </v-flex>
             <v-flex xs12 md2 class="text-md-center">
                 <h3 class="title warning--text" v-html="$t('attention.title')"></h3>
@@ -112,6 +112,37 @@ export default {
             if (this.$data.rules.valid) this.dialog = false
         },
 
+        // Save changes and/or delete time, if selected
+        save () {
+            var vm = this; var error = false
+            var str = this.$store.state.app.times
+            vm.$refs.editorForm.validate()
+            for (var i = 0; i < str.length; i++) {
+                if (str[i].deleted) {
+                    var elem = str[i]
+                    vm.$http.post('daytime/delete/', { id: elem.id }).then(function (response) {
+                        for (var y = 0; y < str.length; y++) {
+                            if (str[y].id === elem.id) str.splice(y, 1)
+                        }
+                    }).catch(function () { error = true })
+                } else if (str[i].edited) {
+                    vm.$http.post('daytime/edit/', {
+                        id: str[i].id,
+                        title: str[i].title,
+                        abbreviation: str[i].title.substring(0, 4),
+                        description: str[i].title,
+                        position: str[i].position
+                    }).then(function (response) {}).catch(function () { error = true })
+                }
+            }
+            if (!error) {
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+                vm.changes = false
+            } else {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            }
+        },
+
         // Add new Time
         add () {
             var vm = this; var newPosition = 1
@@ -139,45 +170,19 @@ export default {
             }
         },
 
-        // Save changes and/or delete shift, if selected
-        saveChange () {
-            var vm = this; var error = false; var storeElems = vm.$store.state.app.times
-            vm.$refs.editorForm.validate()
-
-            for (var i = 0; i < storeElems.length; i++) {
-                if (storeElems[i].deleted) {
-                    vm.$http.post('daytime/delete/', {
-                        id: storeElems[i].id
-                    }).then(function (response) {
-                        var elem = vm.$store.state.app.times.indexOf(storeElems[i])
-                        vm.$store.state.app.times.splice(elem, 1)
-                    }).catch(function () { error = true })
-                } else if (storeElems[i].edited) {
-                    vm.$http.post('daytime/edit/', {
-                        id: storeElems[i].id,
-                        title: storeElems[i].title,
-                        abbreviation: storeElems[i].title.substring(0, 4),
-                        description: storeElems[i].title,
-                        position: storeElems[i].position
-                    }).then(function (response) {}).catch(function () { error = true })
-                }
-            }
-
-            if (!error) {
-                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                vm.changes = false
-            } else {
-                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
-            }
-        },
-
         // Process changes made to a time
         editElem (elem) {
-            var storeElems = this.$store.state.app.times
-            for (var i = 0; i < storeElems.length; i++) {
-                if (storeElems[i].id === elem.id) storeElems[i].edited = true
+            var str = this.$store.state.app.times
+            for (var i = 0; i < str.length; i++) {
+                if (str[i].id === elem.id) {
+                    str[i].edited = true
+                    str[i].title = elem.title
+                    str[i].abbreviation = elem.title.substring(0, 4)
+                    str[i].description = elem.title
+                    str[i].position = elem.position
+                }
             }
-            this.editID = storeElems.indexOf(elem)
+            this.editID = str.indexOf(elem)
             this.dialog = true
             this.changes = true
         },

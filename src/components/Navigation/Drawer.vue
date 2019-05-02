@@ -9,7 +9,7 @@
                         <v-icon>dashboard</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.dashboard') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.dashboard') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -20,7 +20,7 @@
                         <v-icon>calendar_today</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.plan') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.plan') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -31,7 +31,7 @@
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.plansettings') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.plansettings') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -45,7 +45,7 @@
                         <v-icon>question_answer</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.help') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.help') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -54,7 +54,7 @@
                         <v-icon>settings</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.settings') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.settings') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -75,7 +75,7 @@
                         <v-icon>question_answer</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title class="body-2">{{ $t('views.help') }}</v-list-tile-title>
+                        <v-list-tile-title class="title">{{ $t('views.help') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile>
