@@ -8,43 +8,38 @@
                     <span v-else class="headline">{{ $t('shiftDetails') }}</span>
                 </v-card-title>
 
-                <v-card-text>
+                <v-card-text class="pt-0 pb-0">
                     <v-form v-model="rules.valid" ref="editorForm">
-                        <v-container grid-list-sm>
-                            <v-layout wrap>
-
-                                <v-flex xs12>
-                                    <v-text-field :label="$t('user')" v-model="formdata.user" :rules="rules.set" type="text" disabled></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-text-field :label="$t('time')" v-model="formdata.time" :rules="rules.set" type="text" disabled></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-text-field :label="$t('date')" v-model="formdata.date" :rules="rules.set" type="text" disabled></v-text-field>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-select :label="$t('shift')" v-model="formdata.shift" :items="shiftList" :disabled="!this.$store.state.user.role.admin"></v-select>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-textarea :label="$t('note')" v-model="formdata.note" :disabled="!this.$store.state.user.role.admin"></v-textarea>
-                                </v-flex>
-
-                                <v-flex xs12 v-if="this.$store.state.user.role.admin">
-                                    <v-btn @click="updateShift()" :disabled="disabled" :loading="disabled" block large color="primary">
-                                        {{ $t('btn.save') }}
-                                        <span slot="loader" class="spinning-loader">
-                                            <v-icon light>cached</v-icon>
-                                        </span>
-                                    </v-btn>
-                                </v-flex>
-
-                            </v-layout>
-                        </v-container>
+                        <v-layout wrap>
+                            <v-flex xs12>
+                                <h3 class="title">{{ formdata.user }}</h3>
+                            </v-flex>
+                            <v-flex xs12>
+                                <p class="body-2">
+                                    {{dFull}} / {{ formdata.time }}
+                                </p>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-select outline :label="$t('shift')" v-model="formdata.shift" :items="shiftList" :readonly="!this.$store.state.user.role.admin"></v-select>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-textarea outline :label="$t('note')" v-model="formdata.note" :readonly="!this.$store.state.user.role.admin"></v-textarea>
+                            </v-flex>
+                        </v-layout>
                     </v-form>
                 </v-card-text>
 
+                <v-card-actions v-if="this.$store.state.user.role.admin">
+                    <v-btn @click="updateShift()" :disabled="disabled" :loading="disabled" block large color="primary">
+                        {{ $t('btn.save') }}
+                        <span slot="loader" class="spinning-loader">
+                            <v-icon light>cached</v-icon>
+                        </span>
+                    </v-btn>
+                </v-card-actions>
+
                 <v-card-actions>
-                    <v-btn color="primary" flat @click="$emit('close')">{{$t('btn.close')}}</v-btn>
+                    <v-btn flat @click="$emit('close')">{{$t('btn.close')}}</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn @click="deleteShift()" v-if="this.$store.state.user.role.admin && (formdata.shift || formdata.note)" flat large>
                         <v-icon>delete</v-icon>
@@ -71,11 +66,15 @@ export default {
     },
 
     props: {
-        show: Boolean,
-        content: Object
+        show: Boolean, content: Object
     },
 
     computed: {
+
+        dFull () {
+            var d = new Date(this.content.date)
+            return d.getDay() + '.' + (d.getMonth() + 1) + '.' + d.getFullYear()
+        },
 
         // Create a list of shifts for dropdown
         shiftList () {
@@ -93,19 +92,16 @@ export default {
 
         // Check available data for inputs
         formdata () {
-            if (this.show) {
-                var shift = null; var note = null
-                if (this.content.shift) shift = this.content.shift.id
-                if (this.content.note) note = this.content.note
-                return {
-                    user: this.content.user.firstname + ' ' + this.content.user.lastname,
-                    time: this.content.time.title,
-                    date: this.content.date,
-                    shift: shift,
-                    note: note
-                }
+            var shift = null; var note = null
+            if (this.content.shift) shift = this.content.shift.id
+            if (this.content.note) note = this.content.note
+            return {
+                user: this.content.user.firstname + ' ' + this.content.user.lastname,
+                time: this.content.time.title,
+                date: this.content.date,
+                shift: shift,
+                note: note
             }
-            return false
         }
 
     },

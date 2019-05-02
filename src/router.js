@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 export default new Router({
+
     routes: [
         {
             path: '/',
@@ -37,7 +37,7 @@ export default new Router({
             name: 'help',
             component: () => import('./views/Secure/Help.vue'),
             meta: {
-                requiresAuth: true,
+                requiresAuth: false,
                 requiresAdmin: false
             }
         },
@@ -55,7 +55,7 @@ export default new Router({
             name: 'nopermission',
             component: () => import('./views/Shared/NoPermission'),
             meta: {
-                requiresAuth: null,
+                requiresAuth: false,
                 requiresAdmin: false
             }
         },
@@ -64,9 +64,10 @@ export default new Router({
             name: 'notfound',
             component: () => import('./views/Shared/NotFound'),
             meta: {
-                requiresAuth: null,
+                requiresAuth: false,
                 requiresAdmin: false
             }
         }
     ]
+
 })

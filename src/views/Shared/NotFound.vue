@@ -14,6 +14,7 @@
 
 export default {
     name: 'NotFound',
+
     i18n: {
         messages: {
             en: {
@@ -26,5 +27,6 @@ export default {
             }
         }
     }
+
 }
 </script>

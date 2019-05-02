@@ -13,6 +13,7 @@
 <script>
 export default {
     name: 'NoPermission',
+
     i18n: {
         messages: {
             en: {
@@ -21,9 +22,10 @@ export default {
             },
             de: {
                 title: 'Keine Rechte',
-                text: 'Sie haben nicht genügend Rechte um diese Seite aufzurufen.'
+                text: 'Du hast nicht genügend Rechte um diese Seite aufzurufen.'
             }
         }
     }
+
 }
 </script>

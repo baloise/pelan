@@ -11,7 +11,7 @@
 
             <v-flex xs12 sm4 class="text-xs-center text-sm-right">
                 <v-btn flat class="title text-capitalize" @click.stop="filter.show = true">
-                    {{selected}} <v-icon right>edit</v-icon>
+                    {{dt.select}} <v-icon right>edit</v-icon>
                 </v-btn>
             </v-flex>
 
@@ -19,7 +19,7 @@
 
         </v-layout>
 
-        <PlanBase :startDate="startDate" :endDate="endDate" :weekends="filter.weekends" />
+        <PlanBase :startDate="dt.start" :endDate="dt.end" :weekends="filter.weekends" />
 
     </v-container>
 </template>
@@ -39,28 +39,23 @@ export default {
         return {
             filter: {
                 show: false,
-                pickMonth: new Date().getFullYear() + '-' + (new Date().getMonth() + 1),
-                weekends: false
+                weekends: false,
+                picked: new Date()
             }
         }
     },
 
     computed: {
 
-        selected () {
-            var date = new Date(this.filter.pickMonth + '-1')
-            return this.$t('months.' + (date.getMonth() + 1)) + ' ' + date.getFullYear()
-        },
-
-        startDate () {
-            var date = new Date(this.filter.pickMonth + '-1')
-            return (date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate())
-        },
-
-        endDate () {
-            var date = new Date(this.filter.pickMonth + '-1')
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-            return (lastDay.getFullYear() + '/' + (lastDay.getMonth() + 1) + '/' + lastDay.getDate())
+        // Format dates for plan-table
+        dt () {
+            var vm = this; var pick = vm.filter.picked
+            var last = new Date(pick.getFullYear(), pick.getMonth() + 1, 0)
+            return {
+                select: vm.$t('months.' + (pick.getMonth() + 1)) + ' ' + pick.getFullYear(),
+                start: pick.getFullYear() + '/' + (pick.getMonth() + 1) + '/' + pick.getDate(),
+                end: last.getFullYear() + '/' + (last.getMonth() + 1) + '/' + last.getDate()
+            }
         }
 
     },

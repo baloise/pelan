@@ -31,9 +31,7 @@ export default {
             rules: {
                 loading: false,
                 valid: false,
-                require: [
-                    v => !!v || this.$t('alert.require')
-                ]
+                require: [v => !!v || this.$t('alert.require')]
             }
         }
     },

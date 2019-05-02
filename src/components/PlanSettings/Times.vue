@@ -85,9 +85,7 @@ export default {
             },
             rules: {
                 valid: false,
-                set: [
-                    (v) => !!v || this.$t('alert.require')
-                ]
+                set: [(v) => !!v || this.$t('alert.require')]
             }
         }
     },
@@ -96,10 +94,10 @@ export default {
 
         // Sort received times by their position-number before showing
         list () {
-            var storeElems = this.$store.state.app.times
-            if (storeElems) {
-                storeElems.sort((a, b) => (parseInt(a.position) > parseInt(b.position)) ? 1 : ((parseInt(b.position) > parseInt(a.position)) ? -1 : 0))
-                return storeElems
+            var stEl = this.$store.state.app.times
+            if (stEl) {
+                stEl.sort((a, b) => (parseInt(a.position) > parseInt(b.position)) ? 1 : ((parseInt(b.position) > parseInt(a.position)) ? -1 : 0))
+                return stEl
             }
             return false
         }
@@ -177,7 +175,7 @@ export default {
         editElem (elem) {
             var storeElems = this.$store.state.app.times
             for (var i = 0; i < storeElems.length; i++) {
-                if (storeElems[i].id === elem.id) { storeElems[i].edited = true }
+                if (storeElems[i].id === elem.id) storeElems[i].edited = true
             }
             this.editID = storeElems.indexOf(elem)
             this.dialog = true
@@ -247,7 +245,7 @@ export default {
 
         // Get times (even if they are in store, bc there may be new ones)
         vm.$http.get('daytime/read/').then(function (response) {
-            if (response.data.content) { vm.$store.state.app.times = response.data.content }
+            if (response.data.content) vm.$store.state.app.times = response.data.content
         }).catch(function () {
             vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })

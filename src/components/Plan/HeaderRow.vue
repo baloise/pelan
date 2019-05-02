@@ -115,10 +115,6 @@ export default {
 
 <style scoped>
 
-    .hd-full-row {
-        //border-bottom: solid 2.5px #CCCCCC;
-    }
-
     .hd-titles {
         vertical-align: top;
         text-align: right;

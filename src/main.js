@@ -2,16 +2,17 @@ import '@babel/polyfill'
 import '@/registerServiceWorker'
 import 'vuetify/src/stylus/app.styl'
 import Vue from 'vue'
+import App from './App.vue'
 import Vuetify from 'vuetify/lib'
 import Notifications from 'vue-notification'
-import App from './App.vue'
 import router from './router'
 import store from './store'
-import i18n from './i18n'
 import axios from 'axios'
+import i18n from './i18n'
 
 Vue.use(Notifications)
 Vue.use(Vuetify, {
+    lang: { t: (key, ...params) => i18n.t(key, params) },
     theme: {
         primary: '#008AC9',
         secondary: '#EFF9FE',
@@ -20,9 +21,6 @@ Vue.use(Vuetify, {
         error: '#FF3366',
         info: '#008AC9',
         warning: '#FF9900'
-    },
-    lang: {
-        t: (key, ...params) => i18n.t(key, params)
     }
 })
 
@@ -36,7 +34,5 @@ new Vue({
     router,
     store,
     i18n,
-    render: function (h) {
-        return h(App)
-    }
+    render: function (h) { return h(App) }
 }).$mount('#app')

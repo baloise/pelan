@@ -58,24 +58,19 @@ export default {
     props: {
         usr: Object,
         prc: {
-            dates: Array,
-            today: Object
+            dates: Array, today: Object
         }
     },
 
     computed: {
 
         times () {
-            if (this.$store.state.app.times.length) {
-                return this.$store.state.app.times
-            }
+            if (this.$store.state.app.times.length) return this.$store.state.app.times
             return false
         },
 
         shifts () {
-            if (this.$store.state.app.shifts.length) {
-                return this.$store.state.app.shifts
-            }
+            if (this.$store.state.app.shifts.length) return this.$store.state.app.shifts
             return false
         },
 
@@ -87,9 +82,7 @@ export default {
         },
 
         dates () {
-            if (this.prc.dates.length) {
-                return this.prc.dates
-            }
+            if (this.prc.dates.length) return this.prc.dates
             return false
         }
 
@@ -100,9 +93,7 @@ export default {
         // Create Plan-Fields from dates & times + trigger setAssigns()
         createEntries () {
             var vm = this
-            if (!vm.times || !vm.dates) {
-                return false
-            }
+            if (!vm.times || !vm.dates) return false
 
             vm.entries = vm.times.map(time => {
                 return {
@@ -128,7 +119,6 @@ export default {
             }
 
             if (!vm.entries || !vm.assigns) return false
-
             vm.assigns.forEach(function (assign) {
                 assign.date = new Date(assign.date)
                 vm.entries.map(entry => {
@@ -151,7 +141,6 @@ export default {
                     }
                 })
             })
-
             vm.loaded = true
         },
 
@@ -167,11 +156,8 @@ export default {
                 from: dA.getFullYear() + '/' + (dA.getMonth() + 1) + '/' + dA.getDate(),
                 to: dB.getFullYear() + '/' + (dB.getMonth() + 1) + '/' + dB.getDate()
             }).then(function (response) {
-                if (response.data.content) {
-                    vm.$store.state.app.assigns[vm.usr.id] = response.data.content
-                } else {
-                    vm.$store.state.app.assigns[vm.usr.id] = [{ load: true }]
-                }
+                if (response.data.content) vm.$store.state.app.assigns[vm.usr.id] = response.data.content
+                else vm.$store.state.app.assigns[vm.usr.id] = [{ load: true }]
             })
         },
 
@@ -212,9 +198,7 @@ export default {
             if (newVal[0].date.getTime() !== oldVal[0].date.getTime()) {
                 this.loaded = false
                 this.getAssigns()
-            } else {
-                this.setAssigns()
-            }
+            } else this.setAssigns()
         },
 
         assigns: function (newVal, oldVal) {
@@ -238,11 +222,9 @@ export default {
 
 <style scoped>
 
-    .ur-full-row {
+    .ur-full-row > td {
         border-bottom: solid 2.5px #CCCCCC;
-        border-spacing: 5px 10px;
     }
-
     .ur-full-row:hover {
         background-color: #F1F1F1;
     }
@@ -253,15 +235,10 @@ export default {
         border: none;
         overflow: hidden;
     }
-
     .ur-user-inner {
         padding-left: 10px;
         width: 60px;
         overflow: hidden;
-    }
-
-    .ur-times {
-        border-right: solid 2.5px #E6E6E6;
     }
 
     .ur-assigns-inner, .ur-times-inner {
@@ -274,28 +251,27 @@ export default {
         overflow: hidden;
     }
 
-    .ur-assigns-inner {
-        border-radius: 5px;
-        border: solid 1.5px #E6E6E6;
-        min-width: 30px;
+    .ur-times {
+        border-right: solid 2.5px #E6E6E6;
     }
-
-    .ur-assigns-inner:hover {
-        animation: pulse 1s;
-    }
-
     .ur-times-inner {
         padding-top: 2.5px;
         width: 50px;
     }
 
-    .loading-entry {
-        cursor: not-allowed;
-        animation: flash 2.5s;
-        animation-iteration-count: 5;
-        background-color: #F1F1F1;
+    .ur-assigns-inner {
+        border-radius: 5px;
+        border: solid 1.5px #E6E6E6;
+        min-width: 30px;
+    }
+    .ur-assigns-inner:hover {
+        animation: jello 1s;
     }
 
+    .loading-entry {
+        cursor: not-allowed;
+        background-color: #F1F1F1;
+    }
     .loading-times {
         cursor: not-allowed;
         animation: flash 5s;
@@ -305,14 +281,12 @@ export default {
 
     .has-note {
         animation: rubberBand 1s;
-        animation-delay: 0s;
+        animation-delay: 2s;
         animation-iteration-count: 1;
     }
-
     .note-only {
         border-color: rgba(0,0,0,0.54);
     }
-
     .is-monday {
         border-color: rgba(0,0,0,0.54);
     }

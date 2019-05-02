@@ -3,12 +3,11 @@
         <v-card>
 
             <v-card-text class="pa-0">
-                <v-date-picker v-model="value.pickMonth" type="month" @input="value.show = false" color="primary" class="elevation-0" :locale="$store.state.user.language"></v-date-picker>
+                <v-date-picker v-model="dateValue" type="month" color="primary" class="elevation-0" :locale="$store.state.user.language"></v-date-picker>
                 <v-checkbox v-model="value.weekends" color="primary" :label="$t('weekends')" class="pl-4"></v-checkbox>
             </v-card-text>
 
             <v-card-actions>
-                <v-spacer></v-spacer>
                 <v-btn flat @click="value.show = false">
                     {{ $t('btn.close') }}
                 </v-btn>
@@ -24,6 +23,25 @@ export default {
 
     props: {
         value: Object
+    },
+
+    computed: {
+
+        // Format date for v-date-picker
+        dateValue: {
+            get () {
+                return (this.value.picked.getFullYear() + '-' + (this.value.picked.getMonth() + 1))
+            },
+            set (val) {
+                var vm = this
+                var format = new Date(val)
+                vm.$emit('input', {
+                    picked: format,
+                    show: false,
+                    weekends: vm.value.weekends
+                })
+            }
+        }
     },
 
     i18n: {

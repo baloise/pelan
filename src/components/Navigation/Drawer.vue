@@ -68,6 +68,24 @@
 
         </v-layout>
 
+        <v-layout column fill-height v-else>
+            <v-list>
+                <v-list-tile :to="{name: 'help'}">
+                    <v-list-tile-action>
+                        <v-icon>question_answer</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title class="body-2">{{ $t('views.help') }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile>
+                    <v-list-tile-content class="caption">
+                        {{ info }}
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </v-layout>
+
     </v-navigation-drawer>
 </template>
 
@@ -78,18 +96,12 @@ export default {
     computed: {
 
         // Get Infos about the App
-        info () {
-            return this.$store.state.pelan.title + ' v' + this.$store.state.pelan.version
-        },
+        info () { return this.$store.state.pelan.title + ' v' + this.$store.state.pelan.version },
 
         // Change state (visible/hidden) of drawer
         drawer: {
-            get () {
-                return this.$store.state.pelan.drawer
-            },
-            set (val) {
-                this.$store.commit('drawer', val)
-            }
+            get () { return this.$store.state.pelan.drawer },
+            set (val) { this.$store.commit('drawer', val) }
         }
 
     }

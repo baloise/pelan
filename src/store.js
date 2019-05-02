@@ -10,7 +10,7 @@ export default new Vuex.Store({
         // General App-Info & State
         pelan: {
             title: 'Pelan',
-            version: '0.1',
+            version: '1.0',
             drawer: true
         },
 
@@ -44,23 +44,19 @@ export default new Vuex.Store({
 
         // Login-User / process token and add to state & add cookie
         login (state) {
-            var token = Cookies.getJSON('app_token')
-            var encoded = (token.split('.')[1]).replace('-', '+').replace('_', '/')
-            var decoded = JSON.parse(window.atob(encoded))
-            var now = Math.floor(Date.now() / 1000)
+            var token = Cookies.getJSON('app_token'); var now = Math.floor(Date.now() / 1000)
+            var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
-            if (now > decoded.exp) {
+            if (now > dec.exp) {
                 Cookies.remove('app_token')
                 state.auth.token = false
                 state.auth.expiration = null
                 state.user = { language: navigator.language || navigator.userLanguage }
-            }
-
-            state.auth.token = token
-            state.user = decoded.data
-            state.auth.expiration = decoded.exp
-            if (!decoded.data.language) {
-                state.user.language = navigator.language || navigator.userLanguage
+            } else {
+                state.user = dec.data
+                state.auth.token = token
+                state.auth.expiration = dec.exp
+                if (!dec.data.language) state.user.language = navigator.language || navigator.userLanguage
             }
         },
 
@@ -79,11 +75,8 @@ export default new Vuex.Store({
         // Check if user/token valid and login/logout
         checkAuth ({ commit, state }) {
             var now = Math.floor(Date.now() / 1000)
-            if (!state.auth.token && Cookies.getJSON('app_token')) {
-                commit('login')
-            } else if (now > state.auth.expiration) {
-                commit('logout')
-            }
+            if (!state.auth.token && Cookies.getJSON('app_token')) commit('login')
+            else if (now > state.auth.expiration) commit('logout')
         }
 
     },

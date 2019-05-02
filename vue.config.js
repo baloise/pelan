@@ -7,12 +7,10 @@ module.exports = {
     pwa: {
         name: 'Pelan',
         themeColor: '#ffffff',
-        msTileColor: '#2d89ef',
+        msTileColor: '#2b5797',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
-        workboxOptions: {
-            skipWaiting: true
-        }
+        workboxOptions: { skipWaiting: true }
     },
 
     configureWebpack: () => {

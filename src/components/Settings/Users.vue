@@ -37,7 +37,7 @@
                                 {{ (getGroup(props.item.role))['title'] }}
 
                                 <template v-slot:input>
-                                    <v-select v-model="props.item.role" :items="roleItems" item-text="title" item-value="id"></v-select>
+                                    <v-select v-model="props.item.role" :items="roleItems" item-text="title" item-value="id" aria-label="Roles"></v-select>
                                 </template>
 
                             </v-edit-dialog>
@@ -110,19 +110,10 @@ export default {
         // Save changes and close dialog
         close (item) {
             var vm = this
-
             vm.$refs.formData.validate()
-            if (!vm.$data.isValid) {
-                vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
-            } else {
-                vm.$http.post('user/edit/', {
-                    id: item.id,
-                    firstname: item.firstname,
-                    lastname: item.lastname,
-                    nickname: item.nickname,
-                    language: item.language,
-                    role: item.role
-                }).then(function (response) {
+            if (!vm.$data.isValid) vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
+            else {
+                vm.$http.post('user/edit/', item).then(function (response) {
                     vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                     if (item.id === vm.$store.state.user.id) {
                         vm.$store.commit('login')

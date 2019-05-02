@@ -77,29 +77,23 @@ export default {
 
         // Create a list of dates regarding the users selection
         uow () {
-            var beginDate = new Date(this.startDate)
-            var endDate = new Date(this.endDate)
-            var currentDate = beginDate
-            var tmpWeek = this.getWeek(currentDate)
-            var dates = []
-            var weeks = []
-            var i = 0
+            var beginDate = new Date(this.startDate); var endDate = new Date(this.endDate)
+            var currentDate = beginDate; var tmpWeek = this.getWeek(currentDate)
+            var dates = []; var weeks = []; var i = 0
 
             /* eslint-disable no-unmodified-loop-condition, no-mixed-operators */
             while (currentDate <= endDate) {
                 var tmpDate = {
                     date: new Date(currentDate),
+                    day: currentDate.getDay(),
                     short: currentDate.getDate() + '.' + (currentDate.getMonth() + 1) + '.',
-                    shorter: currentDate.getDate(),
-                    day: currentDate.getDay()
+                    shorter: currentDate.getDate()
                 }
 
                 if (tmpWeek !== this.getWeek(currentDate)) {
                     if (i > 0) {
                         weeks.push({
-                            week: tmpWeek,
-                            name: tmpWeek,
-                            days: i
+                            week: tmpWeek, days: i
                         })
                     }
                     tmpWeek = this.getWeek(currentDate)
@@ -117,14 +111,11 @@ export default {
 
             if (i > 0) {
                 weeks.push({
-                    week: tmpWeek,
-                    name: tmpWeek,
-                    days: i
+                    week: tmpWeek, days: i
                 })
             }
 
-            var today = new Date()
-            var todayShort = today.getDate() + '.' + (today.getMonth() + 1) + '.'
+            var today = new Date(); var todayShort = today.getDate() + '.' + (today.getMonth() + 1) + '.'
             var currentWeek = this.getWeek(today)
 
             return {
@@ -165,11 +156,8 @@ export default {
         // Syncronize scrolling of header- and user-table
         scroller (count, part) {
             if (count !== this.scrollPos) {
-                if (part === 'head') {
-                    document.getElementById('user').scrollLeft = count + 3
-                } else {
-                    document.getElementById('head').scrollLeft = count - 3
-                }
+                if (part === 'head') document.getElementById('user').scrollLeft = count + 3
+                else document.getElementById('head').scrollLeft = count - 3
                 this.scrollPos = count
             }
         }
@@ -182,18 +170,14 @@ export default {
         // Get shifts if not in store
         if (!vm.$store.state.app.shifts.length) {
             vm.$http.get('shift/read/').then(function (response) {
-                if (response.data.content) {
-                    vm.$store.state.app.shifts = response.data.content
-                }
+                if (response.data.content) vm.$store.state.app.shifts = response.data.content
             })
         }
 
         // Get times if not in store
         if (!vm.$store.state.app.times.length) {
             vm.$http.get('daytime/read/').then(function (response) {
-                if (response.data.content) {
-                    vm.$store.state.app.times = response.data.content
-                }
+                if (response.data.content) vm.$store.state.app.times = response.data.content
             })
         }
 
@@ -203,7 +187,7 @@ export default {
                 if (response.data.content) vm.$store.state.app.users = response.data.content
                 vm.loading = false
             })
-        } else { vm.loading = false }
+        } else vm.loading = false
     },
 
     i18n: {
@@ -220,23 +204,20 @@ export default {
 }
 </script>
 
-<style>
-
-    @import url('https://cdn.jsdelivr.net/npm/animate.css@3.5.1');
+<style scoped>
 
     #head {
         -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
         box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
     }
-
     #user {
         height: 80vh;
         padding-top: 2px;
     }
 
     .scroll-table {
-        border-collapse: collapse;
+        border-spacing: 0px;
     }
 
     .scroller {
@@ -246,16 +227,13 @@ export default {
         clear: both;
         width: 100%;
     }
-
     .scroller::-webkit-scrollbar {
         height: 10px;
         width: 0px;
     }
-
     .scroller::-webkit-scrollbar-track {
         background: #E6E6E6;
     }
-
     .scroller::-webkit-scrollbar-thumb,
     .scroller::-webkit-scrollbar-corner {
         background: #CCCCCC;

@@ -14,6 +14,7 @@
     background: #dddddd;
 }
 
+
 /* Create animation for changing views */
 .router-view-enter-active {
     animation: zoomIn 0.2s;
@@ -25,20 +26,21 @@
 /* Get/Assign Baloise fonts */
 @font-face{
     font-family: 'MetaPro Normal';
-    src: url('../fonts/meta/Normal.ttf') format("truetype");
-}
-@font-face{
-    font-family: 'MetaPro Light';
-    src: url('../fonts/meta/Light.ttf') format("truetype");
+    src: url(/* webpackPrefetch: true */'../fonts/MetaStd-Normal.ttf') format("truetype");
 }
 @font-face{
     font-family: 'MetaPro Medium';
-    src: url('../fonts/meta/Medium.ttf') format("truetype");
+    src: url(/* webpackPrefetch: true */'../fonts/MetaStd-Medium.ttf') format("truetype");
 }
 
 /* Set type, size & color of fonts */
 * {
     font-family: 'MetaPro Normal', sans-serif;
+}
+.v-btn {
+    font-family: 'MetaPro Medium', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
 }
 .display-1, .display-2, .display-3, .display-4, .headline, .title, .body-1 {
     font-family: 'MetaPro Medium', sans-serif !important;
@@ -47,7 +49,7 @@
     font-family: 'MetaPro Normal', sans-serif !important;
 }
 .caption {
-    font-family: 'MetaPro Light', sans-serif !important;
+    font-family: 'MetaPro Normal', sans-serif !important;
     font-size: 15px !important;
 }
 .display-1, .display-2, .display-3, .display-4 {
@@ -63,8 +65,9 @@
     line-height: 28px !important;
 }
 .body-1, .body-2 {
-    font-size: 18px !important;
+    font-size: 15px !important;
     line-height: 26px !important;
+    font-weight: normal !important;
 }
 
 /* Define default fade transition/animation */

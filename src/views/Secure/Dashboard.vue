@@ -5,9 +5,9 @@
                 <h1 class="display-1 accent--text">{{ $t('views.dashboard') }}</h1>
                 <h1 class="title mb-4">{{ call }}</h1>
 
-                <v-layout row wrap justify-center>
+                <v-layout row wrap>
 
-                    <v-flex xs12 md7 :class="style" v-if="assigns">
+                    <v-flex xs12 sm6 md5 :class="style" v-if="assigns">
                         <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
                         <v-divider></v-divider>
                         <v-timeline dense large>
@@ -29,20 +29,15 @@
                         </v-timeline>
                     </v-flex>
 
-                    <v-flex xs12 md5 :class="style" v-if="true">
+                    <v-flex xs12 sm6 md5 :class="style" v-if="notes">
                         <h1 class="headline primary--text">{{ $t('notes') }}</h1>
                         <v-divider></v-divider>
                         <v-card class="mt-4 fill-height">
-                            <v-card-text>
-                                <ul>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                    <li>Test1</li>
-                                </ul>
+                            <v-card-text class="pa-0">
+                                <div v-for="n in notes" :key="n.user+n.date+n.note">
+                                    <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
+                                    <v-divider></v-divider>
+                                </div>
                             </v-card-text>
                         </v-card>
                     </v-flex>
@@ -70,18 +65,27 @@ export default {
 
     data () {
         return {
-            assignList: []
+            assignList: [],
+            noteList: []
         }
     },
 
     computed: {
 
+        notes () {
+            var vm = this
+            if (!vm.noteList.length) return false
+            else {
+                return vm.noteList.map(note => {
+                    if (note.note.length) return note
+                })
+            }
+        },
+
         // Get daily assigns with time and shift
         assigns () {
-            var vm = this
-            var assigns = []
-            if (!this.assignList.length || !vm.$store.state.app.times.length || !vm.$store.state.app.shifts.length) return false
-
+            var vm = this; var assigns = []
+            if (!vm.assignList.length || !vm.$store.state.app.times.length || !vm.$store.state.app.shifts.length) return false
             vm.assignList.forEach(function (assign) {
                 if (!assign.note && !assign.shift) return false
 
@@ -122,16 +126,13 @@ export default {
             var take = 'good.evening'
             if (hour <= 11) take = 'good.morning'
             else if (hour <= 17) take = 'good.noon'
-            return this.$t(take, {
-                name: this.$store.state.user.firstname
-            })
+            return this.$t(take, { name: this.$store.state.user.firstname })
         }
 
     },
 
     mounted () {
-        var vm = this
-        var today = new Date()
+        var vm = this; var today = new Date()
         var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate()
 
         // Get shifts if not in store
@@ -148,7 +149,7 @@ export default {
             })
         }
 
-        // Get assignments of the day
+        // Get users assignments of the day
         vm.$http.post('assignment/read/', {
             user: vm.$store.state.user.id,
             from: date,
@@ -156,6 +157,14 @@ export default {
         }).then(function (response) {
             if (response.data.content) vm.assignList = response.data.content
             else vm.assignList = []
+        })
+
+        // Get Notes of the day
+        vm.$http.post('assignment/read/notes/', {
+            from: date, to: date
+        }).then(function (response) {
+            if (response.data.content) vm.noteList = response.data.content
+            else vm.noteList = []
         })
     },
 

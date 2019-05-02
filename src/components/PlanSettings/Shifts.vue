@@ -3,76 +3,80 @@
         <v-layout row wrap>
 
             <v-flex xs12 sm6 md4 class="pb-2 pr-2" v-for="shift in shiftList" :key="shift.id">
-                <v-card class="fill-height">
-                    <v-sheet v-if="!shift.color.hex" class="d-flex" :color="shift.color" height="15"></v-sheet>
-                    <v-sheet v-else class="d-flex" :color="shift.color.hex" height="15"></v-sheet>
-                    <v-card-title primary-title>
-                        <h2 class="title">{{ shift.title }}</h2>
-                    </v-card-title>
-                    <v-card-text>
-                        {{ shift.description }}<br />
-                        <span v-if="!shift.color.hex">{{ $t('color') }}: {{ shift.color }}</span>
-                        <span v-else>Farbe: {{ shift.color.hex }}</span>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-btn aria-label="edit" flat @click="edit(shift)"><v-icon>edit</v-icon></v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn aria-label="delete" flat @click="tobedeleted = shift; yousuredialog = true"><v-icon>delete</v-icon></v-btn>
-                    </v-card-actions>
-                </v-card>
+                <v-hover>
+                    <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="fill-height clickable" @click="edit(shift)">
+                        <v-sheet v-if="!shift.color.hex" class="d-flex" :color="shift.color" height="15"></v-sheet>
+                        <v-sheet v-else class="d-flex" :color="shift.color.hex" height="15"></v-sheet>
+                        <v-card-title primary-title>
+                            <h2 class="title">{{ shift.title }}</h2>
+                        </v-card-title>
+                        <v-card-text>
+                            {{ shift.description }}<br />
+                            <span v-if="!shift.color.hex">{{ $t('color') }}: {{ shift.color }}</span>
+                            <span v-else>Farbe: {{ shift.color.hex }}</span>
+                        </v-card-text>
+                    </v-card>
+                </v-hover>
             </v-flex>
 
             <v-flex xs12 sm6 md4 class="pb-2 pr-2">
-                <v-card class="fill-height">
-                    <v-sheet class="d-flex" color="secondary" height="15"></v-sheet>
-                    <v-card-title primary-title>
-                        <h2 class="title text--secondary"><i>{{ $t('create.title') }}</i></h2>
-                    </v-card-title>
-                    <v-card-text>
-                        <i class="text--secondary">{{ $t('create.text') }}</i><br />‌‌
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn aria-label="add" flat class="text--secondary" @click="addNew()"><v-icon large>add</v-icon></v-btn>
-                    </v-card-actions>
-                </v-card>
+                <v-hover>
+                    <v-card slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 2}`" class="fill-height clickable" @click="addNew()">
+                        <v-sheet class="d-flex" color="secondary" height="15"></v-sheet>
+                        <v-card-title primary-title>
+                            <h2 class="title text--secondary"><i><v-icon>add</v-icon> {{ $t('create.title') }}</i></h2>
+                        </v-card-title>
+                        <v-card-text>
+                            <i class="text--secondary">{{ $t('create.text') }}</i><br />‌‌
+                        </v-card-text>
+                    </v-card>
+                </v-hover>
             </v-flex>
 
-            <v-form ref="formData">
-                <v-dialog persistent v-model="dialog" max-width="700" :fullscreen="$vuetify.breakpoint.xsOnly">
-                    <v-card>
-                        <v-card-title v-if="dialogAction == 1" class="headline primary--text">{{ $t('editor.shift.add') }}</v-card-title>
-                        <v-card-title v-if="dialogAction == 2" class="headline primary--text">{{ $t('editor.shift.edit') }}</v-card-title>
+            <v-dialog persistent v-model="dialog" max-width="500" :fullscreen="$vuetify.breakpoint.xsOnly">
+                <v-form ref="formData">
+                    <v-card class="">
+                        <v-card-title v-if="dialogAction == 1" class="headline">{{ $t('editor.shift.add') }}</v-card-title>
+                        <v-card-title v-if="dialogAction == 2" class="headline">{{ $t('editor.shift.edit') }}</v-card-title>
 
-                        <v-card-text>
-                            <v-layout row wrap>
-                                <v-flex xs12 sm6>
-                                    <div class="baloise-input">
-                                        <span>{{ $t('editor.title') }}</span>
-                                        <input required type="text" v-model="formdata.title"/>
-                                    </div>
-                                    <div class="baloise-input">
-                                        <span>{{ $t('editor.description') }}</span>
-                                        <textarea type="text" v-model="formdata.description"></textarea>
-                                    </div>
+                        <v-card-text class="pt-0 pb-0">
+                            <v-layout row wrap class="body-2 baloise-input">
+                                <v-flex xs12 md4>
+                                    <span>{{ $t('editor.title') }}</span>
                                 </v-flex>
-                                <v-flex xs12 sm6>
-                                    <color-picker class="colorPicker" v-model="formdata.color" />
+                                <v-flex xs12 md8>
+                                    <input required type="text" v-model="formdata.title"/>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <span>{{ $t('editor.description') }}</span>
+                                </v-flex>
+                                <v-flex xs12 md8>
+                                    <textarea type="text" v-model="formdata.description"></textarea>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <span>{{ $t('editor.color') }}</span>
+                                </v-flex>
+                                <v-flex xs12 md8>
+                                    <Chrome class="colorPicker" v-model="formdata.color" />
                                 </v-flex>
                             </v-layout>
                         </v-card-text>
 
                         <v-card-actions>
-                            <v-btn aria-label="cancel" flat @click="dialog = false" :disabled="disabled">{{ $t('btn.cancel') }}</v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn aria-label="add" flat class="baloise-button" v-if="dialogAction == 1" @click="add()" :disabled="disabled">{{ $t('editor.add') }}</v-btn>
-                            <v-btn aria-label="save" flat class="baloise-button" v-if="dialogAction == 2" @click="save()" :disabled="disabled">{{ $t('btn.save') }}</v-btn>
+                            <v-btn aria-label="add" block large flat class="baloise-button" v-if="dialogAction == 1" @click="add()" :disabled="disabled">{{ $t('editor.add') }}</v-btn>
+                            <v-btn aria-label="save" block large flat class="baloise-button" v-if="dialogAction == 2" @click="save()" :disabled="disabled">{{ $t('btn.save') }}</v-btn>
                         </v-card-actions>
-                    </v-card>
-                </v-dialog>
-            </v-form>
+                        <v-card-actions>
+                            <v-btn aria-label="close" flat @click="dialog = false" :disabled="disabled">{{ $t('btn.close') }}</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn aria-label="delete" flat @click="dialog = false, youSure = true"><v-icon>delete</v-icon></v-btn>
+                        </v-card-actions>
 
-            <v-dialog persistent v-model="yousuredialog" max-width="700">
+                    </v-card>
+                </v-form>
+            </v-dialog>
+
+            <v-dialog persistent v-model="youSure" max-width="700">
                 <v-card>
                     <v-card-title class="headline">{{ $t('yousure.title') }}</v-card-title>
                     <v-card-text>
@@ -81,10 +85,14 @@
                     <v-card-actions>
                         <v-layout row wrap>
                             <v-flex xs12 md4 pa-2>
-                                <v-btn block aria-label="cancel" @click="tobedeleted = null; yousuredialog = false" :disabled="disabled" outline>{{ $t('yousure.stop') }}</v-btn>
+                                <v-btn block aria-label="cancel" @click="youSure = false" :disabled="disabled" outline>
+                                    {{ $t('yousure.stop') }}
+                                </v-btn>
                             </v-flex>
                             <v-flex xs12 md8 pa-2>
-                                <v-btn block aria-label="accept" @click="delet()" :disabled="disabled" color="warning">{{ $t('yousure.accept') }}</v-btn>
+                                <v-btn block aria-label="accept" @click="delet()" :disabled="disabled" color="warning">
+                                    {{ $t('yousure.accept') }}
+                                </v-btn>
                             </v-flex>
                         </v-layout>
                     </v-card-actions>
@@ -102,15 +110,14 @@ export default {
     name: 'Shifts',
 
     components: {
-        'color-picker': Chrome
+        Chrome
     },
 
     data () {
         return {
             dialog: false,
             dialogAction: null,
-            yousuredialog: false,
-            tobedeleted: null,
+            youSure: false,
             disabled: false,
             formdata: {
                 id: false,
@@ -133,9 +140,7 @@ export default {
             var vm = this
             if (vm.formdata.id !== 0) {
                 if (vm.formdata.title && vm.formdata.title.length < 255) {
-                    if (vm.formdata.description && vm.formdata.color.hex) {
-                        return true
-                    }
+                    if (vm.formdata.description && vm.formdata.color.hex) return true
                 }
             }
             return false
@@ -164,9 +169,8 @@ export default {
         // Save changes made with editor-dialog
         save () {
             var vm = this
-            if (!vm.isValid()) {
-                vm.$notify({ type: 'error', text: vm.$t('invalid') })
-            } else {
+            if (!vm.isValid()) vm.$notify({ type: 'error', text: vm.$t('invalid') })
+            else {
                 vm.disabled = true
                 vm.$http.post('shift/edit/', {
                     id: vm.formdata.id,
@@ -196,9 +200,8 @@ export default {
         // Save data made with add-dialog
         add () {
             var vm = this
-            if (!vm.isValid()) {
-                vm.$notify({ type: 'error', text: vm.$t('invalid') })
-            } else {
+            if (!vm.isValid()) vm.$notify({ type: 'error', text: vm.$t('invalid') })
+            else {
                 vm.disabled = true
                 vm.$http.post('shift/create/', {
                     title: vm.formdata.title,
@@ -226,10 +229,10 @@ export default {
             var vm = this
             vm.disabled = true
             var storeElems = vm.$store.state.app.shifts
-            vm.$http.post('shift/delete/', { id: vm.tobedeleted.id }).then(function (response) {
-                var elem = storeElems.indexOf(vm.tobedeleted)
+            vm.$http.post('shift/delete/', { id: vm.formdata.id }).then(function (response) {
+                var elem = storeElems.indexOf(vm.formdata)
                 storeElems.splice(elem, 1)
-                vm.yousuredialog = false
+                vm.youSure = false
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                 vm.disabled = false
             }).catch(function () {
@@ -245,7 +248,7 @@ export default {
 
         // Get shifts (even if they are in store, bc there may be new ones)
         vm.$http.get('shift/read/').then(function (response) {
-            if (response.data.content) { vm.$store.state.app.shifts = response.data.content }
+            if (response.data.content) vm.$store.state.app.shifts = response.data.content
         }).catch(function () {
             vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })
@@ -257,6 +260,7 @@ export default {
                 editor: {
                     title: 'Title',
                     description: 'Description',
+                    color: 'Color',
                     add: 'Add',
                     shift: {
                         edit: 'Edit Shift',
@@ -270,7 +274,7 @@ export default {
                     stop: 'Cancel deletion'
                 },
                 create: {
-                    title: 'Create',
+                    title: 'New Shift',
                     text: 'Would you like to add another Shift?'
                 },
                 color: 'Color',
@@ -281,6 +285,7 @@ export default {
                 editor: {
                     title: 'Titel',
                     description: 'Beschreibung',
+                    color: 'Farbe',
                     add: 'Hinzufügen',
                     shift: {
                         edit: 'Schicht bearbeiten',
@@ -294,7 +299,7 @@ export default {
                     stop: 'Löschen abbrechen'
                 },
                 create: {
-                    title: 'Erstellen',
+                    title: 'Neue Schicht',
                     text: 'Möchtest du eine Schicht erstellen?'
                 },
                 color: 'Farbe',
@@ -309,49 +314,51 @@ export default {
 
 <style scoped>
 
+    .clickable {
+        cursor: pointer;
+    }
+
     .baloise-input {
         margin-top: 15px;
     }
-
     .baloise-input span {
         color: #008AC9;
+        padding: 6px 5px 4px;
+        margin-bottom: 10px;
     }
-
     .baloise-input input, .baloise-input textarea {
         border: 1px solid #008AC9;
-        line-height: 1.3125rem;
+        line-height: 21px;
         padding: 6px 15px 4px;
+        margin-bottom: 10px;
         width: 100%;
         color: #008AC9;
         transition: border-color .3s linear,background-color .3s linear;
     }
-
     .baloise-input input:focus, .baloise-input textarea:focus {
         background-color: #E5F3F9;
     }
 
     .baloise-button {
+        text-transform: uppercase;
         background-color: #F90;
         padding: 11px 15px 9px;
         color: #fff;
-        margin-right: 10px;
         border-radius: 0px;
         transition: all 250ms ease-in-out;
         font-size: .875rem;
         line-height: 1.25rem;
     }
-
     .baloise-button:hover {
         background-color: #008AC9;
     }
 
     .colorPicker {
-        margin-left:auto;
-        margin-right:auto;
-        margin-top: 10px;
+        width: 100%;
+        line-height: 21px;
         margin-bottom: 10px;
         box-shadow: none;
-        border: 1px solid #dadada;
+        border: 1px solid #008AC9;
     }
 
 </style>
