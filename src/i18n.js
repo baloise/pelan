@@ -9,7 +9,6 @@ export default new VueI18n({
     silentTranslationWarn: true,
 
     messages: {
-
         en: {
             $vuetify: {
                 noDataText: 'No data found',
@@ -46,7 +45,6 @@ export default new VueI18n({
                 cancel: 'Cancel'
             }
         },
-
         de: {
             $vuetify: {
                 noDataText: 'Keine Einträge gefunden',
@@ -83,7 +81,6 @@ export default new VueI18n({
                 cancel: 'Abbrechen'
             }
         }
-
     }
 
 })

@@ -5,7 +5,7 @@
                 <h1 class="display-1 accent--text">{{ $t('views.dashboard') }}</h1>
                 <h1 class="title mb-4">{{ call }}</h1>
 
-                <v-layout row wrap>
+                <v-layout row wrap justify-center>
 
                     <v-flex xs12 sm6 md5 :class="style" v-if="assigns">
                         <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
@@ -32,9 +32,9 @@
                     <v-flex xs12 sm6 md5 :class="style" v-if="notes">
                         <h1 class="headline primary--text">{{ $t('notes') }}</h1>
                         <v-divider></v-divider>
-                        <v-card class="mt-4 fill-height">
+                        <v-card class="mt-4">
                             <v-card-text class="pa-0">
-                                <div v-for="n in notes" :key="n.user+n.date+n.note">
+                                <div v-for="(n, index) in notes" :key="'fruit-'+index">
                                     <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
                                     <v-divider></v-divider>
                                 </div>
@@ -188,7 +188,7 @@ export default {
                 },
                 noAssigns: 'Du hast heute keine Einsätze',
                 notes: 'Notizen des Tages',
-                shifts: 'Deine heutigen Einsätze'
+                shifts: 'Heutige Einsätze'
             }
         }
     }

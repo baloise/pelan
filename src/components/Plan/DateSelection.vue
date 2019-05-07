@@ -30,11 +30,12 @@ export default {
         // Format date for v-date-picker
         dateValue: {
             get () {
-                return (this.value.picked.getFullYear() + '-' + (this.value.picked.getMonth() + 1))
+                var month = this.value.picked.getMonth() + 1
+                if (month < 10) month = '0' + month
+                return this.value.picked.getFullYear() + '-' + month
             },
             set (val) {
-                var vm = this
-                var format = new Date(val)
+                var vm = this; var format = new Date(val)
                 vm.$emit('input', {
                     picked: format,
                     show: false,
@@ -42,6 +43,7 @@ export default {
                 })
             }
         }
+
     },
 
     i18n: {

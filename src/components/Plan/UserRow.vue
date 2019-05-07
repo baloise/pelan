@@ -167,7 +167,6 @@ export default {
                 'ur-assigns-inner': true,
                 'is-monday': date.day === 1,
                 'loading-entry': !this.loaded,
-                'has-note': date.note,
                 'note-only': date.note && !date.assign
             }
         },
@@ -219,77 +218,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-    .ur-full-row > td {
-        border-bottom: solid 2.5px #CCCCCC;
-    }
-    .ur-full-row:hover {
-        background-color: #F1F1F1;
-    }
-
-    .ur-user {
-        text-align: center;
-        vertical-align: middle;
-        border: none;
-        overflow: hidden;
-    }
-    .ur-user-inner {
-        padding-left: 10px;
-        width: 60px;
-        overflow: hidden;
-    }
-
-    .ur-assigns-inner, .ur-times-inner {
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0px 4px 0px 5px;
-        cursor: pointer;
-        text-align: right;
-        height: 25px;
-        overflow: hidden;
-    }
-
-    .ur-times {
-        border-right: solid 2.5px #E6E6E6;
-    }
-    .ur-times-inner {
-        padding-top: 2.5px;
-        width: 50px;
-    }
-
-    .ur-assigns-inner {
-        border-radius: 5px;
-        border: solid 1.5px #E6E6E6;
-        min-width: 30px;
-    }
-    .ur-assigns-inner:hover {
-        animation: jello 1s;
-    }
-    .ur-assigns-inner .v-icon {
-        font-size: 17px !important;
-        color: #444 !important;
-    }
-
-    .loading-entry {
-        cursor: not-allowed;
-        background-color: #F1F1F1;
-    }
-    .loading-times {
-        cursor: not-allowed;
-        animation: flash 5s;
-        animation-iteration-count: 5;
-        background-color: #E6E6E6;
-    }
-
-    .has-note {
-        animation: rubberBand 1s;
-        animation-delay: 2s;
-        animation-iteration-count: 1;
-    }
-    .note-only {
-        border-color: #444;
-    }
-
-</style>

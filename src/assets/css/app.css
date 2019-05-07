@@ -1,4 +1,73 @@
 
+
+/* Import Icon-Font and animation lib */
+@import url('https://fonts.googleapis.com/css?family=Material+Icons');
+@import url('https://cdn.jsdelivr.net/npm/animate.css@3.5.1');
+
+
+/* Get/Assign Baloise fonts */
+@font-face{
+    font-family: 'MetaP_Normal';
+    src: url("../fonts/MetaStd-Normal.ttf") format("truetype");
+}
+@font-face{
+    font-family: 'MetaP_Medium';
+    src: url("../fonts/MetaStd-Medium.ttf") format("truetype");
+}
+
+
+/* Set type, size & color of fonts */
+* {
+    font-family: 'MetaP_Normal', sans-serif;
+    font-size: 15px;
+}
+.display-1, .headline, .title {
+    font-family: 'MetaP_Medium', sans-serif !important;
+}
+.display-1 {
+    font-size: 44px !important;
+    line-height: 50px !important;
+}
+.headline {
+    font-size: 32px !important;
+    line-height: 40px !important;
+}
+.title {
+    font-size: 22px !important;
+    line-height: 28px !important;
+}
+
+
+/* Baloise-specific Design */
+.baloise-drawer .v-list__tile .v-list__tile__title {
+    font-family: 'MetaP_Medium', sans-serif !important;
+    color: rgb(0, 51, 153) !important;
+    font-size: 19px !important;
+}
+.baloise-drawer .v-list__tile.v-list__tile--active .v-list__tile__title {
+    color: #009EE7 !important;
+}
+
+.baloise-drawer .v-icon {
+    color: rgb(0, 51, 153) !important;
+}
+.baloise-drawer .v-list__tile.v-list__tile--active .v-icon {
+    color: #009EE7 !important;
+}
+.v-btn {
+    text-transform: none;
+}
+
+
+/* Create animation for changing views */
+.router-view-enter-active {
+    animation: zoomIn 0.2s;
+}
+.router-view-leave-active {
+    animation: zoomOut 0.2s;
+}
+
+
 /* Change default Scrollbar */
 ::-webkit-scrollbar {
     height: 8px;
@@ -14,77 +83,6 @@
     background: #dddddd;
 }
 
-
-/* Create animation for changing views */
-.router-view-enter-active {
-    animation: zoomIn 0.2s;
-}
-.router-view-leave-active {
-    animation: zoomOut 0.2s;
-}
-
-/* Get/Assign Baloise fonts */
-@font-face{
-    font-family: 'MetaPro Normal';
-    src: url(/* webpackPrefetch: true */'../fonts/MetaStd-Normal.ttf') format("truetype");
-}
-@font-face{
-    font-family: 'MetaPro Medium';
-    src: url(/* webpackPrefetch: true */'../fonts/MetaStd-Medium.ttf') format("truetype");
-}
-
-/* Set type, size & color of fonts */
-* {
-    font-family: 'MetaPro Normal', sans-serif;
-    font-size: 15px !important;
-}
-.theme--light.v-list, .theme--light.v-list.v-icon {
-    color: #444 !important;
-}
-.v-btn {
-    font-family: 'MetaPro Medium', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-}
-.v-icon {
-    font-size: 24px !important;
-}
-.display-1, .display-2, .display-3, .display-4, .headline, .title, .body-1 {
-    font-family: 'MetaPro Medium', sans-serif !important;
-}
-.body-2 {
-    font-family: 'MetaPro Normal', sans-serif !important;
-}
-.caption {
-    font-family: 'MetaPro Normal', sans-serif !important;
-    font-size: 13px !important;
-    line-height: 19px !important;
-}
-.display-1, .display-2, .display-3, .display-4 {
-    font-size: 44px !important;
-    line-height: 50px !important;
-}
-.headline {
-    font-size: 32px !important;
-    line-height: 40px !important;
-}
-.title {
-    font-size: 22px !important;
-    line-height: 28px !important;
-}
-.body-1, .body-2 {
-    font-size: 15px !important;
-    line-height: 26px !important;
-    font-weight: normal !important;
-}
-
-/* Define default fade transition/animation */
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-    opacity: 0;
-}
 
 /* Define spinning-loader for buttons etc */
 .spinning-loader {

@@ -1,0 +1,150 @@
+
+
+/* Plan-index styles (scroll-containers etc.) */
+#head {
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+#user {
+    height: 80vh;
+    padding-top: 2px;
+}
+
+.scroll-table {
+    border-spacing: 0px;
+}
+
+.scroller {
+    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: scroll;
+    clear: both;
+    width: 100%;
+}
+.scroller::-webkit-scrollbar {
+    height: 10px;
+    width: 0px;
+}
+.scroller::-webkit-scrollbar-track {
+    background: #E6E6E6;
+}
+.scroller::-webkit-scrollbar-thumb,
+.scroller::-webkit-scrollbar-corner {
+    background: #CCCCCC;
+}
+
+
+/* Header-row styles */
+.hd-titles {
+    vertical-align: top;
+    text-align: right;
+}
+
+.hd-spacer-inner {
+    width: 60px;
+}
+
+.hd-day-inner, .hd-week-inner {
+    background-color: #E6E6E6;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3px;
+    text-align: center;
+    overflow: hidden;
+    padding: 2px 0px 0px 0px;
+}
+
+.hd-day-inner {
+    height: 50px;
+    border: solid 1.5px #E6E6E6;
+    min-width: 30px;
+}
+
+.hd-week-inner {
+    height: 28px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.hd-titles-inner {
+    width: 50px;
+    border-left: none;
+}
+
+.is-monday {
+    background-color: #CCCCCC;
+    border: solid 1.5px #CCCCCC;
+}
+
+.is-current {
+    background-color: #008AC9;
+    border: solid 1.5px #008AC9;
+    color: white;
+}
+
+/* User-Row styles */
+.ur-full-row > td {
+    border-bottom: solid 2.5px #CCCCCC;
+}
+.ur-full-row:hover {
+    background-color: #F1F1F1;
+}
+
+.ur-user {
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    overflow: hidden;
+}
+.ur-user-inner {
+    padding-left: 10px;
+    width: 60px;
+    overflow: hidden;
+}
+
+.ur-assigns-inner, .ur-times-inner {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0px 4px 0px 5px;
+    cursor: pointer;
+    text-align: right;
+    height: 25px;
+    overflow: hidden;
+}
+
+.ur-times {
+    border-right: solid 2.5px #E6E6E6;
+}
+.ur-times-inner {
+    padding-top: 2.5px;
+    width: 50px;
+}
+
+.ur-assigns-inner {
+    border-radius: 5px;
+    border: solid 1.5px #E6E6E6;
+    min-width: 30px;
+}
+.ur-assigns-inner:hover {
+    animation: pulse 1s;
+}
+.ur-assigns-inner .v-icon {
+    font-size: 17px !important;
+    color: #444 !important;
+}
+
+.loading-entry {
+    cursor: not-allowed;
+    background-color: #F1F1F1;
+}
+.loading-times {
+    cursor: not-allowed;
+    animation: flash 5s;
+    animation-iteration-count: 3;
+    background-color: #E6E6E6;
+}
+.note-only {
+    border-color: #444;
+}

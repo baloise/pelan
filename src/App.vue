@@ -27,6 +27,7 @@
 import Drawer from '@/components/Navigation/Drawer'
 import Toolbar from '@/components/Navigation/Toolbar'
 import { mapActions } from 'vuex'
+import(/* webpackPrefetch: true */'@/assets/css/app.css')
 
 export default {
     name: 'App',
@@ -44,6 +45,7 @@ export default {
         getLogin (callback) {
             /* eslint-disable standard/no-callback-literal */
             var vm = this
+
             vm.$http.get('user/login/').then(function (response) {
                 vm.$store.commit('login')
                 callback(true)
@@ -51,12 +53,14 @@ export default {
                 vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
                 callback(false)
             })
+
             /* eslint-enable standard/no-callback-literal */
         },
 
         // Check Permissions before going to a view
         checkPerms (route) {
             var vm = this
+
             if (route.requiresAdmin === true && !vm.$store.state.user.role.admin) return false
             if (!vm.$http.defaults.headers.common['Authorization'] && vm.$store.state.auth.token) {
                 vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
@@ -73,9 +77,10 @@ export default {
         vm.$router.beforeResolve((to, from, next) => {
             document.title = vm.$store.state.pelan.title + ' | ' + vm.$t('views.' + to.name)
             vm.$store.dispatch('checkAuth')
+
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {
-                vm.getLogin(function (did) {
-                    if (did && vm.checkPerms(to.meta)) next()
+                vm.getLogin(function (done) {
+                    if (done && vm.checkPerms(to.meta)) next()
                     else vm.$router.push({ name: 'nopermission' })
                 })
             } else if (vm.checkPerms(to.meta)) next()
@@ -83,6 +88,7 @@ export default {
         })
 
         // Use correct Language at startup & watch Changes
+
         vm.$i18n.locale = vm.$store.state.user.language
         vm.$store.watch((state) => {
             return vm.$store.state.user.language
@@ -95,9 +101,3 @@ export default {
 
 }
 </script>
-
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Material+Icons');
-    @import url('https://cdn.jsdelivr.net/npm/animate.css@3.5.1');
-    @import 'assets/css/app.css';
-</style>

@@ -105,6 +105,7 @@
 
 <script>
 import { Chrome } from 'vue-color'
+import(/* webpackPrefetch: true */ '@/assets/css/plansettings.css')
 
 export default {
     name: 'Shifts',
@@ -314,54 +315,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-    .clickable {
-        cursor: pointer;
-    }
-
-    .baloise-input {
-        margin-top: 15px;
-    }
-    .baloise-input span {
-        color: #008AC9;
-        padding: 6px 5px 4px;
-        margin-bottom: 10px;
-    }
-    .baloise-input input, .baloise-input textarea {
-        border: 1px solid #008AC9;
-        line-height: 21px;
-        padding: 6px 15px 4px;
-        margin-bottom: 10px;
-        width: 100%;
-        color: #008AC9;
-        transition: border-color .3s linear,background-color .3s linear;
-    }
-    .baloise-input input:focus, .baloise-input textarea:focus {
-        background-color: #E5F3F9;
-    }
-
-    .baloise-button {
-        text-transform: uppercase;
-        background-color: #F90;
-        padding: 11px 15px 9px;
-        color: #fff;
-        border-radius: 0px;
-        transition: all 250ms ease-in-out;
-        font-size: .875rem;
-        line-height: 1.25rem;
-    }
-    .baloise-button:hover {
-        background-color: #008AC9;
-    }
-
-    .colorPicker {
-        width: 100%;
-        line-height: 21px;
-        margin-bottom: 10px;
-        box-shadow: none;
-        border: 1px solid #008AC9;
-    }
-
-</style>

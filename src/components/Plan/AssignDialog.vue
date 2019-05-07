@@ -1,6 +1,6 @@
 <template>
     <v-layout row justify-center>
-        <v-dialog persistent v-model="show" max-width="500px" :fullscreen="$vuetify.breakpoint.xsOnly">
+        <v-dialog :value="show" @input="$emit('close')" max-width="500px" :fullscreen="$vuetify.breakpoint.xsOnly">
             <v-card v-if="show">
 
                 <v-card-title>

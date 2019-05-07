@@ -4,7 +4,7 @@
         <v-flex xs12 v-if="$store.state.app.shifts" class="pa-2 text-xs-center">
             <v-chip v-for="shift in $store.state.app.shifts" :key="shift.id">
                 <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
-                <span class="body-2">{{shift.title}}</span>
+                <span>{{shift.title}}</span>
             </v-chip>
         </v-flex>
 
@@ -38,6 +38,7 @@
 import AssignDialog from '@/components/Plan/AssignDialog'
 import HeaderRow from '@/components/Plan/HeaderRow'
 import UserRow from '@/components/Plan/UserRow'
+import(/* webpackPrefetch: true */ '@/assets/css/plan.css')
 
 export default {
     name: 'PlanBase',
@@ -65,14 +66,16 @@ export default {
 
         // Create Store-Element for assignments of each user and return list
         userList () {
-            var vm = this; var list = vm.$store.state.app.users
-            if (!list.length) return []
-            list.forEach(function (user) {
-                vm.$store.state.app.assigns = Object.assign(
-                    {}, vm.$store.state.app.assigns, { [user.id]: [] }
+            var vm = this; var users = vm.$store.state.app.users
+            if (!users.length) return []
+
+            users.forEach(function (user) {
+                vm.$store.state.app.assigns = Object.assign({},
+                    vm.$store.state.app.assigns, { [user.id]: [] }
                 )
             })
-            return list
+
+            return users
         },
 
         // Create a list of dates regarding the users selection
@@ -203,40 +206,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-    #head {
-        -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
-        box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-    }
-    #user {
-        height: 80vh;
-        padding-top: 2px;
-    }
-
-    .scroll-table {
-        border-spacing: 0px;
-    }
-
-    .scroller {
-        overflow: hidden;
-        overflow-x: auto;
-        overflow-y: scroll;
-        clear: both;
-        width: 100%;
-    }
-    .scroller::-webkit-scrollbar {
-        height: 10px;
-        width: 0px;
-    }
-    .scroller::-webkit-scrollbar-track {
-        background: #E6E6E6;
-    }
-    .scroller::-webkit-scrollbar-thumb,
-    .scroller::-webkit-scrollbar-corner {
-        background: #CCCCCC;
-    }
-
-</style>

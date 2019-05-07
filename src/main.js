@@ -11,8 +11,11 @@ import axios from 'axios'
 import i18n from './i18n'
 
 Vue.use(Notifications)
+
 Vue.use(Vuetify, {
-    lang: { t: (key, ...params) => i18n.t(key, params) },
+    lang: {
+        t: (key, ...params) => i18n.t(key, params)
+    },
     theme: {
         primary: '#008AC9',
         secondary: '#EFF9FE',
