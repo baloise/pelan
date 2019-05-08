@@ -38,7 +38,7 @@
                     <v-card-title v-if="dialogAction == 1" class="headline">{{ $t('editor.shift.add') }}</v-card-title>
                     <v-card-title v-if="dialogAction == 2" class="headline">{{ $t('editor.shift.edit') }}</v-card-title>
 
-                    <v-card-text class="pt-0 pb-0">
+                    <v-card-text class="pt-0">
                         <v-form ref="formData">
                             <v-layout row wrap class="body-2 baloise-input">
                                 <v-flex xs12 md4>
@@ -57,7 +57,7 @@
                                     <span>{{ $t('editor.color') }}</span>
                                 </v-flex>
                                 <v-flex xs12 md8>
-                                    <Chrome class="colorPicker" v-model="formdata.color" />
+                                    <Slider class="colorPicker" v-model="formdata.color" />
                                 </v-flex>
                             </v-layout>
                         </v-form>
@@ -104,14 +104,14 @@
 </template>
 
 <script>
-import { Chrome } from 'vue-color'
+import { Slider } from 'vue-color'
 import(/* webpackPrefetch: true */ '@/assets/css/plansettings.css')
 
 export default {
     name: 'Shifts',
 
     components: {
-        Chrome
+        Slider
     },
 
     data () {
