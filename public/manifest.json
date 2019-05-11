@@ -3,7 +3,7 @@
     "short_name": "Pelan",
     "start_url": "./index.html",
     "display": "standalone",
-    "theme_color": "#FFFFFF",
+    "theme_color": "#008AC9",
     "background_color": "#008AC9",
     "icons": [
         {

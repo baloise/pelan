@@ -6,7 +6,7 @@ module.exports = {
 
     pwa: {
         name: 'Pelan',
-        themeColor: '#ffffff',
+        themeColor: '#008AC9',
         msTileColor: '#2b5797',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
