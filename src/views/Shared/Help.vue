@@ -8,8 +8,6 @@
 
                 <v-layout row wrap>
 
-
-
                     <v-flex xs12 sm6 class="pa-1">
                         <v-card class="fill-height">
                             <v-card-title primary-title>
