@@ -30,7 +30,7 @@ Vue.use(Vuetify, {
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios.create({
-    baseURL: 'http://localhost/pelan-api/api/',
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://api.osis.io/pelan-demo/' : 'http://localhost/pelan-api/api/',
     withCredentials: true
 })
 
