@@ -5,38 +5,6 @@
     cursor: pointer;
 }
 
-.baloise-input {
-    margin-top: 15px;
-}
-.baloise-input span {
-    color: #008AC9;
-    padding: 6px 5px 4px;
-    margin-bottom: 10px;
-}
-.baloise-input input, .baloise-input textarea {
-    border: 1px solid #008AC9;
-    line-height: 21px;
-    padding: 6px 15px 4px;
-    margin-bottom: 10px;
-    width: 100%;
-    color: #008AC9;
-    transition: border-color .3s linear,background-color .3s linear;
-}
-.baloise-input input:focus, .baloise-input textarea:focus {
-    background-color: #E5F3F9;
-}
-
-.baloise-button {
-    color: #fff !important;
-    background-color: #F90;
-    padding: 11px 15px 9px;
-    border-radius: 0px;
-    transition: all 250ms ease-in-out;
-}
-.baloise-button:hover {
-    background-color: #008AC9;
-}
-
 .colorPicker {
     width: 100% !important;
     margin-left: auto;

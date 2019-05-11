@@ -40,23 +40,17 @@
 
                     <v-card-text class="pt-0">
                         <v-form ref="formData">
-                            <v-layout row wrap class="body-2 baloise-input">
-                                <v-flex xs12 md4>
-                                    <span>{{ $t('editor.title') }}</span>
+                            <v-layout row wrap class="body-2">
+                                <v-flex xs12>
+                                    <v-text-field outline :label="$t('editor.title')" type="text" v-model="formdata.title" required/>
                                 </v-flex>
-                                <v-flex xs12 md8>
-                                    <input required type="text" v-model="formdata.title"/>
+                                <v-flex xs12>
+                                    <v-textarea outline :label="$t('editor.description')" type="text" v-model="formdata.description"></v-textarea>
                                 </v-flex>
-                                <v-flex xs12 md4>
-                                    <span>{{ $t('editor.description') }}</span>
-                                </v-flex>
-                                <v-flex xs12 md8>
-                                    <textarea type="text" v-model="formdata.description"></textarea>
-                                </v-flex>
-                                <v-flex xs12 md4>
+                                <v-flex xs12 md2>
                                     <span>{{ $t('editor.color') }}</span>
                                 </v-flex>
-                                <v-flex xs12 md8>
+                                <v-flex xs12 md10>
                                     <Slider class="colorPicker" v-model="formdata.color" />
                                 </v-flex>
                             </v-layout>
@@ -64,8 +58,8 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn aria-label="add" block large flat class="baloise-button" v-if="dialogAction == 1" @click="add()" :disabled="disabled">{{ $t('editor.add') }}</v-btn>
-                        <v-btn aria-label="save" block large flat class="baloise-button" v-if="dialogAction == 2" @click="save()" :disabled="disabled">{{ $t('btn.save') }}</v-btn>
+                        <v-btn aria-label="add" v-if="dialogAction == 1" @click="add()" :disabled="disabled" block large color="primary">{{ $t('editor.add') }}</v-btn>
+                        <v-btn aria-label="save" v-if="dialogAction == 2" @click="save()" :disabled="disabled" block large color="primary">{{ $t('btn.save') }}</v-btn>
                     </v-card-actions>
                     <v-card-actions>
                         <v-btn aria-label="close" flat @click="dialog = false" :disabled="disabled">{{ $t('btn.close') }}</v-btn>

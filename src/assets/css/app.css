@@ -61,10 +61,10 @@
 
 /* Create animation for changing views */
 .router-view-enter-active {
-    animation: zoomIn 0.2s;
+    animation: zoomIn 0.1s;
 }
 .router-view-leave-active {
-    animation: zoomOut 0.2s;
+    animation: zoomOut 0.1s;
 }
 
 
