@@ -3,9 +3,9 @@ Vue.js Application for quick and easy personnel-planning using a duty roster.
 
 ## Origin / Plot
 Made by [Elia Reutlinger](https://github.com/erleiuat).
-The development of this UI was part of his final project (IPA, Individuelle Praktische Arbeit) at the near end of this apprenticeship @Baloise.
+The development of this UI was part of his final project (IPA, Individuelle Praktische Arbeit) at the near end of his apprenticeship @Baloise.
 
-<b>Check out the [IPA-Docs](https://github.com/baloise/pelan/tree/master/docs/IPA) (docs/IPA) to see a detailed documentation about Pelan.</b>
+<b>Check out the [IPA-Docs](https://github.com/baloise/pelan/tree/master/docs/IPA) (docs/IPA) to get a detailed documentation about Pelan.</b>
 
 ### Details
 - Made with VueJS
