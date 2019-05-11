@@ -1,7 +1,7 @@
 {
     "name": "Pelan",
     "short_name": "Pelan",
-    "start_url": "./index.html",
+    "start_url": "/",
     "display": "standalone",
     "theme_color": "#008AC9",
     "background_color": "#008AC9",
