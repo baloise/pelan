@@ -1,10 +1,13 @@
 # Pelan
-Vue UI for the coming staff-planing tool by baloise
+Vue.js Application for quick and easy personnel-planning using a duty roster.
 
-## Work in Progress
-This UI will be made with the Pelan-API by [Elia Reutlinger](https://github.com/erleiuat).
-The development of this UI will be part of the final project of his apprenticeship at Baloise.
+## Origin / Plot
+Made by [Elia Reutlinger](https://github.com/erleiuat).
+The development of this UI was part of his final project (IPA, Individuelle Praktische Arbeit) at the near end of this apprenticeship @Baloise.
+
+<b>Check out the [IPA-Docs](https://github.com/baloise/pelan/tree/master/docs/IPA) (docs/IPA) to see a detailed documentation about Pelan.</b>
 
 ### Details
-- Made with VueJS.
-- API Repository [here](https://github.com/baloise/pelan-api).
+- Made with VueJS
+- API Repository [here](https://github.com/baloise/pelan-api)
+- Demo-App [here](https://pelan.osis.io)
