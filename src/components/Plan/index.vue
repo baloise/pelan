@@ -8,7 +8,7 @@
             </v-chip>
         </v-flex>
 
-        <v-dialog v-model="usrLoad" persistent width="300">
+        <v-dialog v-model="usrLoad" width="300">
             <v-card color="primary" dark>
                 <v-card-text>
                     {{ $t('load') }}

@@ -34,6 +34,15 @@ export default new Router({
             }
         },
         {
+            path: '/settings',
+            name: 'settings',
+            component: () => import('./views/Secure/Settings.vue'),
+            meta: {
+                requiresAuth: true,
+                requiresAdmin: false
+            }
+        },
+        {
             path: '/help',
             name: 'help',
             component: () => import('./views/Shared/Help.vue'),
@@ -43,11 +52,11 @@ export default new Router({
             }
         },
         {
-            path: '/settings',
-            name: 'settings',
-            component: () => import('./views/Secure/Settings.vue'),
+            path: '/register',
+            name: 'register',
+            component: () => import('./views/Shared/Register.vue'),
             meta: {
-                requiresAuth: true,
+                requiresAuth: false,
                 requiresAdmin: false
             }
         },

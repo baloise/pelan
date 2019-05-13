@@ -1,6 +1,7 @@
 <template>
     <v-container fill-height>
         <v-layout row wrap align-center>
+
             <v-flex xs12>
                 <h1 class="display-1 accent--text">{{ $t('views.dashboard') }}</h1>
                 <h1 class="title mb-4">{{ call }}</h1>
@@ -42,13 +43,22 @@
                         </v-card>
                     </v-flex>
 
-                    <v-flex xs12 md5 v-if="!assigns" class="pa-5">
+                    <v-flex xs12 md5 v-if="!loading && !assigns" class="pa-3">
                         <v-card class="success elevation-0" dark>
                             <v-card-text>
                                 <v-layout row wrap align-center>
                                     <v-flex xs10 class="body-2">{{ $t('noAssigns') }}</v-flex>
                                     <v-flex xs2 class="text-xs-right"><v-icon large>check</v-icon></v-flex>
                                 </v-layout>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+
+                    <v-flex xs12 md5 v-if="loading" class="pa-1">
+                        <v-card class="accent elevation-5 text-xs-center" dark>
+                            <v-card-text>
+                                {{ $t('load') }}
+                                <v-progress-linear indeterminate class="mb-0"></v-progress-linear>
                             </v-card-text>
                         </v-card>
                     </v-flex>
@@ -66,7 +76,8 @@ export default {
     data () {
         return {
             assignList: [],
-            noteList: []
+            noteList: [],
+            loading: true
         }
     },
 
@@ -131,40 +142,23 @@ export default {
 
     },
 
+    // Get Dashboard-Data from API
     mounted () {
         var vm = this; var today = new Date()
-        var date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate()
-
-        // Get shifts if not in store
-        if (!vm.$store.state.app.shifts.length) {
-            vm.$http.get('shift/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.shifts = response.data.content
-            })
-        }
-
-        // Get times if not in store
-        if (!vm.$store.state.app.times.length) {
-            vm.$http.get('daytime/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.times = response.data.content
-            })
-        }
-
-        // Get users assignments of the day
-        vm.$http.post('assignment/read/', {
-            user: vm.$store.state.user.id,
-            from: date,
-            to: date
+        vm.$http.post('dashboard/read/', {
+            date: today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate()
         }).then(function (response) {
-            if (response.data.content) vm.assignList = response.data.content
-            else vm.assignList = []
-        })
-
-        // Get Notes of the day
-        vm.$http.post('assignment/read/notes/', {
-            from: date, to: date
-        }).then(function (response) {
-            if (response.data.content) vm.noteList = response.data.content
-            else vm.noteList = []
+            if (response.data.content) {
+                var cont = response.data.content
+                if (cont.shifts) vm.$store.state.app.shifts = cont.shifts
+                if (cont.times) vm.$store.state.app.times = cont.times
+                if (cont.assigns) vm.assignList = cont.assigns
+                else vm.assignList = []
+                if (cont.notes) vm.noteList = cont.notes
+                else vm.noteList = []
+            }
+        }).catch(function () {}).then(function () {
+            vm.loading = false
         })
     },
 
@@ -176,6 +170,7 @@ export default {
                     noon: 'Hello {name}!',
                     evening: 'Good evening {name}!'
                 },
+                load: 'Loading information of the day',
                 noAssigns: "You don't have any assignments today",
                 notes: 'Notes of the day',
                 shifts: "Today's assignments"
@@ -188,6 +183,7 @@ export default {
                 },
                 noAssigns: 'Du hast heute keine Einsätze',
                 notes: 'Notizen des Tages',
+                load: 'Informationen zum heutigen Tag werden geladen',
                 shifts: 'Heutige Einsätze'
             }
         }

@@ -27,8 +27,9 @@ export default new VueI18n({
                 dashboard: 'Dashboard',
                 plan: 'Duty Roster',
                 settings: 'Settings',
-                help: 'Support',
                 plansettings: 'Edit Roster',
+                help: 'Support',
+                register: 'Get Access',
                 notfound: 'Page not found',
                 nopermission: 'No Permissions'
             },
@@ -63,8 +64,9 @@ export default new VueI18n({
                 dashboard: 'Dashboard',
                 plan: 'Dienstplan',
                 settings: 'Einstellungen',
-                help: 'Support',
                 plansettings: 'Plan bearbeiten',
+                help: 'Support',
+                register: 'Anmelden',
                 notfound: 'Seite nicht gefunden',
                 nopermission: 'Keine Rechte'
             },

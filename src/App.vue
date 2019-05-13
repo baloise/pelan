@@ -42,25 +42,22 @@ export default {
         ...mapActions(['checkAuth']),
 
         // Get token/login from API
-        getLogin (callback) {
+        getLogin (callErr) {
             /* eslint-disable standard/no-callback-literal */
             var vm = this
-
             vm.$http.get('user/login/').then(function (response) {
                 vm.$store.commit('login')
-                callback(true)
-            }).catch(function () {
-                vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
-                callback(false)
+                callErr(false)
+            }).catch(function (error) {
+                if (error.response.data.reason === 'not_registered') callErr('register')
+                else callErr('nopermission')
             })
-
             /* eslint-enable standard/no-callback-literal */
         },
 
         // Check Permissions before going to a view
         checkPerms (route) {
             var vm = this
-
             if (route.requiresAdmin === true && !vm.$store.state.user.role.admin) return false
             if (!vm.$http.defaults.headers.common['Authorization'] && vm.$store.state.auth.token) {
                 vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
@@ -79,9 +76,9 @@ export default {
             vm.$store.dispatch('checkAuth')
 
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {
-                vm.getLogin(function (done) {
-                    if (done && vm.checkPerms(to.meta)) next()
-                    else vm.$router.push({ name: 'nopermission' })
+                vm.getLogin(function (state) {
+                    if (!state && vm.checkPerms(to.meta)) next()
+                    else vm.$router.push({ name: state })
                 })
             } else if (vm.checkPerms(to.meta)) next()
             else vm.$router.push({ name: 'nopermission' })
