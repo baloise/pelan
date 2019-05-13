@@ -8,7 +8,7 @@
             </v-chip>
         </v-flex>
 
-        <v-dialog v-model="loading" persistent width="300">
+        <v-dialog v-model="usrLoad" persistent width="300">
             <v-card color="primary" dark>
                 <v-card-text>
                     {{ $t('load') }}
@@ -49,7 +49,7 @@ export default {
 
     data () {
         return {
-            loading: true,
+            usrLoad: true,
             dialog: false,
             inEdit: {},
             scrollPos: 0
@@ -68,24 +68,29 @@ export default {
         userList () {
             var vm = this; var users = vm.$store.state.app.users
             if (!users.length) return []
-
             users.forEach(function (user) {
                 vm.$store.state.app.assigns = Object.assign({},
-                    vm.$store.state.app.assigns, { [user.id]: [] }
+                    vm.$store.state.app.assigns, {
+                        [user.id]: {
+                            loaded: false,
+                            assigns: []
+                        }
+                    }
                 )
             })
 
+            vm.getAssigns()
             return users
         },
 
         // Create a list of dates regarding the users selection
         uow () {
-            var beginDate = new Date(this.startDate); var endDate = new Date(this.endDate)
-            var currentDate = beginDate; var tmpWeek = this.getWeek(currentDate)
+            var sDate = new Date(this.startDate); var eDate = new Date(this.endDate)
+            var currentDate = sDate; var tmpWeek = this.getWeek(currentDate)
             var dates = []; var weeks = []; var i = 0
 
             /* eslint-disable no-unmodified-loop-condition, no-mixed-operators */
-            while (currentDate <= endDate) {
+            while (currentDate <= eDate) {
                 var tmpDate = {
                     date: new Date(currentDate),
                     day: currentDate.getDay(),
@@ -136,6 +141,27 @@ export default {
 
     methods: {
 
+        // Get Assigns of all users
+        getAssigns () {
+            var vm = this
+            vm.$http.post('assignment/read/team/', {
+                from: vm.startDate, to: vm.endDate
+            }).then(function (response) {
+                if (response.status === 200) {
+                    response.data.content.users.forEach(function (user) {
+                        vm.$store.state.app.assigns[user.user].assigns = user.assignments
+                        vm.$store.state.app.assigns[user.user].loaded = true
+                    })
+                }
+
+                vm.$store.state.app.users.forEach(function (user) {
+                    if (!vm.$store.state.app.assigns[user.id].loaded) {
+                        vm.$store.state.app.assigns[user.id].loaded = true
+                    }
+                })
+            })
+        },
+
         // Get Week-Number of specific Date d
         getWeek (d) {
             /* eslint-disable no-mixed-operators */
@@ -168,29 +194,30 @@ export default {
     },
 
     mounted () {
-        var vm = this
+        var vm = this; var loadfail = false
 
         // Get shifts if not in store
         if (!vm.$store.state.app.shifts.length) {
             vm.$http.get('shift/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.shifts = response.data.content
-            })
+            }).catch(function () { loadfail = true })
         }
 
         // Get times if not in store
         if (!vm.$store.state.app.times.length) {
             vm.$http.get('daytime/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.times = response.data.content
-            })
+            }).catch(function () { loadfail = true })
         }
 
         // Get users if not in store
         if (!vm.$store.state.app.users.length) {
             vm.$http.post('user/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.users = response.data.content
-                vm.loading = false
-            })
-        } else vm.loading = false
+            }).catch(function () { loadfail = true }).then(function () { vm.usrLoad = false })
+        } else vm.usrLoad = false
+
+        if (loadfail) vm.$notify({ type: 'error', text: vm.$t('alert.error') })
     },
 
     i18n: {

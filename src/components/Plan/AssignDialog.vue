@@ -109,7 +109,7 @@ export default {
     methods: {
 
         removeObj (time, dateTime) {
-            var str = this.$store.state.app.assigns[this.content.user.id]
+            var str = this.$store.state.app.assigns[this.content.user.id].assigns
             for (var i = 0; i < str.length; i++) {
                 if (str[i].time === time && str[i].date.getTime() === dateTime) {
                     str.splice(i, 1)
@@ -146,7 +146,7 @@ export default {
 
                     vm.$http.post('assignment/set/', vm.formdata).then(function (response) {
                         vm.removeObj(vm.formdata.time, vm.content.dateFull.getTime())
-                        vm.$store.state.app.assigns[vm.content.user.id].push(vm.formdata)
+                        vm.$store.state.app.assigns[vm.content.user.id].assigns.push(vm.formdata)
                         vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                         vm.disabled = false
                         vm.$emit('close')

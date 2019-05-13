@@ -33,7 +33,7 @@
             <table width="100%">
                 <tr v-for="row in entries" :key="usr.id+row.time.id">
                     <td v-for="date in row.dates" @click="openEdit(date, row.time)" :key="usr.id+row.time+date.date">
-                        <div :class="style(date)" :style="date.style">
+                        <div :class="css(date)" :style="date.style">
                             <v-icon v-if="date.note">speaker_notes</v-icon>
                         </div>
                     </td>
@@ -58,7 +58,8 @@ export default {
     props: {
         usr: Object,
         prc: {
-            dates: Array, today: Object
+            dates: Array,
+            today: Object
         }
     },
 
@@ -75,9 +76,9 @@ export default {
         },
 
         assigns () {
-            if (this.$store.state.app.assigns[this.usr.id].length) {
-                return this.$store.state.app.assigns[this.usr.id]
-            }
+            var stus = this.$store.state.app.assigns[this.usr.id]
+            if (!stus.loaded) return false
+            if (stus.assigns.length) return stus.assigns
             return false
         },
 
@@ -90,11 +91,10 @@ export default {
 
     methods: {
 
-        // Create Plan-Fields from dates & times + trigger setAssigns()
-        createEntries () {
+        // Create Plan-Fields from dates & times + trigger doAssign()
+        setFields () {
             var vm = this
             if (!vm.times || !vm.dates) return false
-
             vm.entries = vm.times.map(time => {
                 return {
                     time: time,
@@ -107,18 +107,18 @@ export default {
                     })
                 }
             })
+
+            vm.doAssign()
         },
 
         // Allocate found assigns to generated fields on the plan
-        setAssigns () {
+        doAssign () {
             var vm = this
-
-            if (vm.assigns.length === 1 && vm.assigns[0].load) {
-                vm.loaded = true
+            if (!vm.entries || !vm.assigns) {
+                this.loaded = true
                 return false
             }
 
-            if (!vm.entries || !vm.assigns) return false
             vm.assigns.forEach(function (assign) {
                 assign.date = new Date(assign.date)
                 vm.entries.map(entry => {
@@ -144,25 +144,8 @@ export default {
             vm.loaded = true
         },
 
-        // Get Assigns of user from API
-        getAssigns () {
-            var vm = this
-            var dA = vm.prc.dates[0].date
-            var dB = vm.prc.dates[vm.prc.dates.length - 1].date
-            vm.$store.state.app.assigns[vm.usr.id] = []
-
-            vm.$http.post('assignment/read/', {
-                user: vm.usr.id,
-                from: dA.getFullYear() + '/' + (dA.getMonth() + 1) + '/' + dA.getDate(),
-                to: dB.getFullYear() + '/' + (dB.getMonth() + 1) + '/' + dB.getDate()
-            }).then(function (response) {
-                if (response.data.content) vm.$store.state.app.assigns[vm.usr.id] = response.data.content
-                else vm.$store.state.app.assigns[vm.usr.id] = [{ load: true }]
-            })
-        },
-
         // Style Assignment depending on content
-        style (date) {
+        css (date) {
             return {
                 'ur-assigns-inner': true,
                 'is-monday': date.day === 1,
@@ -186,32 +169,26 @@ export default {
     },
 
     mounted () {
-        this.createEntries()
-        this.getAssigns()
+        this.setFields()
     },
 
     watch: {
 
         dates: function (newVal, oldVal) {
-            this.createEntries()
-            if (newVal[0].date.getTime() !== oldVal[0].date.getTime()) {
-                this.loaded = false
-                this.getAssigns()
-            } else this.setAssigns()
+            this.loaded = false
+            this.setFields()
         },
 
         assigns: function (newVal, oldVal) {
-            this.createEntries()
-            this.setAssigns()
+            this.setFields()
         },
 
         shifts: function (newVal, oldVal) {
-            this.setAssigns()
+            this.doAssign()
         },
 
         times: function (newVal, oldVal) {
-            this.createEntries()
-            this.setAssigns()
+            this.setFields()
         }
 
     }
