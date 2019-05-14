@@ -5,13 +5,23 @@
 
                 <h1 class="display-1 accent--text">{{ $t('views.settings') }}</h1>
 
-                <h1 class="headline primary--text pt-3">{{ $t('lang') }}</h1>
-                <LangChanger />
+                <v-layout row wrap class="pa-1">
+                    <v-flex xs12>
+                        <Language />
+                    </v-flex>
+                </v-layout>
 
-                <h1 v-if="$store.state.user.role.admin" class="headline primary--text pt-3">
-                    {{ $t('users') }}
-                </h1>
-                <Users v-if="$store.state.user.role.admin" />
+                <v-layout row wrap class="pa-1">
+                    <v-flex xs12>
+                        <Roles v-if="$store.state.user.role.admin" />
+                    </v-flex>
+                </v-layout>
+
+                <v-layout row wrap class="pa-1">
+                    <v-flex xs12>
+                        <Users v-if="$store.state.user.role.admin" />
+                    </v-flex>
+                </v-layout>
 
             </v-flex>
         </v-layout>
@@ -19,27 +29,15 @@
 </template>
 
 <script>
-import LangChanger from '@/components/Settings/LangChanger'
+import Language from '@/components/Settings/Language'
+import Roles from '@/components/Settings/Roles'
 import Users from '@/components/Settings/Users'
 
 export default {
     name: 'Settings',
 
     components: {
-        LangChanger, Users
-    },
-
-    i18n: {
-        messages: {
-            en: {
-                lang: 'Language',
-                users: 'Users'
-            },
-            de: {
-                lang: 'Sprache',
-                users: 'Benutzer'
-            }
-        }
+        Language, Roles, Users
     }
 
 }

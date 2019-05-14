@@ -1,15 +1,18 @@
 <template>
     <v-container fluid class="pa-0">
 
-        <v-layout row wrap class="pl-3 pr-1 pt-3">
+        <v-layout row wrap v-if="info" class="pt-0 pb-2">
 
-            <v-flex xs12 sm6 class="text-xs-center text-sm-left">
-                <h1 class="display-1 accent--text">{{ $t('views.plan') }}</h1>
+            <v-flex grow v-if="$store.state.app.shifts" class="pa-2">
+                <v-chip v-for="shift in $store.state.app.shifts" :key="shift.id">
+                    <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
+                    <span>{{shift.title}}</span>
+                </v-chip>
             </v-flex>
 
             <v-spacer></v-spacer>
 
-            <v-flex xs12 sm4 class="text-xs-center text-sm-right">
+            <v-flex shrink class="pt-1">
                 <v-btn flat class="title text-capitalize" @click.stop="filter.show = true">
                     <span class="title">{{dt.select}}</span>
                     <v-icon right>edit</v-icon>
@@ -17,6 +20,10 @@
             </v-flex>
 
             <DateSelection v-model="filter"/>
+
+            <v-flex xs12>
+                <v-divider></v-divider>
+            </v-flex>
 
         </v-layout>
 
@@ -38,6 +45,7 @@ export default {
 
     data () {
         return {
+            info: true,
             filter: {
                 show: false,
                 weekends: false,

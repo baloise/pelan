@@ -1,37 +1,30 @@
 <template>
-    <v-layout row wrap>
+<v-layout row wrap class="pt-1">
 
-        <v-flex xs12 v-if="$store.state.app.shifts" class="pa-2 text-xs-center">
-            <v-chip v-for="shift in $store.state.app.shifts" :key="shift.id">
-                <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
-                <span>{{shift.title}}</span>
-            </v-chip>
-        </v-flex>
+    <v-dialog v-model="usrLoad" width="300">
+        <v-card color="primary" dark>
+            <v-card-text>
+                {{ $t('load') }}
+                <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 
-        <v-dialog v-model="usrLoad" width="300">
-            <v-card color="primary" dark>
-                <v-card-text>
-                    {{ $t('load') }}
-                    <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+    <AssignDialog :show="dialog" :content="inEdit" @close="dialog = false" />
 
-        <AssignDialog :show="dialog" :content="inEdit" @close="dialog = false" />
+    <div class="scroller" id="head" @scroll.passive="scroller($event.target.scrollLeft, 'head')">
+        <table class="scroll-table">
+            <HeaderRow :hrc="uow" />
+        </table>
+    </div>
 
-        <div class="scroller" id="head" @scroll.passive="scroller($event.target.scrollLeft, 'head')">
-            <table class="scroll-table">
-                <HeaderRow :hrc="uow" />
-            </table>
-        </div>
+    <div class="scroller" id="user" @scroll.passive="scroller($event.target.scrollLeft, 'user')">
+        <table class="scroll-table">
+            <UserRow v-for="u in userList" :key="u.id" :usr="u" :prc="uow" @assign="doEdit" />
+        </table>
+    </div>
 
-        <div class="scroller" id="user" @scroll.passive="scroller($event.target.scrollLeft, 'user')">
-            <table class="scroll-table">
-                <UserRow v-for="u in userList" :key="u.id" :usr="u" :prc="uow" @assign="doEdit" />
-            </table>
-        </div>
-
-    </v-layout>
+</v-layout>
 </template>
 
 <script>
@@ -44,7 +37,9 @@ export default {
     name: 'PlanBase',
 
     components: {
-        HeaderRow, UserRow, AssignDialog
+        HeaderRow,
+        UserRow,
+        AssignDialog
     },
 
     data () {
@@ -66,7 +61,8 @@ export default {
 
         // Create Store-Element for assignments of each user and return list
         userList () {
-            var vm = this; var users = vm.$store.state.app.users
+            var vm = this
+            var users = vm.$store.state.app.users
             if (!users.length) return []
             users.forEach(function (user) {
                 vm.$store.state.app.assigns = Object.assign({},
@@ -85,9 +81,13 @@ export default {
 
         // Create a list of dates regarding the users selection
         uow () {
-            var sDate = new Date(this.startDate); var eDate = new Date(this.endDate)
-            var currentDate = sDate; var tmpWeek = this.getWeek(currentDate)
-            var dates = []; var weeks = []; var i = 0
+            var sDate = new Date(this.startDate)
+            var eDate = new Date(this.endDate)
+            var currentDate = sDate
+            var tmpWeek = this.getWeek(currentDate)
+            var dates = []
+            var weeks = []
+            var i = 0
 
             /* eslint-disable no-unmodified-loop-condition, no-mixed-operators */
             while (currentDate <= eDate) {
@@ -101,7 +101,8 @@ export default {
                 if (tmpWeek !== this.getWeek(currentDate)) {
                     if (i > 0) {
                         weeks.push({
-                            week: tmpWeek, days: i
+                            week: tmpWeek,
+                            days: i
                         })
                     }
                     tmpWeek = this.getWeek(currentDate)
@@ -119,11 +120,13 @@ export default {
 
             if (i > 0) {
                 weeks.push({
-                    week: tmpWeek, days: i
+                    week: tmpWeek,
+                    days: i
                 })
             }
 
-            var today = new Date(); var todayShort = today.getDate() + '.' + (today.getMonth() + 1) + '.'
+            var today = new Date()
+            var todayShort = today.getDate() + '.' + (today.getMonth() + 1) + '.'
             var currentWeek = this.getWeek(today)
 
             return {
@@ -145,7 +148,8 @@ export default {
         getAssigns () {
             var vm = this
             vm.$http.post('assignment/read/team/', {
-                from: vm.startDate, to: vm.endDate
+                from: vm.startDate,
+                to: vm.endDate
             }).then(function (response) {
                 if (response.status === 200) {
                     response.data.content.users.forEach(function (user) {
@@ -194,30 +198,44 @@ export default {
     },
 
     mounted () {
-        var vm = this; var loadfail = false
+        var vm = this
+        var loadfail = false
 
         // Get shifts if not in store
         if (!vm.$store.state.app.shifts.length) {
             vm.$http.get('shift/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.shifts = response.data.content
-            }).catch(function () { loadfail = true })
+            }).catch(function () {
+                loadfail = true
+            })
         }
 
         // Get times if not in store
         if (!vm.$store.state.app.times.length) {
             vm.$http.get('daytime/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.times = response.data.content
-            }).catch(function () { loadfail = true })
+            }).catch(function () {
+                loadfail = true
+            })
         }
 
         // Get users if not in store
         if (!vm.$store.state.app.users.length) {
             vm.$http.post('user/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.app.users = response.data.content
-            }).catch(function () { loadfail = true }).then(function () { vm.usrLoad = false })
+            }).catch(function () {
+                loadfail = true
+            }).then(function () {
+                vm.usrLoad = false
+            })
         } else vm.usrLoad = false
 
-        if (loadfail) vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+        if (loadfail) {
+            vm.$notify({
+                type: 'error',
+                text: vm.$t('alert.error')
+            })
+        }
     },
 
     i18n: {

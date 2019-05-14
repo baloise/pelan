@@ -1,34 +1,30 @@
 <template>
-    <v-layout row wrap>
+    <v-card>
 
-        <v-flex xs7>
-            <v-form v-model="rules.valid" ref="formData">
-                <v-select v-model="form.language" :rules="rules.require" :items="langItems" item-text="text" item-value="value"></v-select>
+        <v-card-title class="pt-0 pb-0">
+            <h1 class="headline primary--text pt-3">{{ $t('lang') }}</h1>
+        </v-card-title>
+
+        <v-card-text class="pt-0">
+            <v-form v-model="rule.valid" ref="form">
+                <v-select :disabled="rule.loading" v-model="form.language" :rule="rule.require" :items="langItems" @change="changeLang()" />
             </v-form>
-        </v-flex>
+            <v-progress-linear indeterminate v-if="rule.loading" class="ma-0"/>
+        </v-card-text>
 
-        <v-flex xs4>
-            <v-btn :loading="rules.loading" :disabled="rules.loading" @click="changeLang()" depressed large color="primary">
-                {{ $t('btn.save') }}
-                <span slot="loader" class="spinning-loader">
-                    <v-icon light>cached</v-icon>
-                </span>
-            </v-btn>
-        </v-flex>
-
-    </v-layout>
+    </v-card>
 </template>
 
 <script>
 export default {
-    name: 'LangChanger',
+    name: 'Language',
 
     data () {
         return {
             form: {
                 language: this.$store.state.user.language
             },
-            rules: {
+            rule: {
                 loading: false,
                 valid: false,
                 require: [v => !!v || this.$t('alert.require')]
@@ -52,19 +48,22 @@ export default {
         // Save changed lang and redo login-process (to change ui)
         changeLang () {
             var vm = this
-            vm.$data.disabled = true
-            vm.$refs.formData.validate()
+            vm.$refs.form.validate()
+            if (vm.$data.rule.valid) {
+                vm.$data.rule.loading = true
+                var lastLang = vm.$store.state.user.language
+                vm.$store.state.user.language = vm.$data.form.language
 
-            if (vm.$data.rules.valid) {
                 vm.$http.post('user/edit/', {
                     language: vm.$data.form.language
                 }).then(function (response) {
                     vm.$store.commit('login')
-                    vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
                     vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                 }).catch(function () {
-                    vm.disabled = false
+                    vm.$store.state.user.language = lastLang
                     vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+                }).then(function () {
+                    vm.$data.rule.loading = false
                 })
             }
         }
@@ -74,12 +73,14 @@ export default {
     i18n: {
         messages: {
             en: {
+                lang: 'Language',
                 langs: {
                     ger: 'German',
                     eng: 'English'
                 }
             },
             de: {
+                lang: 'Sprache',
                 langs: {
                     ger: 'Deutsch',
                     eng: 'Englisch'

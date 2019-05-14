@@ -3,22 +3,18 @@
         <v-layout row wrap align-center>
 
             <v-flex xs12>
-                <h1 class="display-1 accent--text">{{ $t('views.plansettings') }}</h1>
+                <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
+                <Shifts/>
             </v-flex>
 
-                <v-flex xs12>
-                <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
-                    <Shifts/>
-                </v-flex>
+            <v-flex xs12 class="pa-3">
+                <v-divider></v-divider>
+            </v-flex>
 
-                <v-flex xs12 class="pa-3">
-                    <v-divider></v-divider>
-                </v-flex>
-
-                <v-flex xs12>
+            <v-flex xs12>
                 <h1 class="headline primary--text">{{ $t('times') }}</h1>
-                    <Times/>
-                </v-flex>
+                <Times/>
+            </v-flex>
 
         </v-layout>
     </v-container>

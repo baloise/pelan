@@ -28,6 +28,7 @@ export default new Vuex.Store({
         // Globally used/dynamic app-data
         app: {
             users: [],
+            roles: [],
             shifts: [],
             times: [],
             assigns: []

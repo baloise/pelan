@@ -11,14 +11,12 @@
                 <tr>
                     <td>
                         <div class="hd-titles-inner">
-                            <i>{{ $t('week') }}</i>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="hd-titles-inner">
-                            <i>{{ $t('day') }}</i>
                         </div>
                     </td>
                 </tr>

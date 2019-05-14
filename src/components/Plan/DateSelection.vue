@@ -4,7 +4,7 @@
 
             <v-card-text class="pa-0">
                 <v-date-picker v-model="dateValue" type="month" color="primary" class="elevation-0" :locale="$store.state.user.language"></v-date-picker>
-                <v-checkbox v-model="value.weekends" color="primary" :label="$t('weekends')" class="pl-4"></v-checkbox>
+                <v-checkbox v-model="value.weekends" @change="value.show = false" color="primary" :label="$t('weekends')" class="pl-4"></v-checkbox>
             </v-card-text>
 
             <v-card-actions>

@@ -57,11 +57,7 @@ export default {
 
         // Check Permissions before going to a view
         checkPerms (route) {
-            var vm = this
-            if (route.requiresAdmin === true && !vm.$store.state.user.role.admin) return false
-            if (!vm.$http.defaults.headers.common['Authorization'] && vm.$store.state.auth.token) {
-                vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
-            }
+            if (route.requiresAdmin === true && !this.$store.state.user.role.admin) return false
             return true
         }
 
@@ -85,13 +81,22 @@ export default {
         })
 
         // Use correct Language at startup & watch Changes
-
         vm.$i18n.locale = vm.$store.state.user.language
         vm.$store.watch((state) => {
             return vm.$store.state.user.language
         }, (newValue, oldValue) => {
             if (newValue !== oldValue) {
                 if (vm.$store.state.user.language) vm.$i18n.locale = vm.$store.state.user.language
+            }
+        })
+
+        // Use token if available
+        vm.$store.watch((state) => {
+            return vm.$store.state.auth.token
+        }, (newValue, oldValue) => {
+            if (newValue !== oldValue) {
+                if (vm.$store.state.auth.token) vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
+                else vm.$http.defaults.headers.common['Authorization'] = ''
             }
         })
     }
