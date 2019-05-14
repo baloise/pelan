@@ -1,10 +1,10 @@
 <template>
     <v-app>
 
-        <Drawer />
-        <Toolbar />
+        <Drawer :key="'d'+key"/>
+        <Toolbar :key="'t'+key"/>
 
-        <v-content>
+        <v-content :key="'c'+key">
 
             <notifications position="top right">
                 <template slot="body" slot-scope="props">
@@ -15,7 +15,7 @@
             </notifications>
 
             <transition name="router-view" mode="out-in">
-                <router-view></router-view>
+                <router-view :key="'r'+key"></router-view>
             </transition>
 
         </v-content>
@@ -34,6 +34,15 @@ export default {
 
     components: {
         Drawer, Toolbar
+    },
+
+    computed: {
+
+        key () {
+            if (this.$store.state.auth.expiration) return this.$store.state.auth.expiration
+            else return 'noLogin'
+        }
+
     },
 
     methods: {

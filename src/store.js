@@ -48,6 +48,16 @@ export default new Vuex.Store({
             var token = Cookies.getJSON('app_token'); var now = Math.floor(Date.now() / 1000)
             var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
+            if (state.user.team && state.user.team.id !== dec.data.team.id) {
+                state.app = {
+                    users: [],
+                    roles: [],
+                    shifts: [],
+                    times: [],
+                    assigns: []
+                }
+            }
+
             if (now > dec.exp) {
                 Cookies.remove('app_token')
                 state.auth.token = false

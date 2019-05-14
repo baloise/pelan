@@ -58,6 +58,15 @@
                     </v-list-tile-content>
                 </v-list-tile>
 
+                <v-list-tile v-if="$store.state.user.team">
+                    <v-list-tile-action>
+                        <v-icon>swap_horiz</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-select v-model="doTeam" :items="teamItems"/>
+                    </v-list-tile-content>
+                </v-list-tile>
+
                 <v-list-tile>
                     <v-list-tile-content class="caption">
                         {{ info }}
@@ -102,6 +111,32 @@ export default {
     name: 'Drawer',
 
     computed: {
+
+        doTeam: {
+
+            get () {
+                if (this.$store.state.user.team) return this.$store.state.user.team.id
+                return false
+            },
+            set (newTeam) {
+                var vm = this
+                vm.$http.post('user/team/change/', {
+                    team: newTeam
+                }).then(function (response) {
+                    vm.$store.commit('login')
+                }).catch(function () {
+                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+                })
+            }
+
+        },
+
+        teamItems () {
+            return [
+                { text: 'Helpdesk', value: '1' },
+                { text: 'Verkauf', value: '2' }
+            ]
+        },
 
         // Get Infos about the App
         info () { return this.$store.state.pelan.title + ' v' + this.$store.state.pelan.version },
