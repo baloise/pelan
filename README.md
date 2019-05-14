@@ -1,7 +1,7 @@
 # Pelan
 Vue.js Application for quick and easy personnel-planning using a duty roster.
 
-## Origin / Plot
+## General
 Made by [Elia Reutlinger](https://github.com/erleiuat).
 The development of this UI was part of his final project (IPA, Individuelle Praktische Arbeit) at the near end of his apprenticeship @Baloise.
 
@@ -11,3 +11,21 @@ The development of this UI was part of his final project (IPA, Individuelle Prak
 - Made with VueJS
 - API Repository [here](https://github.com/baloise/pelan-api)
 - Demo-App [here](https://pelan.osis.io)
+
+## Setup
+
+1. Clone this Repo
+2. Execute:
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
