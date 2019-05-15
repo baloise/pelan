@@ -91,207 +91,201 @@
 </template>
 
 <script>
-    import Invite from '@/components/TeamSettings/Invite'
+export default {
+    name: 'Users',
 
-    export default {
-        name: 'Users',
-
-        components: {
-            Invite
-        },
-
-        data () {
-            return {
-                search: '',
-                pagination: {
-                    rowsPerPage: 10
-                },
-                minChars: v => v.length >= 1 || this.$t('alert.require'),
-                maxChars: v => v.length < 11 || this.$t('length'),
-                isValid: false,
-                deleteUser: null,
-                youSure: false,
-                roleList: []
-            }
-        },
-
-        computed: {
-
-            // To see if data is loaded
-            loading () {
-                var vm = this
-                var users = true
-                var roles = true
-                if (vm.$store.state.app.users.length) users = false
-                if (vm.roleItems) roles = false
-                return {
-                    users: users,
-                    roles: roles
-                }
+    data () {
+        return {
+            search: '',
+            pagination: {
+                rowsPerPage: 10
             },
+            minChars: v => v.length >= 1 || this.$t('alert.require'),
+            maxChars: v => v.length < 11 || this.$t('length'),
+            isValid: false,
+            deleteUser: null,
+            youSure: false,
+            roleList: []
+        }
+    },
 
-            // Return list for select
-            roleItems () {
-                if (this.$store.state.app.roles.length) return this.$store.state.app.roles
-                return false
-            },
+    computed: {
 
-            // Table-headers
-            headers () {
-                return [{
-                    text: this.$t('user.firstname'),
-                    value: 'firstname'
-                },
-                {
-                    text: this.$t('user.lastname'),
-                    value: 'lastname'
-                },
-                {
-                    text: this.$t('user.nickname'),
-                    value: 'nickname'
-                },
-                {
-                    text: this.$t('user.role'),
-                    value: 'role'
-                },
-                {
-                    text: this.$t('user.delete'),
-                    value: ''
-                }
-                ]
-            },
-
-            // Return list of users
-            userList () {
-                return this.$store.state.app.users
-            }
-
-        },
-
-        methods: {
-
-            removeUser () {
-                var vm = this
-                if (vm.deleteUser === vm.$store.state.user.id) return false
-                vm.$http.post('team/leave/', { user: vm.deleteUser }).then(function (response) {
-                    var str = vm.$store.state.app.users
-                    for (var i = 0; i < str.length; i++) {
-                        if (str[i].id === vm.deleteUser) str.splice(i, 1)
-                    }
-                    vm.youSure = false
-                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                }).catch(function () {
-                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
-                })
-            },
-
-            // Get group by ID
-            getGroup (id) {
-                if (!this.roleItems) {
-                    return {
-                        title: ''
-                    }
-                }
-                for (var i = 0; i < this.roleItems.length; i++) {
-                    if (this.roleItems[i].id === id) return this.roleItems[i]
-                }
-            },
-
-            // Save changes and close dialog
-            close (item) {
-                var vm = this
-                vm.$refs.formData.validate()
-                if (!vm.$data.isValid) {
-                    vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
-                } else {
-                    vm.$http.post('user/edit/', item).then(function (response) {
-                        vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                        if (item.id === vm.$store.state.user.id) vm.$store.commit('login')
-                    }).catch(function () {
-                        vm.$notify({
-                            type: 'error',
-                            text: vm.$t('alert.error')
-                        })
-                    })
-                }
-            }
-
-        },
-
-        mounted () {
+        // To see if data is loaded
+        loading () {
             var vm = this
+            var users = true
+            var roles = true
+            if (vm.$store.state.app.users.length) users = false
+            if (vm.roleItems) roles = false
+            return {
+                users: users,
+                roles: roles
+            }
+        },
 
-            // Get users from store or api
-            if (!vm.$store.state.app.users.length) {
-                vm.$http.get('user/read/').then(function (response) {
-                    vm.$store.state.app.users = response.data.content
+        // Return list for select
+        roleItems () {
+            if (this.$store.state.app.roles.length) return this.$store.state.app.roles
+            return false
+        },
+
+        // Table-headers
+        headers () {
+            return [{
+                text: this.$t('user.firstname'),
+                value: 'firstname'
+            },
+            {
+                text: this.$t('user.lastname'),
+                value: 'lastname'
+            },
+            {
+                text: this.$t('user.nickname'),
+                value: 'nickname'
+            },
+            {
+                text: this.$t('user.role'),
+                value: 'role'
+            },
+            {
+                text: this.$t('user.delete'),
+                value: ''
+            }
+            ]
+        },
+
+        // Return list of users
+        userList () {
+            return this.$store.state.app.users
+        }
+
+    },
+
+    methods: {
+
+        removeUser () {
+            var vm = this
+            if (vm.deleteUser === vm.$store.state.user.id) return false
+            vm.$http.post('team/leave/', { user: vm.deleteUser }).then(function (response) {
+                var str = vm.$store.state.app.users
+                for (var i = 0; i < str.length; i++) {
+                    if (str[i].id === vm.deleteUser) str.splice(i, 1)
+                }
+                vm.youSure = false
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
+        },
+
+        // Get group by ID
+        getGroup (id) {
+            if (!this.roleItems) {
+                return {
+                    title: ''
+                }
+            }
+            for (var i = 0; i < this.roleItems.length; i++) {
+                if (this.roleItems[i].id === id) return this.roleItems[i]
+            }
+        },
+
+        // Save changes and close dialog
+        close (item) {
+            var vm = this
+            vm.$refs.formData.validate()
+            if (!vm.$data.isValid) {
+                vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
+            } else {
+                vm.$http.post('user/edit/', item).then(function (response) {
+                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+                    if (item.id === vm.$store.state.user.id) vm.$store.commit('login')
                 }).catch(function () {
                     vm.$notify({
                         type: 'error',
-                        text: vm.$t('alert.loadFail')
+                        text: vm.$t('alert.error')
                     })
                 })
             }
+        }
 
-            // Get available roles of team
-            vm.$http.get('role/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.roles = response.data.content
-                else {
-                    vm.$notify({
-                        type: 'error',
-                        text: vm.$t('alert.loadFail')
-                    })
-                }
+    },
+
+    mounted () {
+        var vm = this
+
+        // Get users from store or api
+        if (!vm.$store.state.app.users.length) {
+            vm.$http.get('user/read/').then(function (response) {
+                vm.$store.state.app.users = response.data.content
             }).catch(function () {
                 vm.$notify({
                     type: 'error',
                     text: vm.$t('alert.loadFail')
                 })
             })
-        },
+        }
 
-        i18n: {
-            messages: {
-                en: {
-                    users: 'Users',
-                    search: 'Search Names',
-                    length: 'Value is too long',
-                    valueWrong: 'Invalid value set',
-                    user: {
-                        firstname: 'Firstname',
-                        lastname: 'Lastname',
-                        nickname: 'Nickname',
-                        role: 'Role',
-                        delete: 'Delete'
-                    },
-                    yousure: {
-                        title: 'Are you sure about that?',
-                        text: 'Deleting this User will delete all his assignments too, so you will have to do everything again if you add the user in future.',
-                        accept: 'I know, delete this User',
-                        stop: 'Cancel deletion'
-                    }
+        // Get available roles of team
+        vm.$http.get('role/read/').then(function (response) {
+            if (response.data.content) vm.$store.state.app.roles = response.data.content
+            else {
+                vm.$notify({
+                    type: 'error',
+                    text: vm.$t('alert.loadFail')
+                })
+            }
+        }).catch(function () {
+            vm.$notify({
+                type: 'error',
+                text: vm.$t('alert.loadFail')
+            })
+        })
+    },
+
+    i18n: {
+        messages: {
+            en: {
+                users: 'Users',
+                search: 'Search Names',
+                length: 'Value is too long',
+                valueWrong: 'Invalid value set',
+                user: {
+                    firstname: 'Firstname',
+                    lastname: 'Lastname',
+                    nickname: 'Nickname',
+                    role: 'Role',
+                    delete: 'Delete'
                 },
-                de: {
-                    users: 'Benutzer',
-                    search: 'Namen suchen',
-                    length: 'Wert ist zu lang',
-                    valueWrong: 'Fehlerhafte Eingabe',
-                    user: {
-                        firstname: 'Vorname',
-                        lastname: 'Nachname',
-                        nickname: 'Nickname',
-                        role: 'Rolle',
-                        delete: 'Löschen'
-                    },
-                    yousure: {
-                        title: 'Bist du dir sicher?',
-                        text: 'Das löschen von diesem Benutzer wird all seine bestehenden Einsätzen entfernen, wodurch alles neu eingetragen werden müsste, wenn der Benutzer wieder dem Team beitritt.',
-                        accept: 'Ich weiss, lösche den Benutzer',
-                        stop: 'Löschen abbrechen'
-                    }
+                yousure: {
+                    title: 'Are you sure about that?',
+                    text: 'Deleting this User will delete all his assignments too, so you will have to do everything again if you add the user in future.',
+                    accept: 'I know, delete this User',
+                    stop: 'Cancel deletion'
+                }
+            },
+            de: {
+                users: 'Benutzer',
+                search: 'Namen suchen',
+                length: 'Wert ist zu lang',
+                valueWrong: 'Fehlerhafte Eingabe',
+                user: {
+                    firstname: 'Vorname',
+                    lastname: 'Nachname',
+                    nickname: 'Nickname',
+                    role: 'Rolle',
+                    delete: 'Löschen'
+                },
+                yousure: {
+                    title: 'Bist du dir sicher?',
+                    text: 'Das löschen von diesem Benutzer wird all seine bestehenden Einsätzen entfernen, wodurch alles neu eingetragen werden müsste, wenn der Benutzer wieder dem Team beitritt.',
+                    accept: 'Ich weiss, lösche den Benutzer',
+                    stop: 'Löschen abbrechen'
                 }
             }
         }
-
     }
+
+}
 </script>

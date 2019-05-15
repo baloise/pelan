@@ -42,14 +42,8 @@
 </template>
 
 <script>
-import CreateRole from '@/components/TeamSettings/CreateRole'
-
 export default {
     name: 'Roles',
-
-    components: {
-        CreateRole
-    },
 
     data () {
         return {

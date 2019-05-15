@@ -45,11 +45,11 @@ export default {
         messages: {
             en: {
                 lang: 'Language',
-                teams: 'Teams',
+                teams: 'Teams'
             },
             de: {
                 lang: 'Sprache',
-                teams: 'Teams',
+                teams: 'Teams'
             }
         }
     }
