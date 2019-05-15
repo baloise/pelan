@@ -122,7 +122,7 @@ export default {
         doTeam: {
 
             get () {
-                return this.$store.state.user.team.id
+                return parseInt(this.$store.state.user.team.id)
             },
 
             set (newTeam) {

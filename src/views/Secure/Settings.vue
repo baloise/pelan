@@ -5,13 +5,11 @@
 
                 <v-layout row wrap class="pb-3">
                     <v-flex xs12>
-                        <Teams />
-                    </v-flex>
-                </v-layout>
-
-                <v-layout row wrap class="pb-3">
-                    <v-flex xs12>
-                        <Language />
+                        <v-card>
+                            <Language />
+                            <v-divider></v-divider>
+                            <Teams />
+                        </v-card>
                     </v-flex>
                 </v-layout>
 

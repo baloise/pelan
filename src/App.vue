@@ -6,9 +6,9 @@
 
         <v-content>
 
-            <notifications position="top right">
+            <notifications position="top center" :width="correctWidth" :speed="500">
                 <template slot="body" slot-scope="props">
-                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-1">
+                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mt-0">
                         {{ props.item.text }}
                     </v-alert>
                 </template>
@@ -37,6 +37,12 @@ export default {
     },
 
     computed: {
+
+        correctWidth () {
+            if (this.$vuetify.breakpoint.smAndDown) return '100%'
+            else if (this.$vuetify.breakpoint.mdAndDown) return '70%'
+            else return '50%'
+        },
 
         key () {
             if (this.$store.state.auth.expiration) return this.$store.state.auth.expiration

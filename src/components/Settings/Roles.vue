@@ -5,10 +5,10 @@
             <v-card-title class="pt-0">
                 <h1 class="title primary--text pt-3">{{ $t('roles') }}</h1>
                 <v-spacer></v-spacer>
-                <v-btn disabled small fab icon color="primary" class="mt-4 mb-0"><v-icon>add</v-icon></v-btn>
+                <CreateRole />
             </v-card-title>
 
-            <v-data-table v-if="false" :loading="loading.users" :headers="headers" :items="roleList" :pagination.sync="pagination">
+            <v-data-table :loading="loading.users" :headers="headers" :items="roleList" :pagination.sync="pagination">
                 <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
                 <template v-slot:items="props">
 
@@ -31,11 +31,11 @@
                     </td>
 
                     <td>
-                        <v-checkbox v-model="props.item.admin" @input="close(props.item)" color="primary" primary hide-details></v-checkbox>
+                        <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" primary hide-details></v-checkbox>
                     </td>
 
                     <td>
-                        <v-btn flat icon color="primary">
+                        <v-btn flat icon color="primary" @click="removeRole(props.item.id)">
                             <v-icon>delete</v-icon>
                         </v-btn>
                     </td>
@@ -50,8 +50,14 @@
 </template>
 
 <script>
+import CreateRole from '@/components/Settings/CreateRole'
+
 export default {
-    name: 'Users',
+    name: 'Roles',
+
+    components: {
+        CreateRole
+    },
 
     data () {
         return {
@@ -60,8 +66,7 @@ export default {
             },
             minChars: v => v.length >= 1 || this.$t('alert.require'),
             maxChars: v => v.length < 11 || this.$t('length'),
-            isValid: false,
-            roleList: []
+            isValid: false
         }
     },
 
@@ -70,20 +75,16 @@ export default {
         // To see if data is loaded
         loading () {
             var vm = this
-            var users = true
             var roles = true
-            if (vm.$store.state.app.users.length) users = false
             if (vm.roleItems) roles = false
             return {
-                users: users,
                 roles: roles
             }
         },
 
         // Return list for select
-        roleItems () {
-            if (this.roleList.length) return this.roleList
-            return false
+        roleList () {
+            return this.$store.state.app.roles
         },
 
         // Table-headers
@@ -111,30 +112,32 @@ export default {
 
     methods: {
 
+        removeRole (roleid) {
+            var vm = this
+            vm.$http.post('role/delete/', { id: roleid }).then(function (response) {
+                var str = vm.$store.state.app.roles
+                for (var i = 0; i < str.length; i++) {
+                    if (str[i].id === roleid) str.splice(i, 1)
+                }
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function (error) {
+                if (error.response.data.reason === 'role_has_user') {
+                    vm.$notify({ type: 'warning', text: vm.$t('hasUser') })
+                } else vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
+        },
+
         // Save changes and close dialog
         close (item) {
             var vm = this
             vm.$refs.formData.validate()
             if (!vm.$data.isValid) {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('valueWrong')
-                })
+                vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
             } else {
                 vm.$http.post('role/edit/', item).then(function (response) {
-                    vm.$notify({
-                        type: 'success',
-                        text: vm.$t('alert.success')
-                    })
-                    if (item.id === vm.$store.state.user.id) {
-                        vm.$store.commit('login')
-                        vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
-                    }
+                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                 }).catch(function () {
-                    vm.$notify({
-                        type: 'error',
-                        text: vm.$t('alert.error')
-                    })
+                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 })
             }
         }
@@ -146,27 +149,19 @@ export default {
 
         // Get available roles of team
         vm.$http.get('role/read/').then(function (response) {
-            if (response.data.content) vm.roleList = response.data.content
-            else {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('alert.loadFail')
-                })
-            }
+            vm.$store.state.app.roles = response.data.content
         }).catch(function () {
-            vm.$notify({
-                type: 'error',
-                text: vm.$t('alert.loadFail')
-            })
+            vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })
     },
 
     i18n: {
         messages: {
             en: {
-                roles: 'Roles (comming soon)',
+                roles: 'Roles',
                 length: 'Value is too long',
                 valueWrong: 'Invalid value set',
+                hasUser: 'Please remove this role from all existing users first.',
                 role: {
                     title: 'Title',
                     description: 'Description',
@@ -175,9 +170,10 @@ export default {
                 }
             },
             de: {
-                roles: 'Rollen (in Entwicklung)',
+                roles: 'Rollen',
                 length: 'Wert ist zu lang',
                 valueWrong: 'Fehlerhafte Eingabe',
+                hasUser: 'Du kannst eine Rolle nicht entfernen, wenn sie noch jemandem zugewiesen ist.',
                 role: {
                     title: 'Titel',
                     description: 'Beschreibung',

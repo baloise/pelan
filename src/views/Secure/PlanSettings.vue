@@ -1,6 +1,6 @@
 <template>
     <v-container fill-height>
-        <v-layout row wrap align-center>
+        <v-layout row wrap align-center v-if="$store.state.user.role.admin">
 
             <v-flex xs12>
                 <h1 class="headline primary--text">{{ $t('shifts') }}</h1>

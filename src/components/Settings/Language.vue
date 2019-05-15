@@ -1,8 +1,8 @@
 <template>
-    <v-card>
+    <v-card class="elevation-0">
 
         <v-card-title class="pt-0 pb-0">
-            <h1 class="headline primary--text pt-3">{{ $t('lang') }}</h1>
+            <h1 class="title primary--text pt-3">{{ $t('lang') }}</h1>
         </v-card-title>
 
         <v-card-text class="pt-0">

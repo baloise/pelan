@@ -69,7 +69,7 @@
 <script>
 
 export default {
-    name: 'Create',
+    name: 'CreateTeam',
 
     data () {
         return {
