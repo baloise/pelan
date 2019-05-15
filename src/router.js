@@ -34,6 +34,15 @@ export default new Router({
             }
         },
         {
+            path: '/teamsettings',
+            name: 'teamsettings',
+            component: () => import('./views/Secure/TeamSettings.vue'),
+            meta: {
+                requiresAuth: true,
+                requiresAdmin: true
+            }
+        },
+        {
             path: '/settings',
             name: 'settings',
             component: () => import('./views/Secure/Settings.vue'),

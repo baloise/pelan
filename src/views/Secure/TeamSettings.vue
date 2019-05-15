@@ -6,9 +6,9 @@
                 <v-layout row wrap class="pb-3">
                     <v-flex xs12>
                         <v-card>
-                            <Language />
+                            <Roles />
                             <v-divider></v-divider>
-                            <Teams />
+                            <Users/>
                         </v-card>
                     </v-flex>
                 </v-layout>
@@ -19,15 +19,15 @@
 </template>
 
 <script>
-import Language from '@/components/Settings/Language'
-import Teams from '@/components/Settings/Teams'
+import Roles from '@/components/Settings/Roles'
+import Users from '@/components/Settings/Users'
 
 export default {
-    name: 'Settings',
+    name: 'TeamSettings',
 
     components: {
-        Language,
-        Teams
+        Roles,
+        Users
     }
 
 }
