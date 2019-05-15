@@ -26,13 +26,11 @@
                         </td>
 
                         <td>
-                            <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" primary hide-details></v-checkbox>
+                            <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" hide-details></v-checkbox>
                         </td>
 
                         <td>
-                            <v-btn flat icon color="primary" @click="removeRole(props.item.id)">
-                                <v-icon>delete</v-icon>
-                            </v-btn>
+                            <v-btn flat icon @click="removeRole(props.item.id)"><v-icon>delete</v-icon></v-btn>
                         </td>
 
                     </template>

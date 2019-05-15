@@ -13,27 +13,25 @@
                 <v-btn icon dark @click="show = false">
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Team hinzufügen</v-toolbar-title>
+                <v-toolbar-title>{{ $t('add') }}</v-toolbar-title>
             </v-toolbar>
 
             <v-layout row wrap>
 
                 <v-flex xs12 class="pl-3 pr-3 pt-3">
                     <p>
-                        Hast du einen Einladungscode und möchtest einem
-                        bestehenden Team beitreten? Oder möchtest du ein
-                        neues Team erstellen?
+                    {{ $t('text') }}
                     </p>
                 </v-flex>
 
                 <v-flex xs12 sm6 class="pl-2 pr-2">
                     <v-btn color="primary" block depressed @click="choice = 1" :disabled="choice===1">
-                        Einladungscode eingeben
+                        {{ $t('wCode') }}
                     </v-btn>
                 </v-flex>
                 <v-flex xs12 sm6 class="pl-2 pr-2">
                     <v-btn color="primary" block depressed @click="choice = 2" :disabled="choice===2">
-                        Neues Team erstellen
+                        {{ $t('wNew') }}
                     </v-btn>
                 </v-flex>
 
@@ -43,19 +41,19 @@
 
                 <v-flex xs12 class="pl-3 pr-3 pb-3 pt-3" v-if="choice === 1">
                     <v-form v-model="rule.valid" ref="joinForm">
-                        <v-text-field label="Einladungscode" v-model="fexist.code" :rules="[rule.min]"/>
+                        <v-text-field :label="$t('form.code')" v-model="fexist.code" :rules="[rule.min]"/>
                         <v-btn color="primary" block depressed @click="join()">
-                            Beitreten
+                            {{ $t('enter') }}
                         </v-btn>
                     </v-form>
                 </v-flex>
 
                 <v-flex xs12 class="pl-3 pr-3 pb-2 pt-3" v-if="choice === 2">
                     <v-form v-model="rule.valid" ref="createForm">
-                        <v-text-field label="Name" v-model="fnew.title" :rules="[rule.min]"/>
-                        <v-textarea label="Beschreibung" v-model="fnew.description" :rules="[rule.min]" />
+                        <v-text-field :label="$t('form.name')" v-model="fnew.title" :rules="[rule.min]"/>
+                        <v-textarea :label="$t('form.desc')" v-model="fnew.description" :rules="[rule.min]" />
                         <v-btn color="primary" block depressed @click="create()">
-                            Team erstellen
+                            {{ $t('enter') }}
                         </v-btn>
                     </v-form>
                 </v-flex>
@@ -143,6 +141,16 @@ export default {
         messages: {
             en: {
                 length: 'Value is too long',
+                text: 'Do you have an invitation code and want to join an existing team? Or would you like to create a new team?',
+                add: 'Add Team',
+                wCode: 'Use code',
+                wNew: 'Create new team',
+                enter: 'Join',
+                form: {
+                    name: 'Name',
+                    desc: 'Description',
+                    code: 'Code'
+                },
                 notif: {
                     created: 'The team has been created. You have been redirected to the new team.',
                     joined: 'You successfully joined the team and have been redirected to it.',
@@ -151,6 +159,16 @@ export default {
             },
             de: {
                 length: 'Wert ist zu lang',
+                text: 'Hast du einen Einladungscode und möchtest einem bestehenden Team beitreten? Oder möchtest du ein neues Team erstellen?',
+                add: 'Team hinzufügen',
+                wCode: 'Einladungscode eingeben',
+                wNew: 'Neues Team erstellen',
+                enter: 'Beitreten',
+                form: {
+                    name: 'Name',
+                    desc: 'Beschreibung',
+                    code: 'Einladungscode'
+                },
                 notif: {
                     created: 'Das Team wurde erfolgreich erstellt. Du wurdest zum neuen Team weitergeleitet.',
                     joined: 'Du bist dem Team erfolgreich beigetreten und wurdest dahin weitergeleitet.',

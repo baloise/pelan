@@ -19,7 +19,7 @@
             <v-layout row wrap>
 
                 <v-flex xs12 class="pl-3 pr-3">
-                    <h1 class="headline primary--text pt-3">{{ $t('inviteUser') }}</h1>
+                    <h1 class="title primary--text pt-3">{{ $t('inviteUser') }}</h1>
 
                     <v-form v-model="rule.valid" ref="form">
                         <v-layout row wrap justify-center>
@@ -43,10 +43,11 @@
                     <v-divider></v-divider>
                 </v-flex>
 
-                <v-flex xs12 class="pl-3 pr-3">
-                    <h1 class="headline primary--text pt-3">{{ $t('allInvites') }}</h1>
-
-                    <v-card class="mb-2" v-for="invite in invites" :key="invite.id">
+                <v-flex xs12 class="pl-3">
+                    <h1 class="title primary--text pt-3">{{ $t('allInvites') }}</h1>
+                </v-flex>
+                <v-flex xs12 class="pa-3" v-for="invite in invites" :key="invite.id">
+                    <v-card>
                         <v-card-text>
                             <v-layout row wrap align-center>
                                 <v-flex xs12 sm4>

@@ -14,7 +14,7 @@
                         <span class="">{{ team.description }}</span>
                     </v-flex>
 
-                    <v-flex xs8 md1>
+                    <v-flex xs12 md1>
                         <span class="caption">{{ $t('public') }}</span><br />
                         <span class="">{{ $t('no') }}</span>
                     </v-flex>

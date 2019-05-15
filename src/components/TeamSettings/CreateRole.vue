@@ -13,18 +13,17 @@
                 <v-btn icon dark @click="show = false">
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Rolle hinzufügen</v-toolbar-title>
+                <v-toolbar-title>{{ $t('add') }}</v-toolbar-title>
             </v-toolbar>
 
             <v-layout row wrap>
                 <v-flex xs12 class="pl-3 pr-3 pb-2 pt-3">
                     <v-form v-model="rule.valid" ref="createForm">
-                        <v-text-field label="Titel" v-model="fnew.title" :rules="[rule.min]"/>
-                        <v-textarea label="Beschreibung" v-model="fnew.description" :rules="[rule.min]" />
-                        <v-checkbox label="Adminrechte" v-model="fnew.admin" color="primary" class="pl-4"></v-checkbox>
-
+                        <v-text-field :label="$t('title')" v-model="fnew.title" :rules="[rule.min]"/>
+                        <v-textarea :label="$t('desc')" v-model="fnew.description" :rules="[rule.min]" />
+                        <v-checkbox :label="$t('admin')" v-model="fnew.admin" color="primary" class="pl-4"></v-checkbox>
                         <v-btn color="primary" block depressed @click="create()">
-                            Rolle erstellen
+                            {{ $t('create') }}
                         </v-btn>
                     </v-form>
                 </v-flex>
@@ -81,20 +80,18 @@ export default {
     i18n: {
         messages: {
             en: {
-                length: 'Value is too long',
-                notif: {
-                    created: 'The team has been created. You have been redirected to the new team.',
-                    joined: 'You successfully joined the team and have been redirected to it.',
-                    nojoin: 'Unable to join team. Invitation was not found or has expired.'
-                }
+                add: 'Create new role',
+                title: 'Title',
+                desc: 'Description',
+                admin: 'Admin-Permissions',
+                create: 'Create role'
             },
             de: {
-                length: 'Wert ist zu lang',
-                notif: {
-                    created: 'Das Team wurde erfolgreich erstellt. Du wurdest zum neuen Team weitergeleitet.',
-                    joined: 'Du bist dem Team erfolgreich beigetreten und wurdest dahin weitergeleitet.',
-                    nojoin: 'Dem Team konnte nicht beigetreten werden. Die Einladung wurde nicht gefunden oder ist abgelaufen.'
-                }
+                add: 'Neue Rolle erstellen',
+                title: 'Titel',
+                desc: 'Beschreibung',
+                admin: 'Adminrechte',
+                create: 'Rolle erstellen'
             }
         }
     }
