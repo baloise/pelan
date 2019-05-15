@@ -6,9 +6,9 @@
 
         <v-content>
 
-            <notifications position="top center" :width="correctWidth" :speed="500">
+            <notifications position="bottom center" :width="correctWidth" :speed="500">
                 <template slot="body" slot-scope="props">
-                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mt-0">
+                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
                         {{ props.item.text }}
                     </v-alert>
                 </template>

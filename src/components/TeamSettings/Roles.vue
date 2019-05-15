@@ -1,56 +1,50 @@
 <template>
-    <v-form v-model="isValid" ref="formData">
-        <v-card class="elevation-0">
+    <v-flex xs12 class="pt-1">
+        <v-card>
+            <v-form v-model="isValid" ref="formData">
 
-            <v-card-title class="pt-0">
-                <h1 class="title primary--text pt-3">{{ $t('roles') }}</h1>
-                <v-spacer></v-spacer>
-                <CreateRole />
-            </v-card-title>
+                <v-data-table :loading="loading.users" :headers="headers" :items="roleList" :pagination.sync="pagination">
+                    <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
+                    <template v-slot:items="props">
 
-            <v-data-table :loading="loading.users" :headers="headers" :items="roleList" :pagination.sync="pagination">
-                <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
-                <template v-slot:items="props">
+                        <td>
+                            <v-edit-dialog :return-value.sync="props.item.title" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
+                                {{ props.item.title }}
+                                <template v-slot:input>
+                                    <v-text-field v-model="props.item.title" :rules="[minChars]"></v-text-field>
+                                </template>
+                            </v-edit-dialog>
+                        </td>
 
-                    <td>
-                        <v-edit-dialog :return-value.sync="props.item.title" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                            {{ props.item.title }}
-                            <template v-slot:input>
-                                <v-text-field v-model="props.item.title" :rules="[minChars]"></v-text-field>
-                            </template>
-                        </v-edit-dialog>
-                    </td>
+                        <td>
+                            <v-edit-dialog :return-value.sync="props.item.description" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
+                                {{ props.item.description }}
+                                <template v-slot:input>
+                                    <v-text-field v-model="props.item.description" :rules="[minChars]"></v-text-field>
+                                </template>
+                            </v-edit-dialog>
+                        </td>
 
-                    <td>
-                        <v-edit-dialog :return-value.sync="props.item.description" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                            {{ props.item.description }}
-                            <template v-slot:input>
-                                <v-text-field v-model="props.item.description" :rules="[minChars]"></v-text-field>
-                            </template>
-                        </v-edit-dialog>
-                    </td>
+                        <td>
+                            <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" primary hide-details></v-checkbox>
+                        </td>
 
-                    <td>
-                        <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" primary hide-details></v-checkbox>
-                    </td>
+                        <td>
+                            <v-btn flat icon color="primary" @click="removeRole(props.item.id)">
+                                <v-icon>delete</v-icon>
+                            </v-btn>
+                        </td>
 
-                    <td>
-                        <v-btn flat icon color="primary" @click="removeRole(props.item.id)">
-                            <v-icon>delete</v-icon>
-                        </v-btn>
-                    </td>
+                    </template>
+                </v-data-table>
 
-                </template>
-
-            </v-data-table>
-
+            </v-form>
         </v-card>
-
-    </v-form>
+    </v-flex>
 </template>
 
 <script>
-import CreateRole from '@/components/Settings/CreateRole'
+import CreateRole from '@/components/TeamSettings/CreateRole'
 
 export default {
     name: 'Roles',

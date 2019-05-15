@@ -25,7 +25,7 @@
                 <v-list-group prepend-icon="cached" v-if="$store.state.user.team && teams">
                     <template v-slot:activator>
                         <v-list-tile>
-                            <v-list-tile-title>Team wechseln</v-list-tile-title>
+                            <v-list-tile-title>{{ $t('views.teamchange') }}</v-list-tile-title>
                         </v-list-tile>
                     </template>
 

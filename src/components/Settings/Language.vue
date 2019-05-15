@@ -1,18 +1,8 @@
 <template>
-    <v-card class="elevation-0">
-
-        <v-card-title class="pt-0 pb-0">
-            <h1 class="title primary--text pt-3">{{ $t('lang') }}</h1>
-        </v-card-title>
-
-        <v-card-text class="pt-0">
-            <v-form v-model="rule.valid" ref="form">
-                <v-select :disabled="rule.loading" v-model="form.language" :rule="rule.require" :items="langItems" @change="changeLang()" hide-selected dense hide-details/>
-            </v-form>
-            <v-progress-linear indeterminate v-if="rule.loading" class="ma-0"/>
-        </v-card-text>
-
-    </v-card>
+    <v-form v-model="rule.valid" ref="form">
+        <v-select :disabled="rule.loading" v-model="form.language" :rule="rule.require" :items="langItems" @change="changeLang()" hide-selected dense hide-details/>
+        <v-progress-linear indeterminate v-if="rule.loading" class="ma-0"/>
+    </v-form>
 </template>
 
 <script>

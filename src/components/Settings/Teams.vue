@@ -1,47 +1,34 @@
 <template>
-    <v-card class="elevation-0">
+    <v-flex xs12 class="pt-1">
+        <v-card class="mb-2" v-for="team in teams" :key="team.id">
+            <v-card-text>
+                <v-layout row wrap align-center justify-center>
 
-        <v-card-title class="pt-0 pb-0">
-            <h1 class="title primary--text pt-3">{{ $t('teams') }}</h1>
-            <v-spacer></v-spacer>
-            <CreateTeam />
-        </v-card-title>
+                    <v-flex xs12 md3>
+                        <span class="caption">{{ $t('name') }}</span><br />
+                        <span class="title">{{ team.title }}</span>
+                    </v-flex>
 
-        <v-card-text>
+                    <v-flex xs12 md8>
+                        <span class="caption">{{ $t('desc') }}</span><br />
+                        <span class="">{{ team.description }}</span>
+                    </v-flex>
 
-            <v-card class="mb-2" v-for="team in teams" :key="team.id">
-                <v-card-text>
-                    <v-layout row wrap align-center justify-center>
-                        <v-flex xs12 md3>
-                            <span class="caption">{{ $t('name') }}</span><br />
-                            <span class="title">{{ team.title }}</span>
-                        </v-flex>
-                        <v-flex xs12 md8>
-                            <span class="caption">{{ $t('desc') }}</span><br />
-                            <span class="">{{ team.description }}</span>
-                        </v-flex>
-                        <v-flex xs8 md1>
-                            <span class="caption">{{ $t('public') }}</span><br />
-                            <span class="">Nein</span>
-                        </v-flex>
-                    </v-layout>
-                </v-card-text>
-            </v-card>
+                    <v-flex xs8 md1>
+                        <span class="caption">{{ $t('public') }}</span><br />
+                        <span class="">{{ $t('no') }}</span>
+                    </v-flex>
 
-        </v-card-text>
-
-    </v-card>
+                </v-layout>
+            </v-card-text>
+        </v-card>
+    </v-flex>
 </template>
 
 <script>
-import CreateTeam from '@/components/Settings/CreateTeam'
 
 export default {
     name: 'Teams',
-
-    components: {
-        CreateTeam
-    },
 
     methods: {
 
@@ -65,14 +52,12 @@ export default {
     i18n: {
         messages: {
             en: {
-                teams: 'Teams',
                 name: 'Name',
                 desc: 'Description',
                 public: 'Pubilc',
                 no: 'No'
             },
             de: {
-                teams: 'Teams',
                 name: 'Name',
                 desc: 'Beschreibung',
                 public: 'Öffentlich',
