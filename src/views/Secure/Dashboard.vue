@@ -145,6 +145,7 @@ export default {
     // Get Dashboard-Data from API
     mounted () {
         var vm = this; var today = new Date()
+
         vm.$http.post('dashboard/read/', {
             date: today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate()
         }).then(function (response) {

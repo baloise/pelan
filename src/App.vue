@@ -1,10 +1,10 @@
 <template>
     <v-app>
 
-        <Drawer :key="'d'+key"/>
-        <Toolbar :key="'t'+key"/>
+        <Drawer/>
+        <Toolbar/>
 
-        <v-content :key="'c'+key">
+        <v-content>
 
             <notifications position="top right">
                 <template slot="body" slot-scope="props">

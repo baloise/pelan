@@ -31,7 +31,8 @@ export default new Vuex.Store({
             roles: [],
             shifts: [],
             times: [],
-            assigns: []
+            assigns: [],
+            teams: []
         }
 
     },
@@ -49,13 +50,11 @@ export default new Vuex.Store({
             var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
             if (state.user.team && state.user.team.id !== dec.data.team.id) {
-                state.app = {
-                    users: [],
-                    roles: [],
-                    shifts: [],
-                    times: [],
-                    assigns: []
-                }
+                state.app.users = []
+                state.app.roles = []
+                state.app.shifts = []
+                state.app.times = []
+                state.app.assigns = []
             }
 
             if (now > dec.exp) {

@@ -154,20 +154,11 @@ export default {
             var vm = this
             vm.$refs.formData.validate()
             if (!vm.$data.isValid) {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('valueWrong')
-                })
+                vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
             } else {
                 vm.$http.post('user/edit/', item).then(function (response) {
-                    vm.$notify({
-                        type: 'success',
-                        text: vm.$t('alert.success')
-                    })
-                    if (item.id === vm.$store.state.user.id) {
-                        vm.$store.commit('login')
-                        vm.$http.defaults.headers.common['Authorization'] = 'Bearer ' + vm.$store.state.auth.token
-                    }
+                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+                    if (item.id === vm.$store.state.user.id) vm.$store.commit('login')
                 }).catch(function () {
                     vm.$notify({
                         type: 'error',

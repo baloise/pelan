@@ -4,7 +4,7 @@
         <v-layout column fill-height v-if="this.$store.state.auth.token">
 
             <v-list>
-                <v-list-tile to="/">
+                <v-list-tile to="/" class="mb-2 mt-1">
                     <v-list-tile-action>
                         <v-icon>dashboard</v-icon>
                     </v-list-tile-action>
@@ -12,10 +12,8 @@
                         <v-list-tile-title>{{ $t('views.dashboard') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-            </v-list>
 
-            <v-list>
-                <v-list-tile :to="{name: 'plan'}">
+                <v-list-tile :to="{name: 'plan'}" class="mb-2">
                     <v-list-tile-action>
                         <v-icon>calendar_today</v-icon>
                     </v-list-tile-action>
@@ -23,10 +21,8 @@
                         <v-list-tile-title>{{ $t('views.plan') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-            </v-list>
 
-            <v-list v-if="this.$store.state.user.role.admin">
-                <v-list-tile :to="{name: 'plansettings'}">
+                <v-list-tile v-if="this.$store.state.user.role.admin" :to="{name: 'plansettings'}" class="mb-2">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
@@ -35,6 +31,15 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
+
+            <v-list-tile v-if="$store.state.user.team && teams">
+                <v-list-tile-action>
+                    <v-icon>swap_horiz</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-select dense solo hide-details v-model="doTeam" :items="teams" hide-selected/>
+                </v-list-tile-content>
+            </v-list-tile>
 
             <v-spacer></v-spacer>
 
@@ -55,15 +60,6 @@
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ $t('views.settings') }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile v-if="$store.state.user.team">
-                    <v-list-tile-action>
-                        <v-icon>swap_horiz</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-select v-model="doTeam" :items="teamItems"/>
                     </v-list-tile-content>
                 </v-list-tile>
 
@@ -110,14 +106,25 @@
 export default {
     name: 'Drawer',
 
+    methods: {
+
+        getTeams () {
+            var vm = this
+            vm.$http.post('team/read/').then(function (response) {
+                if (response.data.content) vm.$store.state.app.teams = response.data.content
+            })
+        }
+
+    },
+
     computed: {
 
         doTeam: {
 
             get () {
-                if (this.$store.state.user.team) return this.$store.state.user.team.id
-                return false
+                return this.$store.state.user.team.id
             },
+
             set (newTeam) {
                 var vm = this
                 vm.$http.post('user/team/change/', {
@@ -125,17 +132,21 @@ export default {
                 }).then(function (response) {
                     vm.$store.commit('login')
                 }).catch(function () {
-                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+                    vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
                 })
             }
 
         },
 
-        teamItems () {
-            return [
-                { text: 'Helpdesk', value: '1' },
-                { text: 'Verkauf', value: '2' }
-            ]
+        teams () {
+            if (this.$store.state.app.teams.length !== 0) {
+                if (this.$store.state.app.teams.length > 1) {
+                    return this.$store.state.app.teams.map(obj => {
+                        return { value: obj.id, text: obj.title }
+                    })
+                }
+            } else this.getTeams()
+            return false
         },
 
         // Get Infos about the App

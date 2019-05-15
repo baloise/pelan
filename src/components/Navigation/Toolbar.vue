@@ -20,7 +20,10 @@ export default {
     computed: {
 
         // Get title of app
-        appTitle () { return this.$store.state.pelan.title }
+        appTitle () {
+            if (this.$store.state.user.team) return this.$store.state.user.team.title
+            else return this.$store.state.pelan.title
+        }
 
     },
 
