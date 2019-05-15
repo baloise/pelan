@@ -37,7 +37,7 @@
                     <v-icon>swap_horiz</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-select dense solo hide-details v-model="doTeam" :items="teams" hide-selected/>
+                    <v-select v-model="doTeam" :items="teams" hide-selected dense solo hide-details/>
                 </v-list-tile-content>
             </v-list-tile>
 

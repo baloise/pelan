@@ -1,10 +1,9 @@
 <template>
     <v-form v-model="isValid" ref="formData">
-
-        <v-card>
+        <v-card class="elevation-0">
 
             <v-card-title class="pt-0">
-                <i class="title primary--text pt-3">{{ $t('roles') }}</i>
+                <h1 class="title primary--text pt-3">{{ $t('roles') }}</h1>
                 <v-spacer></v-spacer>
                 <v-btn disabled small fab icon color="primary" class="mt-4 mb-0"><v-icon>add</v-icon></v-btn>
             </v-card-title>

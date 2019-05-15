@@ -2,7 +2,7 @@
     <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
 
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" small fab icon color="primary" class="mt-4 mb-0">
+            <v-btn v-on="on" small fab icon color="primary" class="mt-3 mb-0">
                 <v-icon>add</v-icon>
             </v-btn>
         </template>
@@ -13,34 +13,25 @@
                 <v-btn icon dark @click="show = false">
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Einladungen (Comming soon / Noch nicht verfügbar)</v-toolbar-title>
+                <v-toolbar-title>{{ $t('invites') }}</v-toolbar-title>
             </v-toolbar>
 
             <v-layout row wrap>
 
                 <v-flex xs12 class="pl-3 pr-3">
-                    <h1 class="headline primary--text pt-3">Benutzer einladen</h1>
+                    <h1 class="headline primary--text pt-3">{{ $t('inviteUser') }}</h1>
 
                     <v-form v-model="rule.valid" ref="form">
                         <v-layout row wrap justify-center>
-                            <v-flex xs12>
-                                <v-text-field label="E-Mail" v-model="fd.email" :rules="[rule.min]" type="email" />
+                            <v-flex xs12 sm5 class="pa-2">
+                                <v-text-field :label="$t('detail.email')" v-model="fd.email" :rules="[rule.min, rule.mail]" type="email" />
                             </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-text-field label="Vorname" v-model="fd.firstname" :rules="[rule.min]" />
+                            <v-flex xs12 sm5 v-if="roleItems" class="pa-2">
+                                <v-select :label="$t('detail.role')" v-model="fd.role" :items="roleItems" :rules="[rule.min]" item-text="title" item-value="id" />
                             </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-text-field label="Nachname" v-model="fd.lastname" :rules="[rule.min]" />
-                            </v-flex>
-                            <v-flex xs12 sm6>
-                                <v-text-field label="Nickname" v-model="fd.nickname" :rules="[rule.max, rule.min]" counter="10" />
-                            </v-flex>
-                            <v-flex xs12 sm6 v-if="roleItems">
-                                <v-select label="Rolle" v-model="fd.role" :items="roleItems" :rules="[rule.min]" item-text="title" item-value="id" />
-                            </v-flex>
-                            <v-flex shrink>
-                                <v-btn @click="create()" color="primary" depressed>
-                                    Einladung senden
+                            <v-flex xs12 sm2 class="pa-2">
+                                <v-btn @click="create()" color="primary" depressed block>
+                                    {{ $t('send') }}
                                 </v-btn>
                             </v-flex>
                         </v-layout>
@@ -53,28 +44,29 @@
                 </v-flex>
 
                 <v-flex xs12 class="pl-3 pr-3">
-                    <h1 class="headline primary--text pt-3">Alle Einladungen</h1>
+                    <h1 class="headline primary--text pt-3">{{ $t('allInvites') }}</h1>
 
                     <v-card class="mb-2" v-for="invite in invites" :key="invite.id">
                         <v-card-text>
-                            <v-layout row wrap align-center justify-center text-sm-center>
-                                <v-flex xs12 md1>
-                                    <v-chip>Pendend</v-chip>
+                            <v-layout row wrap align-center>
+                                <v-flex xs12 sm4>
+                                    <span class="caption">{{ $t('detail.email') }}</span><br />
+                                    <span class="title">{{ invite.email }}</span>
                                 </v-flex>
-                                <v-flex xs12 sm6 md4>
-                                    <span class="caption">Name</span><br />
-                                    <span class="title">{{ invite.firstname }} {{ invite.lastname }}</span>
+                                <v-flex xs12 sm3>
+                                    <span class="caption">{{ $t('detail.creator') }}</span><br />
+                                    <span class="">{{ invite.creator }}</span>
                                 </v-flex>
-                                <v-flex xs12 sm6 md4>
-                                    <span class="caption">E-Mail </span><br />
-                                    <span class="">{{ invite.email }}</span>
+                                <v-flex xs12 sm2>
+                                    <span class="caption">{{ $t('detail.role') }}</span><br />
+                                    <span class="">{{ invite.role }}</span>
                                 </v-flex>
-                                <v-flex xs12 sm6 md2>
-                                    <span class="caption">Einladungscode </span><br />
+                                <v-flex xs12 sm2>
+                                    <span class="caption">{{ $t('detail.code') }}</span><br />
                                     <span class="title primary--text">{{ invite.code }}</span>
                                 </v-flex>
-                                <v-flex xs12 sm6 md1>
-                                    <v-btn flat icon>
+                                <v-flex xs12 sm1 class="text-xs-right">
+                                    <v-btn flat icon @click="remove(invite.id)">
                                         <v-icon>delete</v-icon>
                                     </v-btn>
                                 </v-flex>
@@ -100,15 +92,13 @@ export default {
             show: false,
             fd: {
                 email: '',
-                firstname: '',
-                lastname: '',
-                nickname: '',
                 role: ''
             },
             rule: {
                 valid: false,
                 min: v => !!v || this.$t('alert.require'),
-                max: v => v.length < 11 || this.$t('length')
+                max: v => v.length < 11 || this.$t('length'),
+                mail: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('alert.valid')
             }
         }
     },
@@ -121,36 +111,49 @@ export default {
         },
 
         invites () {
-            return [
-                {
-                    id: 1,
-                    firstname: 'Dasistaberein',
-                    lastname: 'Sehrlangername',
-                    email: 'dasistaberein.sehrlangername@langemail.co.uk.lol',
-                    code: 'aaui1267nu',
-                    state: 'pending'
-                },
-                {
-                    id: 2,
-                    firstname: 'Peter',
-                    lastname: 'Pan',
-                    email: 'peter@pan.com',
-                    code: '12as85k7b0',
-                    state: 'pending'
-                }
-            ]
+            if (!this.$store.state.app.invites) return false
+            else if (this.$store.state.app.invites.length > 0) {
+                return this.$store.state.app.invites
+            } else this.getInvites()
+            return false
         }
 
     },
 
     methods: {
 
-        create () {
-            this.$refs.form.validate()
+        getInvites () {
+            var vm = this
+            vm.$http.post('team/invite/read/').then(function (response) {
+                if (response.data.content) vm.$store.state.app.invites = response.data.content
+                else vm.$store.state.app.invites = false
+            })
         },
 
-        delete (id) {
+        create () {
+            var vm = this
+            vm.$refs.form.validate()
+            if (!vm.$data.rule.valid) return false
+            vm.$http.post('team/invite/create/', vm.fd).then(function (response) {
+                vm.getInvites()
+                vm.$refs.form.reset()
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
+        },
 
+        remove (invID) {
+            var vm = this
+            vm.$http.post('team/invite/delete/', { id: invID }).then(function (response) {
+                var str = vm.$store.state.app.invites
+                for (var i = 0; i < str.length; i++) {
+                    if (str[i].id === invID) str.splice(i, 1)
+                }
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
         }
 
     },
@@ -158,10 +161,28 @@ export default {
     i18n: {
         messages: {
             en: {
-                length: 'Value is too long'
+                invites: 'Invitations',
+                inviteUser: 'Invite User',
+                send: 'Send Invite',
+                allInvites: 'Existing Invites',
+                detail: {
+                    email: 'E-Mail',
+                    creator: 'Creator',
+                    role: 'Role',
+                    code: 'Code'
+                }
             },
             de: {
-                length: 'Wert ist zu lang'
+                invites: 'Einladungen',
+                inviteUser: 'Benutzer einladen',
+                send: 'Einladung senden',
+                allInvites: 'Bestehende Einladungen',
+                detail: {
+                    email: 'E-Mail',
+                    creator: 'Ersteller',
+                    role: 'Rolle',
+                    code: 'Code'
+                }
             }
         }
     }

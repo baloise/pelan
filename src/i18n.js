@@ -37,6 +37,7 @@ export default new VueI18n({
                 success: 'Changes saved',
                 error: 'Error while saving changes',
                 require: 'Required value',
+                valid: 'This value is not valid',
                 authFail: 'Authentication was not successful',
                 loadFail: 'There was an error while loading the data'
             },
@@ -74,6 +75,7 @@ export default new VueI18n({
                 success: 'Änderungen gespeichert',
                 error: 'Fehler beim speichern der Änderungen',
                 require: 'Wert wird benötigt',
+                valid: 'Dieser Wert ist invalid',
                 authFail: 'Authentifizierung war nicht erfolgreich',
                 loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.'
             },

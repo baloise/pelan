@@ -32,6 +32,7 @@ export default new Vuex.Store({
             shifts: [],
             times: [],
             assigns: [],
+            invites: [],
             teams: []
         }
 
@@ -55,6 +56,7 @@ export default new Vuex.Store({
                 state.app.shifts = []
                 state.app.times = []
                 state.app.assigns = []
+                state.app.invites = []
             }
 
             if (now > dec.exp) {

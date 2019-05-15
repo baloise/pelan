@@ -1,8 +1,9 @@
 <template>
     <v-form v-model="isValid" ref="formData">
-        <v-card>
+        <v-card class="elevation-0">
+
             <v-card-title class="pt-0 pb-0">
-                <h1 class="headline primary--text pt-3">{{ $t('users') }}</h1>
+                <h1 class="title primary--text pt-3">{{ $t('users') }}</h1>
                 <v-spacer></v-spacer>
                 <Invite />
             </v-card-title>
@@ -57,8 +58,38 @@
                         </v-edit-dialog>
                     </td>
 
+                    <td>
+                        <v-btn flat icon :disabled="props.item.id===$store.state.user.id" @click="deleteUser = props.item.id; youSure = true">
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                    </td>
+
                 </template>
             </v-data-table>
+
+            <v-dialog persistent v-model="youSure" max-width="700">
+                <v-card>
+                    <v-card-title class="headline">{{ $t('yousure.title') }}</v-card-title>
+                    <v-card-text>
+                        {{ $t('yousure.text') }}
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-layout row wrap>
+                            <v-flex xs12 md4 pa-2>
+                                <v-btn block aria-label="cancel" @click="youSure = false" outline>
+                                    {{ $t('yousure.stop') }}
+                                </v-btn>
+                            </v-flex>
+                            <v-flex xs12 md8 pa-2>
+                                <v-btn block aria-label="accept" @click="removeUser()" color="warning">
+                                    {{ $t('yousure.accept') }}
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
         </v-card>
     </v-form>
 </template>
@@ -82,6 +113,8 @@ export default {
             minChars: v => v.length >= 1 || this.$t('alert.require'),
             maxChars: v => v.length < 11 || this.$t('length'),
             isValid: false,
+            deleteUser: null,
+            youSure: false,
             roleList: []
         }
     },
@@ -124,6 +157,10 @@ export default {
             {
                 text: this.$t('user.role'),
                 value: 'role'
+            },
+            {
+                text: this.$t('user.delete'),
+                value: ''
             }
             ]
         },
@@ -136,6 +173,21 @@ export default {
     },
 
     methods: {
+
+        removeUser () {
+            var vm = this
+            if (vm.deleteUser === vm.$store.state.user.id) return false
+            vm.$http.post('team/leave/', { user: vm.deleteUser }).then(function (response) {
+                var str = vm.$store.state.app.users
+                for (var i = 0; i < str.length; i++) {
+                    if (str[i].id === vm.deleteUser) str.splice(i, 1)
+                }
+                vm.youSure = false
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
+        },
 
         // Get group by ID
         getGroup (id) {
@@ -213,7 +265,14 @@ export default {
                     firstname: 'Firstname',
                     lastname: 'Lastname',
                     nickname: 'Nickname',
-                    role: 'Role'
+                    role: 'Role',
+                    delete: 'Delete'
+                },
+                yousure: {
+                    title: 'Are you sure about that?',
+                    text: 'Deleting this User will delete all his assignments too, so you will have to do everything again if you add the user in future.',
+                    accept: 'I know, delete this User',
+                    stop: 'Cancel deletion'
                 }
             },
             de: {
@@ -225,7 +284,14 @@ export default {
                     firstname: 'Vorname',
                     lastname: 'Nachname',
                     nickname: 'Nickname',
-                    role: 'Rolle'
+                    role: 'Rolle',
+                    delete: 'Löschen'
+                },
+                yousure: {
+                    title: 'Bist du dir sicher?',
+                    text: 'Das löschen von diesem Benutzer wird all seine bestehenden Einsätzen entfernen, wodurch alles neu eingetragen werden müsste, wenn der Benutzer wieder dem Team beitritt.',
+                    accept: 'Ich weiss, lösche den Benutzer',
+                    stop: 'Löschen abbrechen'
                 }
             }
         }

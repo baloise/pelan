@@ -3,23 +3,33 @@
         <v-layout row wrap align-center>
             <v-flex xs12>
 
-                <h1 class="display-1 accent--text">{{ $t('views.settings') }}</h1>
+                <v-layout row wrap class="pb-3">
+                    <v-flex xs12>
+                        <Teams />
+                    </v-flex>
+                </v-layout>
 
-                <v-layout row wrap class="pa-1">
+                <v-layout row wrap class="pb-3">
                     <v-flex xs12>
                         <Language />
                     </v-flex>
                 </v-layout>
 
-                <v-layout row wrap class="pa-1">
+                <v-layout row wrap>
                     <v-flex xs12>
-                        <Roles v-if="$store.state.user.role.admin" />
-                    </v-flex>
-                </v-layout>
-
-                <v-layout row wrap class="pa-1">
-                    <v-flex xs12>
-                        <Users v-if="$store.state.user.role.admin" />
+                        <v-expansion-panel v-if="$store.state.user.role.admin">
+                            <v-expansion-panel-content>
+                                <template v-slot:header>
+                                    <h1 class="headline primary--text">
+                                        {{ $store.state.user.team.title }}
+                                        {{ $store.state.user.role.title }}
+                                    </h1>
+                                </template>
+                                <Roles />
+                                <v-divider></v-divider>
+                                <Users/>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
                     </v-flex>
                 </v-layout>
 
@@ -30,6 +40,8 @@
 
 <script>
 import Language from '@/components/Settings/Language'
+import Teams from '@/components/Settings/Teams'
+
 import Roles from '@/components/Settings/Roles'
 import Users from '@/components/Settings/Users'
 
@@ -37,7 +49,10 @@ export default {
     name: 'Settings',
 
     components: {
-        Language, Roles, Users
+        Language,
+        Roles,
+        Users,
+        Teams
     }
 
 }

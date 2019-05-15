@@ -220,15 +220,13 @@ export default {
         }
 
         // Get users if not in store
-        if (!vm.$store.state.app.users.length) {
-            vm.$http.post('user/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.users = response.data.content
-            }).catch(function () {
-                loadfail = true
-            }).then(function () {
-                vm.usrLoad = false
-            })
-        } else vm.usrLoad = false
+        vm.$http.post('user/read/').then(function (response) {
+            if (response.data.content) vm.$store.state.app.users = response.data.content
+        }).catch(function () {
+            loadfail = true
+        }).then(function () {
+            vm.usrLoad = false
+        })
 
         if (loadfail) {
             vm.$notify({

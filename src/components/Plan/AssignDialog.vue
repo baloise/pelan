@@ -20,10 +20,10 @@
                                 </p>
                             </v-flex>
                             <v-flex xs12>
-                                <v-select outline :label="$t('shift')" v-model="formdata.shift" :items="shiftList" :readonly="!this.$store.state.user.role.admin"></v-select>
+                                <v-select :label="$t('shift')" v-model="formdata.shift" :items="shiftList" :readonly="!this.$store.state.user.role.admin" outline/>
                             </v-flex>
                             <v-flex xs12>
-                                <v-textarea outline :label="$t('note')" v-model="formdata.note" :readonly="!this.$store.state.user.role.admin"></v-textarea>
+                                <v-textarea :label="$t('note')" v-model="formdata.note" :readonly="!this.$store.state.user.role.admin" outline/>
                             </v-flex>
                         </v-layout>
                     </v-form>

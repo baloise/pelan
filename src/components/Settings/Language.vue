@@ -7,7 +7,7 @@
 
         <v-card-text class="pt-0">
             <v-form v-model="rule.valid" ref="form">
-                <v-select :disabled="rule.loading" v-model="form.language" :rule="rule.require" :items="langItems" @change="changeLang()" />
+                <v-select :disabled="rule.loading" v-model="form.language" :rule="rule.require" :items="langItems" @change="changeLang()" hide-selected dense hide-details/>
             </v-form>
             <v-progress-linear indeterminate v-if="rule.loading" class="ma-0"/>
         </v-card-text>
