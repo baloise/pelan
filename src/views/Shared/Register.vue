@@ -3,61 +3,56 @@
         <v-layout row wrap align-center>
 
             <v-flex xs12>
-
                 <h1 class="display-1 primary--text">Willkommen!</h1>
                 <p>Scheinbar bist du zum ersten Mal hier.</p>
 
-                <v-stepper v-model="step">
+                <v-card>
+                    <v-card-text>
+                        <v-form v-model="rule.valid" ref="form">
+                            <v-layout row wrap>
 
-                    <v-stepper-header class="elevation-0">
-                        <v-stepper-step :complete="step > 1" step="1">Deine Details</v-stepper-step>
-                        <v-divider></v-divider>
-                        <v-stepper-step :complete="step > 2" step="2">Dein Profil</v-stepper-step>
-                        <v-divider></v-divider>
-                        <v-stepper-step step="3">Dein Team</v-stepper-step>
-                    </v-stepper-header>
+                                <v-flex xs12>
+                                    <h1 class="title primary--text">Grundlagen</h1>
+                                    <span>Lass uns wissen wer du bist.</span>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-text-field :label="$t('ft.firstname')" v-model="fd.firstname" :rules="[rule.min]" />
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-text-field :label="$t('ft.lastname')" v-model="fd.lastname" :rules="[rule.min]" />
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-text-field :label="$t('ft.email')" v-model="fd.email" :rules="[rule.min, rule.mail.valid, rule.mail.valid, rule.mail.max]" type="email" />
+                                </v-flex>
 
-                    <v-stepper-items>
+                                <v-flex xs12>
+                                    <v-divider class="pb-3"></v-divider>
+                                    <h1 class="title primary--text">Konto</h1>
+                                    <span>Dein Spitzname erscheint im Plan auf der linken Seite und sollte nicht zu viel Platz verbrauchen.
+                                    Wähle deshalb einen kurzen Spitznamen aus.</span>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-text-field :label="$t('ft.nickname')" v-model="fd.nickname" :rules="[rule.min, rule.max]" counter="10"/>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-select :label="$t('ft.language')" v-model="fd.language" :rule="rule.min" :items="langItems" hide-selected dense hide-details/>
+                                </v-flex>
+                                <v-flex xs12 md4>
+                                    <v-text-field :label="$t('ft.authkey')" v-model="fd.authkey" :rules="[rule.min]" type="password" />
+                                </v-flex>
 
-                        <v-stepper-content step="1">
+                                <v-flex xs12 class="pa-2">
+                                    <v-divider class="pb-3"></v-divider>
+                                    <v-btn @click="register()" color="primary" depressed block>
+                                        {{ $t('ft.send') }}
+                                    </v-btn>
+                                </v-flex>
 
-                            <v-text-field label="Vorname"></v-text-field>
-                            <v-text-field label="Nachname"></v-text-field>
+                            </v-layout>
+                        </v-form>
+                    </v-card-text>
+                </v-card>
 
-                            <v-btn color="primary" @click="step = 2">Weiter</v-btn>
-                            <v-btn flat>Zurück</v-btn>
-
-                        </v-stepper-content>
-
-                        <v-stepper-content step="2">
-
-                            <v-text-field label="Nickname"></v-text-field>
-
-                            <v-btn color="primary" @click="step = 3">Weiter</v-btn>
-                            <v-btn flat @click="step = 1">Zurück</v-btn>
-
-                        </v-stepper-content>
-
-                        <v-stepper-content step="3">
-
-                            <p>Wurdest du zu einem Team eingeladen? Oder möchtest du ein neues erstellen?</p>
-
-                            <v-btn color="primary" block depressed>Einladungscode eingeben</v-btn>
-                            <v-btn color="primary" block disabled>Neues Team erstellen</v-btn>
-
-                            <v-card color="primary" dark class="ma-5">
-                                <v-card-text>
-                                    <v-text-field outline label="Einladungscode"></v-text-field>
-                                </v-card-text>
-                            </v-card>
-
-                            <v-btn color="primary">Zum Plan</v-btn>
-                            <v-btn flat @click="step = 2">Zurück</v-btn>
-
-                        </v-stepper-content>
-
-                    </v-stepper-items>
-                </v-stepper>
             </v-flex>
 
         </v-layout>
@@ -65,32 +60,87 @@
 </template>
 
 <script>
-export default {
-    name: 'Register',
+    export default {
+        name: 'Register',
 
-    data () {
-        return {
-            step: 3,
-            formdata: {
-                firstname: null,
-                lastname: null,
-                nickname: null,
-                code: null,
-                newTeam: false
+        data() {
+            return {
+                fd: {
+                    firstname: '',
+                    lastname: '',
+                    email: '',
+                    nickname: '',
+                    language: '',
+                    authkey: ''
+                },
+                rule: {
+                    valid: false,
+                    min: v => !!v || this.$t('alert.require'),
+                    max: v => v.length < 11 || this.$t('length'),
+                    mail: {
+                        valid: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('alert.valid'),
+                        max: v => v.length < 90 || this.$t('length')
+                    }
+                }
+            }
+        },
+
+        computed: {
+
+            langItems () {
+                return [
+                    { text: this.$t('language.en'), value: 'en' },
+                    { text: this.$t('language.de'), value: 'de' }
+                ]
+            }
+
+        },
+
+        methods: {
+
+            register(){
+                var vm = this
+                vm.$refs.form.validate()
+                if (!vm.$data.rule.valid) return false
+                vm.$http.post('user/create/', vm.fd).then(function (response) {
+                    vm.getInvites()
+                    vm.$refs.form.reset()
+                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+                }).catch(function () {
+                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+                })
+            }
+
+        },
+
+        i18n: {
+            messages: {
+                en: {
+                    ft: {
+                        name: 'Name',
+                        firstname: 'Firstname',
+                        lastname: 'Lastname',
+                        email: 'E-Mail',
+                        nickname: 'Nickname',
+                        language: 'Language',
+                        authkey: 'Password',
+                        send: 'Send'
+                    }
+                },
+                de: {
+                    ft: {
+                        name: 'Name',
+                        firstname: 'Vorname',
+                        lastname: 'Nachname',
+                        email: 'E-Mail',
+                        nickname: 'Spitzname',
+                        language: 'Sprache',
+                        authkey: 'Passwort',
+                        send: 'Absenden'
+                    }
+                }
             }
         }
-    },
 
-    i18n: {
-        messages: {
-            en: {
-
-            },
-            de: {
-
-            }
-        }
     }
-
-}
 </script>

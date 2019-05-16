@@ -48,6 +48,10 @@ export default new VueI18n({
                 save: 'Save',
                 close: 'Close',
                 cancel: 'Cancel'
+            },
+            language: {
+                en: 'English',
+                de: 'German'
             }
         },
         de: {
@@ -89,6 +93,10 @@ export default new VueI18n({
                 save: 'Speichern',
                 close: 'Schliessen',
                 cancel: 'Abbrechen'
+            },
+            language: {
+                en: 'Englisch',
+                de: 'Deutsch'
             }
         }
     }

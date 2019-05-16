@@ -8,9 +8,11 @@
 
             <notifications position="bottom center" :width="correctWidth" :speed="500">
                 <template slot="body" slot-scope="props">
-                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
-                        {{ props.item.text }}
-                    </v-alert>
+
+                <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
+                    {{ props.item.text }}
+                </v-alert>
+
                 </template>
             </notifications>
 

@@ -26,8 +26,8 @@ export default {
 
         langItems () {
             return [
-                { text: this.$t('langs.eng'), value: 'en' },
-                { text: this.$t('langs.ger'), value: 'de' }
+                { text: this.$t('language.en'), value: 'en' },
+                { text: this.$t('language.de'), value: 'de' }
             ]
         }
 
@@ -58,25 +58,6 @@ export default {
             }
         }
 
-    },
-
-    i18n: {
-        messages: {
-            en: {
-                lang: 'Language',
-                langs: {
-                    ger: 'German',
-                    eng: 'English'
-                }
-            },
-            de: {
-                lang: 'Sprache',
-                langs: {
-                    ger: 'Deutsch',
-                    eng: 'Englisch'
-                }
-            }
-        }
     }
 
 }
