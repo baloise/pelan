@@ -61,7 +61,7 @@ export default {
             vm.$refs.createForm.validate()
             if (!vm.$data.rule.valid) return false
             vm.$http.post('role/create/', vm.fnew).then(function (response) {
-                vm.$store.state.app.roles.push({
+                vm.$store.state.data.roles.push({
                     id: response.data.content.id,
                     title: vm.fnew.title,
                     description: vm.fnew.description,

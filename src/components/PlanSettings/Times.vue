@@ -94,7 +94,7 @@ export default {
 
         // Sort received times by their position-number before showing
         list () {
-            var stEl = this.$store.state.app.times
+            var stEl = this.$store.state.data.times
             if (stEl) {
                 stEl.sort((a, b) => (parseInt(a.position) > parseInt(b.position)) ? 1 : ((parseInt(b.position) > parseInt(a.position)) ? -1 : 0))
                 return stEl
@@ -115,7 +115,7 @@ export default {
         // Save changes and/or delete time, if selected
         save () {
             var vm = this; var error = false
-            var str = this.$store.state.app.times
+            var str = this.$store.state.data.times
             vm.$refs.editorForm.validate()
             for (var i = 0; i < str.length; i++) {
                 if (str[i].deleted) {
@@ -156,7 +156,7 @@ export default {
                     description: vm.newElement.title,
                     position: newPosition
                 }).then(function (response) {
-                    vm.$store.state.app.times.push({
+                    vm.$store.state.data.times.push({
                         title: vm.newElement.title,
                         abbreviation: vm.newElement.title.substring(0, 4),
                         position: newPosition,
@@ -172,7 +172,7 @@ export default {
 
         // Process changes made to a time
         editElem (elem) {
-            var str = this.$store.state.app.times
+            var str = this.$store.state.data.times
             for (var i = 0; i < str.length; i++) {
                 if (str[i].id === elem.id) {
                     str[i].edited = true
@@ -190,7 +190,7 @@ export default {
         // Process delete-changes made to a time
         deleteElem (elem) {
             var deletePos = elem.position
-            var storeElems = this.$store.state.app.times
+            var storeElems = this.$store.state.data.times
             for (var i = 0; i < storeElems.length; i++) {
                 if (storeElems[i].id === elem.id) {
                     storeElems[i].deleted = true
@@ -208,7 +208,7 @@ export default {
         // Process and move time
         moveDown (currElem) {
             var currPos = parseInt(currElem.position)
-            var storeElems = this.$store.state.app.times
+            var storeElems = this.$store.state.data.times
             if (storeElems.length > 1) {
                 for (var i = 0; i < storeElems.length; i++) {
                     if (storeElems[i].id === currElem.id) {
@@ -227,7 +227,7 @@ export default {
         // Process and move time
         moveUp (currElem) {
             var currPos = parseInt(currElem.position)
-            var storeElems = this.$store.state.app.times
+            var storeElems = this.$store.state.data.times
             if (storeElems.length > 1) {
                 for (var i = 0; i < storeElems.length; i++) {
                     if (storeElems[i].id === currElem.id) {
@@ -250,7 +250,7 @@ export default {
 
         // Get times (even if they are in store, bc there may be new ones)
         vm.$http.get('daytime/read/').then(function (response) {
-            if (response.data.content) vm.$store.state.app.times = response.data.content
+            if (response.data.content) vm.$store.state.data.times = response.data.content
         }).catch(function () {
             vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })

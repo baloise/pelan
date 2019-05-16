@@ -116,7 +116,7 @@ export default {
             var vm = this
             var users = true
             var roles = true
-            if (vm.$store.state.app.users.length) users = false
+            if (vm.$store.state.data.users.length) users = false
             if (vm.roleItems) roles = false
             return {
                 users: users,
@@ -126,7 +126,7 @@ export default {
 
         // Return list for select
         roleItems () {
-            if (this.$store.state.app.roles.length) return this.$store.state.app.roles
+            if (this.$store.state.data.roles.length) return this.$store.state.data.roles
             return false
         },
 
@@ -157,7 +157,7 @@ export default {
 
         // Return list of users
         userList () {
-            return this.$store.state.app.users
+            return this.$store.state.data.users
         }
 
     },
@@ -168,7 +168,7 @@ export default {
             var vm = this
             if (vm.deleteUser === vm.$store.state.user.id) return false
             vm.$http.post('team/leave/', { user: vm.deleteUser }).then(function (response) {
-                var str = vm.$store.state.app.users
+                var str = vm.$store.state.data.users
                 for (var i = 0; i < str.length; i++) {
                     if (str[i].id === vm.deleteUser) str.splice(i, 1)
                 }
@@ -216,9 +216,9 @@ export default {
         var vm = this
 
         // Get users from store or api
-        if (!vm.$store.state.app.users.length) {
+        if (!vm.$store.state.data.users.length) {
             vm.$http.get('user/read/').then(function (response) {
-                vm.$store.state.app.users = response.data.content
+                vm.$store.state.data.users = response.data.content
             }).catch(function () {
                 vm.$notify({
                     type: 'error',
@@ -229,7 +229,7 @@ export default {
 
         // Get available roles of team
         vm.$http.get('role/read/').then(function (response) {
-            if (response.data.content) vm.$store.state.app.roles = response.data.content
+            if (response.data.content) vm.$store.state.data.roles = response.data.content
             else {
                 vm.$notify({
                     type: 'error',

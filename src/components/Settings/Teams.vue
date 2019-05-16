@@ -35,7 +35,7 @@ export default {
         getTeams () {
             var vm = this
             vm.$http.post('team/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.teams = response.data.content
+                if (response.data.content) vm.$store.state.data.teams = response.data.content
             })
         }
 
@@ -43,7 +43,7 @@ export default {
 
     computed: {
         teams () {
-            if (this.$store.state.app.teams) return this.$store.state.app.teams
+            if (this.$store.state.data.teams) return this.$store.state.data.teams
             else this.getTeams()
             return false
         }

@@ -85,7 +85,7 @@ export default {
 
         // Check permissions before resolving a view
         vm.$router.beforeResolve((to, from, next) => {
-            document.title = vm.$store.state.pelan.title + ' | ' + vm.$t('views.' + to.name)
+            document.title = vm.$store.state.app.title + ' | ' + vm.$t('views.' + to.name)
             vm.$store.dispatch('checkAuth')
 
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {

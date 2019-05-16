@@ -124,7 +124,7 @@ export default {
 
     computed: {
         shiftList () {
-            return this.$store.state.app.shifts
+            return this.$store.state.data.shifts
         }
     },
 
@@ -174,7 +174,7 @@ export default {
                     color: vm.formdata.color.hex,
                     description: vm.formdata.description
                 }).then(function (response) {
-                    var str = vm.$store.state.app.shifts
+                    var str = vm.$store.state.data.shifts
                     for (var i = 0; i < str.length; i++) {
                         if (str[i].id === vm.formdata.id) {
                             str[i].title = vm.formdata.title
@@ -204,7 +204,7 @@ export default {
                     color: vm.formdata.color.hex,
                     description: vm.formdata.description
                 }).then(function (response) {
-                    vm.$store.state.app.shifts.push({
+                    vm.$store.state.data.shifts.push({
                         id: response.data.content,
                         title: vm.formdata.title,
                         color: vm.formdata.color.hex,
@@ -225,7 +225,7 @@ export default {
             var vm = this
             vm.disabled = true
             vm.$http.post('shift/delete/', { id: vm.formdata.id }).then(function (response) {
-                var str = vm.$store.state.app.shifts
+                var str = vm.$store.state.data.shifts
                 for (var i = 0; i < str.length; i++) {
                     if (str[i].id === vm.formdata.id) str.splice(i, 1)
                 }
@@ -246,7 +246,7 @@ export default {
 
         // Get shifts (even if they are in store, bc there may be new ones)
         vm.$http.get('shift/read/').then(function (response) {
-            if (response.data.content) vm.$store.state.app.shifts = response.data.content
+            if (response.data.content) vm.$store.state.data.shifts = response.data.content
         }).catch(function () {
             vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })

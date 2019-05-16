@@ -70,7 +70,7 @@ export default {
 
         // Return list for select
         roleList () {
-            return this.$store.state.app.roles
+            return this.$store.state.data.roles
         },
 
         // Table-headers
@@ -101,7 +101,7 @@ export default {
         removeRole (roleid) {
             var vm = this
             vm.$http.post('role/delete/', { id: roleid }).then(function (response) {
-                var str = vm.$store.state.app.roles
+                var str = vm.$store.state.data.roles
                 for (var i = 0; i < str.length; i++) {
                     if (str[i].id === roleid) str.splice(i, 1)
                 }
@@ -135,7 +135,7 @@ export default {
 
         // Get available roles of team
         vm.$http.get('role/read/').then(function (response) {
-            vm.$store.state.app.roles = response.data.content
+            vm.$store.state.data.roles = response.data.content
         }).catch(function () {
             vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })

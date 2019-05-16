@@ -95,7 +95,7 @@ export default {
             vm.$refs.joinForm.validate()
             if (!vm.$data.rule.valid) return false
             vm.$http.post('team/join/', vm.fexist).then(function (response) {
-                vm.$store.state.app.teams.push({
+                vm.$store.state.data.teams.push({
                     id: response.data.content.id,
                     title: response.data.content.title,
                     description: response.data.content.description
@@ -112,7 +112,7 @@ export default {
             vm.$refs.createForm.validate()
             if (!vm.$data.rule.valid) return false
             vm.$http.post('team/create/', vm.fnew).then(function (response) {
-                vm.$store.state.app.teams.push({
+                vm.$store.state.data.teams.push({
                     id: response.data.content.id,
                     title: vm.fnew.title,
                     description: vm.fnew.description

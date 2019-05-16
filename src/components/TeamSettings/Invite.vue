@@ -107,14 +107,14 @@ export default {
     computed: {
 
         roleItems () {
-            if (this.$store.state.app.roles.length) return this.$store.state.app.roles
+            if (this.$store.state.data.roles.length) return this.$store.state.data.roles
             return false
         },
 
         invites () {
-            if (!this.$store.state.app.invites) return false
-            else if (this.$store.state.app.invites.length > 0) {
-                return this.$store.state.app.invites
+            if (!this.$store.state.data.invites) return false
+            else if (this.$store.state.data.invites.length > 0) {
+                return this.$store.state.data.invites
             } else this.getInvites()
             return false
         }
@@ -126,8 +126,8 @@ export default {
         getInvites () {
             var vm = this
             vm.$http.post('team/invite/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.invites = response.data.content
-                else vm.$store.state.app.invites = false
+                if (response.data.content) vm.$store.state.data.invites = response.data.content
+                else vm.$store.state.data.invites = false
             })
         },
 
@@ -147,7 +147,7 @@ export default {
         remove (invID) {
             var vm = this
             vm.$http.post('team/invite/delete/', { id: invID }).then(function (response) {
-                var str = vm.$store.state.app.invites
+                var str = vm.$store.state.data.invites
                 for (var i = 0; i < str.length; i++) {
                     if (str[i].id === invID) str.splice(i, 1)
                 }

@@ -139,7 +139,7 @@ export default {
         getTeams () {
             var vm = this
             vm.$http.post('team/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.teams = response.data.content
+                if (response.data.content) vm.$store.state.data.teams = response.data.content
             })
         },
 
@@ -187,8 +187,8 @@ export default {
 
         teams () {
             var vm = this.$store.state; var tmp = []
-            if (vm.app.teams.length !== 0) {
-                vm.app.teams.forEach(function (obj) {
+            if (vm.data.teams.length !== 0) {
+                vm.data.teams.forEach(function (obj) {
                     if (parseInt(vm.user.team.id) !== obj.id) tmp.push(obj)
                 })
                 if (tmp.length > 0) return tmp
@@ -198,13 +198,13 @@ export default {
 
         // Get Infos about the App
         info () {
-            return this.$store.state.pelan.title + ' v' + this.$store.state.pelan.version
+            return this.$store.state.app.title + ' v' + this.$store.state.app.version
         },
 
         // Change state (visible/hidden) of drawer
         drawer: {
             get () {
-                return this.$store.state.pelan.drawer
+                return this.$store.state.app.drawer
             },
             set (val) {
                 this.$store.commit('drawer', val)

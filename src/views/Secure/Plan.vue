@@ -3,8 +3,8 @@
 
         <v-layout row wrap v-if="info" class="pt-0 pb-2">
 
-            <v-flex grow v-if="$store.state.app.shifts" class="pa-2">
-                <v-chip v-for="shift in $store.state.app.shifts" :key="shift.id">
+            <v-flex grow v-if="$store.state.data.shifts" class="pa-2">
+                <v-chip v-for="shift in $store.state.data.shifts" :key="shift.id">
                     <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
                     <span>{{shift.title}}</span>
                 </v-chip>

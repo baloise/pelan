@@ -62,11 +62,11 @@ export default {
         // Create Store-Element for assignments of each user and return list
         userList () {
             var vm = this
-            var users = vm.$store.state.app.users
+            var users = vm.$store.state.data.users
             if (!users.length) return []
             users.forEach(function (user) {
-                vm.$store.state.app.assigns = Object.assign({},
-                    vm.$store.state.app.assigns, {
+                vm.$store.state.data.assigns = Object.assign({},
+                    vm.$store.state.data.assigns, {
                         [user.id]: {
                             loaded: false,
                             assigns: []
@@ -153,14 +153,14 @@ export default {
             }).then(function (response) {
                 if (response.status === 200) {
                     response.data.content.users.forEach(function (user) {
-                        vm.$store.state.app.assigns[user.user].assigns = user.assignments
-                        vm.$store.state.app.assigns[user.user].loaded = true
+                        vm.$store.state.data.assigns[user.user].assigns = user.assignments
+                        vm.$store.state.data.assigns[user.user].loaded = true
                     })
                 }
 
-                vm.$store.state.app.users.forEach(function (user) {
-                    if (!vm.$store.state.app.assigns[user.id].loaded) {
-                        vm.$store.state.app.assigns[user.id].loaded = true
+                vm.$store.state.data.users.forEach(function (user) {
+                    if (!vm.$store.state.data.assigns[user.id].loaded) {
+                        vm.$store.state.data.assigns[user.id].loaded = true
                     }
                 })
             })
@@ -202,18 +202,18 @@ export default {
         var loadfail = false
 
         // Get shifts if not in store
-        if (!vm.$store.state.app.shifts.length) {
+        if (!vm.$store.state.data.shifts.length) {
             vm.$http.get('shift/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.shifts = response.data.content
+                if (response.data.content) vm.$store.state.data.shifts = response.data.content
             }).catch(function () {
                 loadfail = true
             })
         }
 
         // Get times if not in store
-        if (!vm.$store.state.app.times.length) {
+        if (!vm.$store.state.data.times.length) {
             vm.$http.get('daytime/read/').then(function (response) {
-                if (response.data.content) vm.$store.state.app.times = response.data.content
+                if (response.data.content) vm.$store.state.data.times = response.data.content
             }).catch(function () {
                 loadfail = true
             })
@@ -221,7 +221,7 @@ export default {
 
         // Get users if not in store
         vm.$http.post('user/read/').then(function (response) {
-            if (response.data.content) vm.$store.state.app.users = response.data.content
+            if (response.data.content) vm.$store.state.data.users = response.data.content
         }).catch(function () {
             loadfail = true
         }).then(function () {

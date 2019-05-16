@@ -96,18 +96,18 @@ export default {
         // Get daily assigns with time and shift
         assigns () {
             var vm = this; var assigns = []
-            if (!vm.assignList.length || !vm.$store.state.app.times.length || !vm.$store.state.app.shifts.length) return false
+            if (!vm.assignList.length || !vm.$store.state.data.times.length || !vm.$store.state.data.shifts.length) return false
             vm.assignList.forEach(function (assign) {
                 if (!assign.note && !assign.shift) return false
 
                 var tmp = {
-                    time: vm.$store.state.app.times.find(function (time) {
+                    time: vm.$store.state.data.times.find(function (time) {
                         return time.id === assign.time
                     })
                 }
 
                 if (assign.shift) {
-                    tmp.shift = vm.$store.state.app.shifts.find(function (shift) {
+                    tmp.shift = vm.$store.state.data.shifts.find(function (shift) {
                         return shift.id === assign.shift
                     })
                 } else {
@@ -151,8 +151,8 @@ export default {
         }).then(function (response) {
             if (response.data.content) {
                 var cont = response.data.content
-                if (cont.shifts) vm.$store.state.app.shifts = cont.shifts
-                if (cont.times) vm.$store.state.app.times = cont.times
+                if (cont.shifts) vm.$store.state.data.shifts = cont.shifts
+                if (cont.times) vm.$store.state.data.times = cont.times
                 if (cont.assigns) vm.assignList = cont.assigns
                 else vm.assignList = []
                 if (cont.notes) vm.noteList = cont.notes

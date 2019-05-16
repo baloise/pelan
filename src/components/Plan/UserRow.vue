@@ -66,17 +66,17 @@ export default {
     computed: {
 
         times () {
-            if (this.$store.state.app.times.length) return this.$store.state.app.times
+            if (this.$store.state.data.times.length) return this.$store.state.data.times
             return false
         },
 
         shifts () {
-            if (this.$store.state.app.shifts.length) return this.$store.state.app.shifts
+            if (this.$store.state.data.shifts.length) return this.$store.state.data.shifts
             return false
         },
 
         assigns () {
-            var stus = this.$store.state.app.assigns[this.usr.id]
+            var stus = this.$store.state.data.assigns[this.usr.id]
             if (!stus.loaded) return false
             if (stus.assigns.length) return stus.assigns
             return false

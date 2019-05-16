@@ -8,7 +8,7 @@ export default new Vuex.Store({
     state: {
 
         // General App-Info & State
-        pelan: {
+        app: {
             title: 'Pelan',
             version: '1.0',
             drawer: true
@@ -26,7 +26,7 @@ export default new Vuex.Store({
         },
 
         // Globally used/dynamic app-data
-        app: {
+        data: {
             users: [],
             roles: [],
             shifts: [],
@@ -42,7 +42,7 @@ export default new Vuex.Store({
 
         // Show/Hide Drawer
         drawer (state, val) {
-            state.pelan.drawer = val
+            state.app.drawer = val
         },
 
         // Login-User / process token and add to state & add cookie
@@ -51,12 +51,12 @@ export default new Vuex.Store({
             var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
             if (state.user.team && state.user.team.id !== dec.data.team.id) {
-                state.app.users = []
-                state.app.roles = []
-                state.app.shifts = []
-                state.app.times = []
-                state.app.assigns = []
-                state.app.invites = []
+                state.data.users = []
+                state.data.roles = []
+                state.data.shifts = []
+                state.data.times = []
+                state.data.assigns = []
+                state.data.invites = []
             }
 
             if (now > dec.exp) {

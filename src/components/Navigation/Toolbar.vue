@@ -22,7 +22,7 @@ export default {
         // Get title of app
         appTitle () {
             if (this.$store.state.user.team) return this.$store.state.user.team.title
-            else return this.$store.state.pelan.title
+            else return this.$store.state.app.title
         }
 
     },
@@ -30,7 +30,7 @@ export default {
     methods: {
 
         // Show/Hide drawer
-        drawer () { this.$store.commit('drawer', !this.$store.state.pelan.drawer) }
+        drawer () { this.$store.commit('drawer', !this.$store.state.app.drawer) }
 
     }
 

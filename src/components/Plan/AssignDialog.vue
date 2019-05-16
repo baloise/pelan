@@ -79,11 +79,11 @@ export default {
         // Create a list of shifts for dropdown
         shiftList () {
             var items = []
-            if (this.$store.state.app.shifts) {
-                for (var i = 0; i < this.$store.state.app.shifts.length; i++) {
+            if (this.$store.state.data.shifts) {
+                for (var i = 0; i < this.$store.state.data.shifts.length; i++) {
                     items.push({
-                        text: this.$store.state.app.shifts[i].title,
-                        value: this.$store.state.app.shifts[i].id
+                        text: this.$store.state.data.shifts[i].title,
+                        value: this.$store.state.data.shifts[i].id
                     })
                 }
             }
@@ -109,7 +109,7 @@ export default {
     methods: {
 
         removeObj (time, dateTime) {
-            var str = this.$store.state.app.assigns[this.content.user.id].assigns
+            var str = this.$store.state.data.assigns[this.content.user.id].assigns
             for (var i = 0; i < str.length; i++) {
                 if (str[i].time === time && str[i].date.getTime() === dateTime) {
                     str.splice(i, 1)
@@ -146,7 +146,7 @@ export default {
 
                     vm.$http.post('assignment/set/', vm.formdata).then(function (response) {
                         vm.removeObj(vm.formdata.time, vm.content.dateFull.getTime())
-                        vm.$store.state.app.assigns[vm.content.user.id].assigns.push(vm.formdata)
+                        vm.$store.state.data.assigns[vm.content.user.id].assigns.push(vm.formdata)
                         vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                         vm.disabled = false
                         vm.$emit('close')
