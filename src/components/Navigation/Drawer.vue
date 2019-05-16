@@ -1,6 +1,5 @@
 <template>
     <v-navigation-drawer app v-model="drawer" class="baloise-drawer secondary" clipped floating>
-
         <v-layout column fill-height v-if="this.$store.state.auth.token">
 
             <v-list>
@@ -12,8 +11,7 @@
                         <v-list-tile-title>{{ $t('views.dashboard') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-
-                <v-list-tile :to="{name: 'plan'}" class="mb-2">
+                <v-list-tile :to="{name: 'plan'}" class="mb-2" v-if="$store.state.user.team">
                     <v-list-tile-action>
                         <v-icon>calendar_today</v-icon>
                     </v-list-tile-action>
@@ -21,14 +19,12 @@
                         <v-list-tile-title>{{ $t('views.plan') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-
                 <v-list-group prepend-icon="cached" v-if="$store.state.user.team && teams">
                     <template v-slot:activator>
                         <v-list-tile>
                             <v-list-tile-title>{{ $t('views.teamchange') }}</v-list-tile-title>
                         </v-list-tile>
                     </template>
-
                     <v-list-tile v-for="team in teams" @click="setTeam(team.id)" :key="team.id" class="mb-2">
                         <v-list-tile-action>
                             <v-icon></v-icon>
@@ -40,9 +36,7 @@
                             <v-icon>launch</v-icon>
                         </v-list-tile-action>
                     </v-list-tile>
-
                 </v-list-group>
-
                 <v-list-group prepend-icon="edit" v-if="this.$store.state.user.role.admin">
                     <template v-slot:activator>
                         <v-list-tile>
@@ -66,22 +60,11 @@
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list-group>
-
             </v-list>
 
             <v-spacer></v-spacer>
 
             <v-list>
-
-                <v-list-tile :to="{name: 'help'}">
-                    <v-list-tile-action>
-                        <v-icon>question_answer</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('views.help') }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-
                 <v-list-tile :to="{name: 'settings'}">
                     <v-list-tile-action>
                         <v-icon>settings</v-icon>
@@ -90,13 +73,19 @@
                         <v-list-tile-title>{{ $t('views.settings') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-
+                <v-list-tile :to="{name: 'help'}">
+                    <v-list-tile-action>
+                        <v-icon>question_answer</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ $t('views.help') }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
                 <v-list-tile>
                     <v-list-tile-content class="caption">
                         {{ info }}
                     </v-list-tile-content>
                 </v-list-tile>
-
             </v-list>
 
         </v-layout>

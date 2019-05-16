@@ -62,14 +62,14 @@ export default {
             if (!vm.$data.rule.valid) return false
             vm.$http.post('role/create/', vm.fnew).then(function (response) {
                 vm.$store.state.data.roles.push({
-                    id: response.data.content.id,
+                    id: response.data.content,
                     title: vm.fnew.title,
                     description: vm.fnew.description,
                     admin: vm.fnew.admin
                 })
                 vm.$refs.createForm.reset()
                 vm.show = false
-                vm.$notify({ type: 'success', text: vm.$t('notif.created') })
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             })

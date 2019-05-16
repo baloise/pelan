@@ -35,7 +35,7 @@
                                     <v-text-field :label="$t('ft.nickname')" v-model="fd.nickname" :rules="[rule.min, rule.max]" counter="10"/>
                                 </v-flex>
                                 <v-flex xs12 md4>
-                                    <v-select :label="$t('ft.language')" v-model="fd.language" :rule="rule.min" :items="langItems" hide-selected dense hide-details/>
+                                    <v-select :label="$t('ft.language')" v-model="fd.language" :rules="[rule.min]" :items="langItems" hide-selected/>
                                 </v-flex>
                                 <v-flex xs12 md4>
                                     <v-text-field :label="$t('ft.authkey')" v-model="fd.authkey" :rules="[rule.min]" type="password" />
@@ -66,12 +66,12 @@
         data() {
             return {
                 fd: {
-                    firstname: '',
-                    lastname: '',
-                    email: '',
-                    nickname: '',
-                    language: '',
-                    authkey: ''
+                    firstname: 'Elia',
+                    lastname: 'Reute',
+                    email: 'mail@reute.yay',
+                    nickname: 'EliaR',
+                    language: 'de',
+                    authkey: 'b037160'
                 },
                 rule: {
                     valid: false,
@@ -102,10 +102,12 @@
                 var vm = this
                 vm.$refs.form.validate()
                 if (!vm.$data.rule.valid) return false
-                vm.$http.post('user/create/', vm.fd).then(function (response) {
-                    vm.getInvites()
-                    vm.$refs.form.reset()
-                    vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+                vm.$http.post('user/create/', {
+                    withLogin: 1, user: vm.fd
+                }).then(function (response) {
+                    vm.$store.commit('login')
+                    vm.$notify({ type: 'success', text: vm.$t('alert.register') })
+                    vm.$router.push('/')
                 }).catch(function () {
                     vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 })

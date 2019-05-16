@@ -22,6 +22,9 @@
                 </v-layout>
             </v-card-text>
         </v-card>
+        <p v-if="!teams.length">
+            {{ $t('noTeam') }}
+        </p>
     </v-flex>
 </template>
 
@@ -52,12 +55,14 @@ export default {
     i18n: {
         messages: {
             en: {
+                noTeam: 'You have not joined a team yet.',
                 name: 'Name',
                 desc: 'Description',
                 public: 'Pubilc',
                 no: 'No'
             },
             de: {
+                noTeam: 'Du bist noch in keinem Team.',
                 name: 'Name',
                 desc: 'Beschreibung',
                 public: 'Öffentlich',

@@ -26,11 +26,11 @@
                         </td>
 
                         <td>
-                            <v-checkbox v-model="props.item.admin" @change="close(props.item)" color="primary" hide-details></v-checkbox>
+                            <v-checkbox v-model="props.item.admin" :disabled="isMain(props.item.main)" @change="close(props.item)" color="primary" hide-details></v-checkbox>
                         </td>
 
                         <td>
-                            <v-btn flat icon @click="removeRole(props.item.id)"><v-icon>delete</v-icon></v-btn>
+                            <v-btn flat icon :disabled="isMain(props.item.main)" @click="removeRole(props.item.id)"><v-icon>delete</v-icon></v-btn>
                         </td>
 
                     </template>
@@ -98,6 +98,11 @@ export default {
 
     methods: {
 
+        isMain(mainInt){
+            if(mainInt === 1) return true
+            return false
+        },
+
         removeRole (roleid) {
             var vm = this
             vm.$http.post('role/delete/', { id: roleid }).then(function (response) {
@@ -107,7 +112,7 @@ export default {
                 }
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function (error) {
-                if (error.response.data.reason === 'role_has_user') {
+                if (error.response.data.reason === 'role_has_user_or_invitation') {
                     vm.$notify({ type: 'warning', text: vm.$t('hasUser') })
                 } else vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             })
@@ -147,7 +152,7 @@ export default {
                 roles: 'Roles',
                 length: 'Value is too long',
                 valueWrong: 'Invalid value set',
-                hasUser: 'Please remove this role from all existing users first.',
+                hasUser: 'Please remove this role from all existing users and invitations first.',
                 role: {
                     title: 'Title',
                     description: 'Description',
@@ -159,7 +164,7 @@ export default {
                 roles: 'Rollen',
                 length: 'Wert ist zu lang',
                 valueWrong: 'Fehlerhafte Eingabe',
-                hasUser: 'Du kannst eine Rolle nicht entfernen, wenn sie noch jemandem zugewiesen ist.',
+                hasUser: 'Du kannst eine Rolle nicht entfernen, wenn sie noch jemandem oder einer Einladung zugewiesen ist.',
                 role: {
                     title: 'Titel',
                     description: 'Beschreibung',

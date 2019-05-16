@@ -42,7 +42,8 @@ export default new VueI18n({
                 require: 'Required value',
                 valid: 'This value is not valid',
                 authFail: 'Authentication was not successful',
-                loadFail: 'There was an error while loading the data'
+                loadFail: 'There was an error while loading the data',
+                registered: 'Your Account has been created. Welcome to Pelan!'
             },
             btn: {
                 save: 'Save',
@@ -87,7 +88,8 @@ export default new VueI18n({
                 require: 'Wert wird benötigt',
                 valid: 'Dieser Wert ist invalid',
                 authFail: 'Authentifizierung war nicht erfolgreich',
-                loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.'
+                loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.',
+                register: 'Dein Account wurde erstellt. Willkommen bei Pelan!'
             },
             btn: {
                 save: 'Speichern',

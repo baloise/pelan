@@ -1,12 +1,12 @@
 <template>
     <v-container fill-height>
         <v-layout row wrap align-center>
-
             <v-flex xs12>
+
                 <h1 class="display-1 accent--text">{{ $t('views.dashboard') }}</h1>
                 <h1 class="title mb-4">{{ call }}</h1>
 
-                <v-layout row wrap justify-center>
+                <v-layout row wrap justify-center v-if="$store.state.user.team">
 
                     <v-flex xs12 sm6 md5 :class="style" v-if="assigns">
                         <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
@@ -62,16 +62,26 @@
                             </v-card-text>
                         </v-card>
                     </v-flex>
-
                 </v-layout>
+
+                <v-layout row wrap justify-center v-else>
+                    <NoTeamDashboard />
+                </v-layout>
+
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+import NoTeamDashboard from '@/components/NoTeamDashboard'
+
 export default {
     name: 'Dashboard',
+
+    components: {
+        NoTeamDashboard
+    },
 
     data () {
         return {
