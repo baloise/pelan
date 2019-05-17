@@ -68,12 +68,12 @@ export default {
     data () {
         return {
             fd: {
-                firstname: 'Elia',
-                lastname: 'Reute',
-                email: 'mail@reute.yay',
-                nickname: 'EliaR',
-                language: 'de',
-                password: 'b037160'
+                firstname: '',
+                lastname: '',
+                email: '',
+                nickname: '',
+                language: '',
+                password: ''
             },
             rule: {
                 valid: false,

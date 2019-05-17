@@ -49,8 +49,8 @@ export default {
     data () {
         return {
             fd: {
-                email: 'mail@reute.yay',
-                password: 'b037160'
+                email: '',
+                password: ''
             },
             rule: {
                 valid: false,
