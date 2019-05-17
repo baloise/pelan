@@ -4,19 +4,14 @@
             <v-card-text>
                 <v-layout row wrap align-center justify-center>
 
-                    <v-flex xs12 md3>
+                    <v-flex xs12 md4>
                         <span class="caption">{{ $t('name') }}</span><br />
                         <span class="title">{{ team.title }}</span>
                     </v-flex>
 
-                    <v-flex xs12 md8>
+                    <v-flex xs12 md8 class="text-md-right">
                         <span class="caption">{{ $t('desc') }}</span><br />
                         <span class="">{{ team.description }}</span>
-                    </v-flex>
-
-                    <v-flex xs12 md1>
-                        <span class="caption">{{ $t('public') }}</span><br />
-                        <span class="">{{ $t('no') }}</span>
                     </v-flex>
 
                 </v-layout>

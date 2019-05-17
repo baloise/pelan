@@ -12,6 +12,7 @@
                     <template v-slot:items="props">
 
                         <td>
+                            <v-icon small v-if="props.item.owner">my_location</v-icon>
                             {{ props.item.firstname }} {{ props.item.lastname }} ({{ props.item.nickname }})
                         </td>
 
@@ -22,16 +23,17 @@
                                     <v-icon light>cached</v-icon>
                                 </span>
                                 {{ (getGroup(props.item.role))['title'] }}
+                                 <v-icon small v-if="!props.item.owner">edit</v-icon>
 
                                 <template v-slot:input>
-                                    <v-select v-model="props.item.role" :items="roleItems" item-text="title" item-value="id" aria-label="Roles"></v-select>
+                                    <v-select :disabled="props.item.owner" v-model="props.item.role" :items="roleItems" item-text="title" item-value="id" aria-label="Roles"></v-select>
                                 </template>
 
                             </v-edit-dialog>
                         </td>
 
                         <td class="text-xs-right">
-                            <v-btn flat icon :disabled="props.item.id===$store.state.user.id" @click="deleteUser = props.item.id; youSure = true">
+                            <v-btn v-if="!props.item.owner" @click="deleteUser = props.item.id; youSure = true" :disabled="props.item.id == $store.state.user.id" flat icon>
                                 <v-icon>delete</v-icon>
                             </v-btn>
                         </td>
