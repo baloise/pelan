@@ -10,7 +10,7 @@ The development of this UI was part of his final project (IPA, Individuelle Prak
 ### Details
 - Made with VueJS
 - API Repository [here](https://github.com/baloise/pelan-api)
-- Demo-App [here](https://pelan.osis.io)
+- Demo-App [here](https://pelan-demo.netlify.com)
 
 ## Setup
 
