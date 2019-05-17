@@ -18,17 +18,19 @@
 
                         <td>
                             <v-edit-dialog @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-
                                 <span v-if="loading.roles" class="spinning-loader">
                                     <v-icon light>cached</v-icon>
                                 </span>
-                                {{ (getGroup(props.item.role))['title'] }}
-                                 <v-icon small v-if="!props.item.owner">edit</v-icon>
 
+                                <v-chip class="clickable" v-if="!props.item.owner">
+                                    {{ (getGroup(props.item.role))['title'] }}
+                                </v-chip>
+                                <span v-else class="title">
+                                    {{ $t('owner') }}
+                                </span>
                                 <template v-slot:input>
                                     <v-select :disabled="props.item.owner" v-model="props.item.role" :items="roleItems" item-text="title" item-value="id" aria-label="Roles"></v-select>
                                 </template>
-
                             </v-edit-dialog>
                         </td>
 
@@ -120,7 +122,9 @@ export default {
                 value: 'role'
             },
             {
-                text: '',
+                text: this.$t('user.remove'),
+                align: 'right',
+                sortable: false,
                 value: ''
             }
             ]
@@ -210,14 +214,15 @@ export default {
                 user: {
                     name: 'Name',
                     role: 'Role',
-                    delete: 'Delete'
+                    remove: 'Remove'
                 },
                 yousure: {
                     title: 'Are you sure about that?',
                     text: 'Deleting this User will delete all his assignments too, so you will have to do everything again if you add the user in future.',
                     accept: 'I know, delete this User',
                     stop: 'Cancel deletion'
-                }
+                },
+                owner: 'Owner'
             },
             de: {
                 users: 'Benutzer',
@@ -227,14 +232,15 @@ export default {
                 user: {
                     name: 'Name',
                     role: 'Rolle',
-                    delete: 'Löschen'
+                    remove: 'Entfernen'
                 },
                 yousure: {
                     title: 'Bist du dir sicher?',
                     text: 'Das löschen von diesem Benutzer wird all seine bestehenden Einsätzen entfernen, wodurch alles neu eingetragen werden müsste, wenn der Benutzer wieder dem Team beitritt.',
                     accept: 'Ich weiss, lösche den Benutzer',
                     stop: 'Löschen abbrechen'
-                }
+                },
+                owner: 'Inhaber'
             }
         }
     }

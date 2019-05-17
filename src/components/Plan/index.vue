@@ -12,13 +12,13 @@
 
     <AssignDialog :show="dialog" :content="inEdit" @close="dialog = false" />
 
-    <div class="scroller" id="head" @scroll.passive="scroller($event.target.scrollLeft, 'head')">
+    <div class="scroller" id="head" @scroll.passive="scroller($event.target, 'head')">
         <table class="scroll-table">
             <HeaderRow :hrc="uow" />
         </table>
     </div>
 
-    <div class="scroller" id="user" @scroll.passive="scroller($event.target.scrollLeft, 'user')">
+    <div class="scroller" id="user" @scroll.passive="scroller($event.target, 'user')">
         <table class="scroll-table">
             <UserRow v-for="u in userList" :key="u.id" :usr="u" :prc="uow" @assign="doEdit" />
         </table>
@@ -172,11 +172,13 @@ export default {
 
         // Syncronize scrolling of header- and user-table
         scroller (count, part) {
-            if (count !== this.scrollPos) {
-                if (part === 'head') document.getElementById('user').scrollLeft = count + 3
-                else document.getElementById('head').scrollLeft = count - 3
+            if (count.scrollLeft !== this.scrollPos) {
+                if (part === 'head') document.getElementById('user').scrollLeft = count.scrollLeft + 3
+                else document.getElementById('head').scrollLeft = count.scrollLeft - 3
                 this.scrollPos = count
             }
+            if (count.scrollTop > 100) this.$store.state.app.denseBar = true
+            else this.$store.state.app.denseBar = false
         }
 
     },

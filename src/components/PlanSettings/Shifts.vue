@@ -99,7 +99,6 @@
 
 <script>
 import { Slider } from 'vue-color'
-import(/* webpackPrefetch: true */ '@/assets/css/plansettings.css')
 
 export default {
     name: 'Shifts',

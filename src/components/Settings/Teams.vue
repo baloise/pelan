@@ -4,14 +4,25 @@
             <v-card-text>
                 <v-layout row wrap align-center justify-center>
 
-                    <v-flex xs12 md4>
+                    <v-flex xs12 md3>
                         <span class="caption">{{ $t('name') }}</span><br />
                         <span class="title">{{ team.title }}</span>
                     </v-flex>
 
-                    <v-flex xs12 md8 class="text-md-right">
+                    <v-flex xs12 md3>
+                        <span class="caption">{{ $t('owner') }}</span><br />
+                        <span class="">{{ team.owner.name }}</span>
+                    </v-flex>
+
+                    <v-flex xs12 md5 class="text-md-right">
                         <span class="caption">{{ $t('desc') }}</span><br />
                         <span class="">{{ team.description }}</span>
+                    </v-flex>
+
+                    <v-flex xs12 md1 class="text-md-right">
+                        <v-btn :disabled="team.owner.id == $store.state.user.id" flat icon >
+                            <v-icon>delete</v-icon>
+                        </v-btn>
                     </v-flex>
 
                 </v-layout>
@@ -52,16 +63,14 @@ export default {
             en: {
                 noTeam: 'You have not joined a team yet.',
                 name: 'Name',
-                desc: 'Description',
-                public: 'Pubilc',
-                no: 'No'
+                owner: 'Owner',
+                desc: 'Description'
             },
             de: {
                 noTeam: 'Du bist noch in keinem Team.',
                 name: 'Name',
-                desc: 'Beschreibung',
-                public: 'Öffentlich',
-                no: 'Nein'
+                owner: 'Inhaber',
+                desc: 'Beschreibung'
             }
         }
     }

@@ -1,9 +1,9 @@
 <template>
     <v-container fluid class="pa-0">
 
-        <v-layout row wrap v-if="info" class="pt-0 pb-2">
+        <v-layout row wrap v-if="info && !$store.state.app.denseBar" class="pt-0 pb-2">
 
-            <v-flex grow v-if="$store.state.data.shifts" class="pa-2">
+            <v-flex xs12 md10 v-if="$store.state.data.shifts" class="pa-2 text-xs-center text-md-left">
                 <v-chip v-for="shift in $store.state.data.shifts" :key="shift.id">
                     <v-avatar :style="{ backgroundColor: shift.color}"></v-avatar>
                     <span>{{shift.title}}</span>
@@ -12,7 +12,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-flex shrink class="pt-1">
+            <v-flex xs12 md2 class="pt-1 text-xs-center text-md-left">
                 <v-btn flat class="title text-capitalize" @click.stop="filter.show = true">
                     <span class="title">{{dt.select}}</span>
                     <v-icon right>edit</v-icon>

@@ -20,7 +20,7 @@
                             <v-edit-dialog :return-value.sync="props.item.description" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
                                 {{ props.item.description }}
                                 <template v-slot:input>
-                                    <v-text-field v-model="props.item.description" :rules="[minChars]"></v-text-field>
+                                    <v-textarea v-model="props.item.description" :rules="[minChars]" />
                                 </template>
                             </v-edit-dialog>
                         </td>

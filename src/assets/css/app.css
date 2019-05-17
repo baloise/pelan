@@ -121,3 +121,18 @@
         transform: rotate(360deg);
     }
 }
+
+.clickable {
+    cursor: pointer !important;
+}
+
+/* Shift-Editor */
+.colorPicker {
+    width: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 21px;
+    margin-bottom: 10px;
+    box-shadow: none !important;
+    border: none;
+}

@@ -53,8 +53,8 @@ export default {
         return {
             sending: false,
             fd: {
-                email: '',
-                password: ''
+                email: 'xx0001@demo.com',
+                password: 'xx0001'
             },
             rule: {
                 valid: false,

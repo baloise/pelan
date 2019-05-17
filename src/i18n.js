@@ -27,7 +27,7 @@ export default new VueI18n({
                 dashboard: 'Dashboard',
                 plan: 'Plan',
                 settings: 'Settings',
-                edits: 'Admin',
+                edits: 'Team Settings',
                 teamchange: 'Change Team',
                 plansettings: 'Edit Plan',
                 teamsettings: 'Edit Team',
@@ -55,7 +55,10 @@ export default new VueI18n({
                 email: 'E-Mail',
                 nickname: 'Nickname',
                 language: 'Language',
-                password: 'Password'
+                password: 'Password',
+                title: 'Title',
+                desc: 'Description',
+                owner: 'Owner'
             },
             btn: {
                 save: 'Save',
@@ -85,12 +88,12 @@ export default new VueI18n({
             },
             views: {
                 dashboard: 'Dashboard',
-                plan: 'Dienstplan',
+                plan: 'Plan',
                 settings: 'Einstellungen',
                 teamchange: 'Team wechseln',
-                edits: 'Admin',
+                edits: 'Team',
                 plansettings: 'Plan bearbeiten',
-                teamsettings: 'Team bearbeiten',
+                teamsettings: 'Team verwalten',
                 help: 'Support',
                 login: 'Anmelden',
                 logout: 'Abmelden',
@@ -115,7 +118,10 @@ export default new VueI18n({
                 email: 'E-Mail',
                 nickname: 'Spitzname',
                 language: 'Sprache',
-                password: 'Passwort'
+                password: 'Passwort',
+                title: 'Titel',
+                desc: 'Beschreibung',
+                owner: 'Inhaber'
             },
             btn: {
                 save: 'Speichern',

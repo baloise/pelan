@@ -11,7 +11,8 @@ export default new Vuex.Store({
         app: {
             title: 'Pelan',
             version: '1.0',
-            drawer: true
+            drawer: true,
+            denseBar: false
         },
 
         // Auth/Token Info

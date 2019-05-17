@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar app class="primary" flat dark clipped-left>
+    <v-toolbar :dense="$store.state.app.denseBar" app class="primary" flat dark clipped-left>
 
         <v-toolbar-side-icon aria-label="OpenMenu" @click.stop="drawer()"></v-toolbar-side-icon>
 
@@ -8,7 +8,7 @@
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-img :src="require('@/assets/baloise/logo.svg')" max-height="40px" contain position="right"></v-img>
+        <v-img :src="require('@/assets/baloise/logo.svg')" :max-height="imgHeight" contain position="right"></v-img>
 
     </v-toolbar>
 </template>
@@ -18,6 +18,11 @@ export default {
     name: 'Toolbar',
 
     computed: {
+
+        imgHeight () {
+            if (this.$store.state.app.denseBar) return '30px'
+            else return '40px'
+        },
 
         // Get title of app
         appTitle () {
