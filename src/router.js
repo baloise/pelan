@@ -70,6 +70,15 @@ export default new Router({
             }
         },
         {
+            path: '/login',
+            name: 'login',
+            component: () => import('./views/Shared/Login.vue'),
+            meta: {
+                requiresAuth: false,
+                requiresAdmin: false
+            }
+        },
+        {
             path: '/401',
             name: 'nopermission',
             component: () => import('./views/Shared/NoPermission'),

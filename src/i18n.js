@@ -32,6 +32,8 @@ export default new VueI18n({
                 plansettings: 'Edit Plan',
                 teamsettings: 'Edit Team',
                 help: 'Support',
+                login: 'Login',
+                logout: 'Logout',
                 register: 'Get Access',
                 notfound: 'Page not found',
                 nopermission: 'No Permissions'
@@ -78,7 +80,9 @@ export default new VueI18n({
                 plansettings: 'Plan bearbeiten',
                 teamsettings: 'Team bearbeiten',
                 help: 'Support',
-                register: 'Anmelden',
+                login: 'Anmelden',
+                logout: 'Abmelden',
+                register: 'Konto erstellen',
                 notfound: 'Seite nicht gefunden',
                 nopermission: 'Keine Rechte'
             },

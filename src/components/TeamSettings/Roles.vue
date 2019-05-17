@@ -98,8 +98,8 @@ export default {
 
     methods: {
 
-        isMain(mainInt){
-            if(mainInt === 1) return true
+        isMain (mainInt) {
+            if (mainInt === 1) return true
             return false
         },
 

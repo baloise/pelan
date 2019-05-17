@@ -3,7 +3,7 @@
         <v-layout row wrap align-center>
 
             <v-flex xs12>
-                <h1 class="display-1 primary--text">Willkommen!</h1>
+                <h1 class="display-1 primary--text">Konto erstellen</h1>
                 <p>Scheinbar bist du zum ersten Mal hier.</p>
 
                 <v-card>
@@ -28,17 +28,19 @@
                                 <v-flex xs12>
                                     <v-divider class="pb-3"></v-divider>
                                     <h1 class="title primary--text">Konto</h1>
-                                    <span>Dein Spitzname erscheint im Plan auf der linken Seite und sollte nicht zu viel Platz verbrauchen.
-                                    Wähle deshalb einen kurzen Spitznamen aus.</span>
+                                    <span>
+                                        Dein Spitzname erscheint im Plan auf der linken Seite und sollte nicht zu viel Platz verbrauchen.
+                                        Wähle deshalb einen kurzen Spitznamen aus.
+                                    </span>
                                 </v-flex>
                                 <v-flex xs12 md4>
-                                    <v-text-field :label="$t('ft.nickname')" v-model="fd.nickname" :rules="[rule.min, rule.max]" counter="10"/>
+                                    <v-text-field :label="$t('ft.nickname')" v-model="fd.nickname" :rules="[rule.min, rule.max]" counter="10" />
                                 </v-flex>
                                 <v-flex xs12 md4>
-                                    <v-select :label="$t('ft.language')" v-model="fd.language" :rules="[rule.min]" :items="langItems" hide-selected/>
+                                    <v-select :label="$t('ft.language')" v-model="fd.language" :rules="[rule.min]" :items="langItems" hide-selected />
                                 </v-flex>
                                 <v-flex xs12 md4>
-                                    <v-text-field :label="$t('ft.authkey')" v-model="fd.authkey" :rules="[rule.min]" type="password" />
+                                    <v-text-field :label="$t('ft.password')" v-model="fd.password" :rules="[rule.min]" type="password" />
                                 </v-flex>
 
                                 <v-flex xs12 class="pa-2">
@@ -60,89 +62,89 @@
 </template>
 
 <script>
-    export default {
-        name: 'Register',
+export default {
+    name: 'Register',
 
-        data() {
-            return {
-                fd: {
-                    firstname: 'Elia',
-                    lastname: 'Reute',
-                    email: 'mail@reute.yay',
-                    nickname: 'EliaR',
-                    language: 'de',
-                    authkey: 'b037160'
-                },
-                rule: {
-                    valid: false,
-                    min: v => !!v || this.$t('alert.require'),
-                    max: v => v.length < 11 || this.$t('length'),
-                    mail: {
-                        valid: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('alert.valid'),
-                        max: v => v.length < 90 || this.$t('length')
-                    }
-                }
-            }
-        },
-
-        computed: {
-
-            langItems () {
-                return [
-                    { text: this.$t('language.en'), value: 'en' },
-                    { text: this.$t('language.de'), value: 'de' }
-                ]
-            }
-
-        },
-
-        methods: {
-
-            register(){
-                var vm = this
-                vm.$refs.form.validate()
-                if (!vm.$data.rule.valid) return false
-                vm.$http.post('user/create/', {
-                    withLogin: 1, user: vm.fd
-                }).then(function (response) {
-                    vm.$store.commit('login')
-                    vm.$notify({ type: 'success', text: vm.$t('alert.register') })
-                    vm.$router.push('/')
-                }).catch(function () {
-                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
-                })
-            }
-
-        },
-
-        i18n: {
-            messages: {
-                en: {
-                    ft: {
-                        name: 'Name',
-                        firstname: 'Firstname',
-                        lastname: 'Lastname',
-                        email: 'E-Mail',
-                        nickname: 'Nickname',
-                        language: 'Language',
-                        authkey: 'Password',
-                        send: 'Send'
-                    }
-                },
-                de: {
-                    ft: {
-                        name: 'Name',
-                        firstname: 'Vorname',
-                        lastname: 'Nachname',
-                        email: 'E-Mail',
-                        nickname: 'Spitzname',
-                        language: 'Sprache',
-                        authkey: 'Passwort',
-                        send: 'Absenden'
-                    }
+    data () {
+        return {
+            fd: {
+                firstname: 'Elia',
+                lastname: 'Reute',
+                email: 'mail@reute.yay',
+                nickname: 'EliaR',
+                language: 'de',
+                password: 'b037160'
+            },
+            rule: {
+                valid: false,
+                min: v => !!v || this.$t('alert.require'),
+                max: v => v.length < 11 || this.$t('length'),
+                mail: {
+                    valid: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('alert.valid'),
+                    max: v => v.length < 90 || this.$t('length')
                 }
             }
         }
+    },
 
+    computed: {
+
+        langItems () {
+            return [
+                { text: this.$t('language.en'), value: 'en' },
+                { text: this.$t('language.de'), value: 'de' }
+            ]
+        }
+
+    },
+
+    methods: {
+
+        register () {
+            var vm = this
+            vm.$refs.form.validate()
+            if (!vm.$data.rule.valid) return false
+            vm.$http.post('user/create/', {
+                withLogin: 1, user: vm.fd
+            }).then(function (response) {
+                vm.$store.commit('login')
+                vm.$notify({ type: 'success', text: vm.$t('alert.register') })
+                vm.$router.push('/')
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            })
+        }
+
+    },
+
+    i18n: {
+        messages: {
+            en: {
+                ft: {
+                    name: 'Name',
+                    firstname: 'Firstname',
+                    lastname: 'Lastname',
+                    email: 'E-Mail',
+                    nickname: 'Nickname',
+                    language: 'Language',
+                    password: 'Password',
+                    send: 'Send'
+                }
+            },
+            de: {
+                ft: {
+                    name: 'Name',
+                    firstname: 'Vorname',
+                    lastname: 'Nachname',
+                    email: 'E-Mail',
+                    nickname: 'Spitzname',
+                    language: 'Sprache',
+                    password: 'Passwort',
+                    send: 'Absenden'
+                }
+            }
+        }
     }
+
+}
 </script>

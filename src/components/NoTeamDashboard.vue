@@ -19,14 +19,9 @@
 </template>
 
 <script>
-import CreateTeam from '@/components/Settings/CreateTeam'
 
 export default {
     name: 'NoTeamDashboard',
-
-    components: {
-        CreateTeam
-    },
 
     i18n: {
         messages: {

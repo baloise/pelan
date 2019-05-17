@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Drawer from '@/components/Navigation/Drawer'
+import Drawer from '@/components/Navigation/Drawer/'
 import Toolbar from '@/components/Navigation/Toolbar'
 import { mapActions } from 'vuex'
 import(/* webpackPrefetch: true */ '@/assets/css/app.css')
@@ -65,6 +65,7 @@ export default {
                 callErr(false)
             }).catch(function (error) {
                 if (error.response.data.reason === 'not_registered') callErr('register')
+                else if (error.response.data.reason === 'credentials_needed') callErr('login')
                 else callErr('nopermission')
             })
             /* eslint-enable standard/no-callback-literal */
