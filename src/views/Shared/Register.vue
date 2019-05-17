@@ -9,7 +9,7 @@
                 <v-card>
                     <v-card-text>
                         <v-form v-model="rule.valid" ref="form">
-                            <v-layout row wrap>
+                            <v-layout row wrap @click="change = true">
 
                                 <v-flex xs12>
                                     <h1 class="title primary--text">Grundlagen</h1>
@@ -45,8 +45,11 @@
 
                                 <v-flex xs12 class="pa-2">
                                     <v-divider class="pb-3"></v-divider>
-                                    <v-btn @click="register()" color="primary" depressed block>
-                                        {{ $t('ft.send') }}
+                                    <v-btn @click="register()" color="primary" depressed block :disabled="!change || sending" :loading="sending">
+                                        {{ $t('btn.send') }}
+                                        <span slot="loader" class="spinning-loader">
+                                            <v-icon light>cached</v-icon>
+                                        </span>
                                     </v-btn>
                                 </v-flex>
 
@@ -67,6 +70,8 @@ export default {
 
     data () {
         return {
+            change: false,
+            sending: false,
             fd: {
                 firstname: '',
                 lastname: '',
@@ -78,10 +83,10 @@ export default {
             rule: {
                 valid: false,
                 min: v => !!v || this.$t('alert.require'),
-                max: v => v.length < 11 || this.$t('length'),
+                max: v => v.length < 11 || this.$t('alert.length'),
                 mail: {
                     valid: v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || this.$t('alert.valid'),
-                    max: v => v.length < 90 || this.$t('length')
+                    max: v => v.length < 90 || this.$t('alert.length')
                 }
             }
         }
@@ -104,46 +109,22 @@ export default {
             var vm = this
             vm.$refs.form.validate()
             if (!vm.$data.rule.valid) return false
+
+            vm.$data.sending = true
             vm.$http.post('user/create/', {
                 withLogin: 1, user: vm.fd
             }).then(function (response) {
+                vm.$data.change = false
                 vm.$store.commit('login')
-                vm.$notify({ type: 'success', text: vm.$t('alert.register') })
                 vm.$router.push('/')
+                vm.$notify({ type: 'success', text: vm.$t('alert.register') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            }).then(function () {
+                vm.$data.sending = false
             })
         }
 
-    },
-
-    i18n: {
-        messages: {
-            en: {
-                ft: {
-                    name: 'Name',
-                    firstname: 'Firstname',
-                    lastname: 'Lastname',
-                    email: 'E-Mail',
-                    nickname: 'Nickname',
-                    language: 'Language',
-                    password: 'Password',
-                    send: 'Send'
-                }
-            },
-            de: {
-                ft: {
-                    name: 'Name',
-                    firstname: 'Vorname',
-                    lastname: 'Nachname',
-                    email: 'E-Mail',
-                    nickname: 'Spitzname',
-                    language: 'Sprache',
-                    password: 'Passwort',
-                    send: 'Absenden'
-                }
-            }
-        }
     }
 
 }

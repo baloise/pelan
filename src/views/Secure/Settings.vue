@@ -3,8 +3,8 @@
         <v-layout row wrap>
 
             <v-flex xs12 class="pl-3 pr-3">
-                <h1 class="headline primary--text pt-3">{{ $t('lang') }}</h1>
-                <Language />
+                <h1 class="headline primary--text pt-3">{{ $t('details') }}</h1>
+                <Details />
             </v-flex>
 
             <v-flex xs12 class="mb-4 mt-4">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import Language from '@/components/Settings/Language'
+import Details from '@/components/Settings/Details'
 import Teams from '@/components/Settings/Teams'
 import CreateTeam from '@/components/Settings/CreateTeam'
 
@@ -36,7 +36,7 @@ export default {
     name: 'Settings',
 
     components: {
-        Language,
+        Details,
         Teams,
         CreateTeam
     },
@@ -44,11 +44,11 @@ export default {
     i18n: {
         messages: {
             en: {
-                lang: 'Language',
+                details: 'Details',
                 teams: 'Teams'
             },
             de: {
-                lang: 'Sprache',
+                details: 'Details',
                 teams: 'Teams'
             }
         }

@@ -43,14 +43,26 @@ export default new VueI18n({
                 error: 'Error while saving changes',
                 require: 'Required value',
                 valid: 'This value is not valid',
+                length: 'Value is too long',
                 authFail: 'Authentication was not successful',
                 loadFail: 'There was an error while loading the data',
                 registered: 'Your Account has been created. Welcome to Pelan!'
             },
+            ft: {
+                name: 'Name',
+                firstname: 'Firstname',
+                lastname: 'Lastname',
+                email: 'E-Mail',
+                nickname: 'Nickname',
+                language: 'Language',
+                password: 'Password'
+            },
             btn: {
                 save: 'Save',
                 close: 'Close',
-                cancel: 'Cancel'
+                cancel: 'Cancel',
+                send: 'Send',
+                login: 'Login'
             },
             language: {
                 en: 'English',
@@ -91,14 +103,26 @@ export default new VueI18n({
                 error: 'Fehler beim speichern der Änderungen',
                 require: 'Wert wird benötigt',
                 valid: 'Dieser Wert ist invalid',
+                length: 'Wert ist zu lang',
                 authFail: 'Authentifizierung war nicht erfolgreich',
                 loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.',
                 register: 'Dein Account wurde erstellt. Willkommen bei Pelan!'
             },
+            ft: {
+                name: 'Name',
+                firstname: 'Vorname',
+                lastname: 'Nachname',
+                email: 'E-Mail',
+                nickname: 'Spitzname',
+                language: 'Sprache',
+                password: 'Passwort'
+            },
             btn: {
                 save: 'Speichern',
                 close: 'Schliessen',
-                cancel: 'Abbrechen'
+                cancel: 'Abbrechen',
+                send: 'Absenden',
+                login: 'Anmelden'
             },
             language: {
                 en: 'Englisch',

@@ -11,31 +11,8 @@
                     <v-progress-linear v-slot:progress color="blue" indeterminate></v-progress-linear>
                     <template v-slot:items="props">
 
-                        <td :class="{'error': !props.item.firstname.length}">
-                            <v-edit-dialog :return-value.sync="props.item.firstname" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                                {{ props.item.firstname }}
-                                <template v-slot:input>
-                                    <v-text-field v-model="props.item.firstname" :rules="[minChars]"></v-text-field>
-                                </template>
-                            </v-edit-dialog>
-                        </td>
-
-                        <td :class="{'error': !props.item.lastname.length}">
-                            <v-edit-dialog :return-value.sync="props.item.lastname" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                                {{ props.item.lastname }}
-                                <template v-slot:input>
-                                    <v-text-field v-model="props.item.lastname" :rules="[minChars]"></v-text-field>
-                                </template>
-                            </v-edit-dialog>
-                        </td>
-
-                        <td :class="{'error': !props.item.nickname.length || props.item.nickname.length > 10}">
-                            <v-edit-dialog :return-value.sync="props.item.nickname" @save="close(props.item)" :saveText="$t('btn.save')" :cancelText="$t('btn.cancel')" large lazy>
-                                {{ props.item.nickname }}
-                                <template v-slot:input>
-                                    <v-text-field v-model="props.item.nickname" :rules="[maxChars, minChars]" counter="10"></v-text-field>
-                                </template>
-                            </v-edit-dialog>
+                        <td>
+                            {{ props.item.firstname }} {{ props.item.lastname }} ({{ props.item.nickname }})
                         </td>
 
                         <td>
@@ -53,7 +30,7 @@
                             </v-edit-dialog>
                         </td>
 
-                        <td>
+                        <td class="text-xs-right">
                             <v-btn flat icon :disabled="props.item.id===$store.state.user.id" @click="deleteUser = props.item.id; youSure = true">
                                 <v-icon>delete</v-icon>
                             </v-btn>
@@ -133,23 +110,15 @@ export default {
         // Table-headers
         headers () {
             return [{
-                text: this.$t('user.firstname'),
+                text: this.$t('user.name'),
                 value: 'firstname'
-            },
-            {
-                text: this.$t('user.lastname'),
-                value: 'lastname'
-            },
-            {
-                text: this.$t('user.nickname'),
-                value: 'nickname'
             },
             {
                 text: this.$t('user.role'),
                 value: 'role'
             },
             {
-                text: this.$t('user.delete'),
+                text: '',
                 value: ''
             }
             ]
@@ -195,17 +164,13 @@ export default {
         close (item) {
             var vm = this
             vm.$refs.formData.validate()
-            if (!vm.$data.isValid) {
-                vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
-            } else {
-                vm.$http.post('user/edit/', item).then(function (response) {
+            if (!vm.$data.isValid) vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
+            else {
+                vm.$http.post('user/edit/admin/', item).then(function (response) {
                     vm.$notify({ type: 'success', text: vm.$t('alert.success') })
                     if (item.id === vm.$store.state.user.id) vm.$store.commit('login')
                 }).catch(function () {
-                    vm.$notify({
-                        type: 'error',
-                        text: vm.$t('alert.error')
-                    })
+                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 })
             }
         }
@@ -220,27 +185,16 @@ export default {
             vm.$http.get('user/read/').then(function (response) {
                 vm.$store.state.data.users = response.data.content
             }).catch(function () {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('alert.loadFail')
-                })
+                vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
             })
         }
 
         // Get available roles of team
         vm.$http.get('role/read/').then(function (response) {
             if (response.data.content) vm.$store.state.data.roles = response.data.content
-            else {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('alert.loadFail')
-                })
-            }
+            else vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         }).catch(function () {
-            vm.$notify({
-                type: 'error',
-                text: vm.$t('alert.loadFail')
-            })
+            vm.$notify({ type: 'error', text: vm.$t('alert.loadFail') })
         })
     },
 
@@ -252,9 +206,7 @@ export default {
                 length: 'Value is too long',
                 valueWrong: 'Invalid value set',
                 user: {
-                    firstname: 'Firstname',
-                    lastname: 'Lastname',
-                    nickname: 'Nickname',
+                    name: 'Name',
                     role: 'Role',
                     delete: 'Delete'
                 },
@@ -271,9 +223,7 @@ export default {
                 length: 'Wert ist zu lang',
                 valueWrong: 'Fehlerhafte Eingabe',
                 user: {
-                    firstname: 'Vorname',
-                    lastname: 'Nachname',
-                    nickname: 'Nickname',
+                    name: 'Name',
                     role: 'Rolle',
                     delete: 'Löschen'
                 },

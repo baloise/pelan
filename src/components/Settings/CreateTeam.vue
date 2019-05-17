@@ -94,12 +94,9 @@ export default {
             var vm = this
             vm.$refs.joinForm.validate()
             if (!vm.$data.rule.valid) return false
+
             vm.$http.post('team/join/', vm.fexist).then(function (response) {
-                vm.$store.state.data.teams.push({
-                    id: response.data.content.id,
-                    title: response.data.content.title,
-                    description: response.data.content.description
-                })
+                vm.$store.state.data.teams.push(response.data.content)
                 vm.change(response.data.content.id)
                 vm.$notify({ type: 'success', text: vm.$t('notif.joined') })
             }).catch(function () {

@@ -10,7 +10,7 @@
 
                 <v-card-text class="pt-0 pb-0">
                     <v-form v-model="rules.valid" ref="editorForm">
-                        <v-layout wrap>
+                        <v-layout wrap @click="change = true">
                             <v-flex xs12>
                                 <h3 class="title">{{ formdata.user }}</h3>
                             </v-flex>
@@ -30,7 +30,7 @@
                 </v-card-text>
 
                 <v-card-actions v-if="this.$store.state.user.role.admin">
-                    <v-btn @click="updateShift()" :disabled="disabled" :loading="disabled" block large color="primary">
+                    <v-btn @click="updateShift()" block large color="primary" :disabled="!change || sending" :loading="sending">
                         {{ $t('btn.save') }}
                         <span slot="loader" class="spinning-loader">
                             <v-icon light>cached</v-icon>
@@ -57,7 +57,8 @@ export default {
 
     data () {
         return {
-            disabled: false,
+            change: false,
+            sending: false,
             rules: {
                 valid: false,
                 set: [(v) => !!v || this.$t('alert.require')]
@@ -119,6 +120,7 @@ export default {
 
         deleteShift () {
             var vm = this
+            vm.$data.sending = true
             vm.$http.post('assignment/delete/', {
                 user: vm.content.user.id,
                 time: vm.content.time.id,
@@ -129,33 +131,36 @@ export default {
                 vm.$emit('close')
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            }).then(function () {
+                vm.$data.sending = false
             })
         },
 
         updateShift () {
             var vm = this
             vm.$refs.editorForm.validate()
+            vm.formdata.user = vm.content.user.id
+            vm.formdata.time = vm.content.time.id
 
-            if (vm.$data.rules.valid) {
-                if (!vm.formdata.shift && !vm.formdata.note) {
-                    vm.$notify({ type: 'error', text: vm.$t('emptyInputs') })
-                } else if (vm.content.user.id && vm.content.time.id) {
-                    vm.$data.disabled = true
-                    vm.formdata.user = vm.content.user.id
-                    vm.formdata.time = vm.content.time.id
-
-                    vm.$http.post('assignment/set/', vm.formdata).then(function (response) {
-                        vm.removeObj(vm.formdata.time, vm.content.dateFull.getTime())
-                        vm.$store.state.data.assigns[vm.content.user.id].assigns.push(vm.formdata)
-                        vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                        vm.disabled = false
-                        vm.$emit('close')
-                    }).catch(function () {
-                        vm.disabled = false
-                        vm.$notify({ type: 'error', text: vm.$t('alert.error') })
-                    })
-                }
+            if (!vm.$data.rules.valid) return false
+            if (!vm.content.user.id || !vm.content.time.id) return false
+            if (!vm.formdata.shift && !vm.formdata.note) {
+                vm.$notify({ type: 'error', text: vm.$t('emptyInputs') })
+                return false
             }
+
+            vm.$data.sending = true
+            vm.$http.post('assignment/set/', vm.formdata).then(function (response) {
+                vm.removeObj(vm.formdata.time, vm.content.dateFull.getTime())
+                vm.$store.state.data.assigns[vm.content.user.id].assigns.push(vm.formdata)
+                vm.$data.change = false
+                vm.$emit('close')
+                vm.$notify({ type: 'success', text: vm.$t('alert.success') })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            }).then(function () {
+                vm.$data.sending = false
+            })
         }
 
     },
@@ -163,9 +168,6 @@ export default {
     i18n: {
         messages: {
             en: {
-                user: 'User',
-                time: 'Time',
-                date: 'Date',
                 shift: 'Shift',
                 note: 'Notes',
                 editShift: 'Edit Shift',
@@ -173,9 +175,6 @@ export default {
                 emptyInputs: 'Please choose at least the Shift or write a note.'
             },
             de: {
-                user: 'Benutzer',
-                time: 'Zeit',
-                date: 'Datum',
                 shift: 'Schicht',
                 note: 'Notizen',
                 editShift: 'Schicht bearbeiten',

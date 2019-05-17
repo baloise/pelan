@@ -21,8 +21,11 @@
 
                                 <v-flex xs12 class="pl-2 pr-2 pb-1">
                                     <v-divider class="pb-3"></v-divider>
-                                    <v-btn @click="login()" color="primary" depressed block>
-                                        {{ $t('ft.login') }}
+                                    <v-btn @click="login()" color="primary" depressed block :disabled="sending" :loading="sending">
+                                        {{ $t('btn.login') }}
+                                        <span slot="loader" class="spinning-loader">
+                                            <v-icon light>cached</v-icon>
+                                        </span>
                                     </v-btn>
                                 </v-flex>
 
@@ -48,6 +51,7 @@ export default {
 
     data () {
         return {
+            sending: false,
             fd: {
                 email: '',
                 password: ''
@@ -81,33 +85,19 @@ export default {
             var vm = this
             vm.$refs.form.validate()
             if (!vm.$data.rule.valid) return false
+
+            vm.$data.sending = true
             vm.$http.post('user/login/', vm.fd).then(function (response) {
                 vm.$store.commit('login')
                 vm.$router.push('/')
             }).catch(function () {
+                vm.$data.sending = false
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
+            }).then(function () {
+                vm.$data.sending = false
             })
         }
 
-    },
-
-    i18n: {
-        messages: {
-            en: {
-                ft: {
-                    email: 'E-Mail',
-                    password: 'Password',
-                    login: 'Login'
-                }
-            },
-            de: {
-                ft: {
-                    email: 'E-Mail',
-                    password: 'Passwort',
-                    login: 'Anmelden'
-                }
-            }
-        }
     }
 
 }

@@ -3,7 +3,7 @@
 
         <v-layout row wrap class="mb-2" align-center>
             <v-flex xs12 md3>
-                <v-btn :disabled="!changes" @click="save()" color="primary" block>{{ $t('btn.save') }}</v-btn>
+                <v-btn :disabled="!change" @click="save()" color="primary" block>{{ $t('btn.save') }}</v-btn>
             </v-flex>
             <v-flex xs12 md2 class="text-md-center">
                 <h3 class="title warning--text" v-html="$t('attention.title')"></h3>
@@ -76,9 +76,10 @@ export default {
 
     data () {
         return {
+            change: false,
+            sending: false,
             dialog: false,
             editID: false,
-            changes: false,
             newElement: {
                 position: null,
                 title: null
@@ -137,7 +138,7 @@ export default {
             }
             if (!error) {
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                vm.changes = false
+                vm.change = false
             } else {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }
@@ -184,7 +185,7 @@ export default {
             }
             this.editID = str.indexOf(elem)
             this.dialog = true
-            this.changes = true
+            this.change = true
         },
 
         // Process delete-changes made to a time
@@ -202,7 +203,7 @@ export default {
                     storeElems[i].edited = true
                 }
             }
-            this.changes = true
+            this.change = true
         },
 
         // Process and move time
@@ -220,7 +221,7 @@ export default {
                         storeElems[i].edited = true
                     }
                 }
-                this.changes = true
+                this.change = true
             }
         },
 
@@ -239,7 +240,7 @@ export default {
                         storeElems[i].edited = true
                     }
                 }
-                this.changes = true
+                this.change = true
             }
         }
 

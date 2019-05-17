@@ -66,12 +66,7 @@ export default {
             if (!users.length) return []
             users.forEach(function (user) {
                 vm.$store.state.data.assigns = Object.assign({},
-                    vm.$store.state.data.assigns, {
-                        [user.id]: {
-                            loaded: false,
-                            assigns: []
-                        }
-                    }
+                    vm.$store.state.data.assigns, { [user.id]: { loaded: false, assigns: [] } }
                 )
             })
 
@@ -99,12 +94,7 @@ export default {
                 }
 
                 if (tmpWeek !== this.getWeek(currentDate)) {
-                    if (i > 0) {
-                        weeks.push({
-                            week: tmpWeek,
-                            days: i
-                        })
-                    }
+                    if (i > 0) weeks.push({ week: tmpWeek, days: i })
                     tmpWeek = this.getWeek(currentDate)
                     i = 0
                 }
@@ -118,12 +108,7 @@ export default {
             }
             /* eslint-enable no-unmodified-loop-condition, no-mixed-operators */
 
-            if (i > 0) {
-                weeks.push({
-                    week: tmpWeek,
-                    days: i
-                })
-            }
+            if (i > 0) weeks.push({ week: tmpWeek, days: i })
 
             var today = new Date()
             var todayShort = today.getDate() + '.' + (today.getMonth() + 1) + '.'
@@ -148,8 +133,7 @@ export default {
         getAssigns () {
             var vm = this
             vm.$http.post('assignment/read/team/', {
-                from: vm.startDate,
-                to: vm.endDate
+                from: vm.startDate, to: vm.endDate
             }).then(function (response) {
                 if (response.status === 200) {
                     response.data.content.users.forEach(function (user) {
@@ -167,15 +151,15 @@ export default {
         },
 
         // Get Week-Number of specific Date d
+        /* eslint-disable no-mixed-operators */
         getWeek (d) {
-            /* eslint-disable no-mixed-operators */
             var date = new Date(d.getTime())
             date.setHours(0, 0, 0, 0)
             date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7)
             var week1 = new Date(date.getFullYear(), 0, 4)
             return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7)
-            /* eslint-enable no-mixed-operators */
         },
+        /* eslint-enable no-mixed-operators */
 
         // Open the Assignments dialog
         doEdit (select) {
@@ -228,12 +212,7 @@ export default {
             vm.usrLoad = false
         })
 
-        if (loadfail) {
-            vm.$notify({
-                type: 'error',
-                text: vm.$t('alert.error')
-            })
-        }
+        if (loadfail) vm.$notify({ type: 'error', text: vm.$t('alert.error') })
     },
 
     i18n: {

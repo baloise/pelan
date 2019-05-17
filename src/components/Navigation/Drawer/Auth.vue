@@ -118,16 +118,18 @@ export default {
                 vm.$store.commit('login')
                 if (vm.$route.meta.requiresAdmin) vm.$router.push('/')
             }).catch(function () {
-                vm.$notify({
-                    type: 'error',
-                    text: vm.$t('alert.authFail')
-                })
+                vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
             })
         },
 
         logout () {
-            this.$store.commit('logout')
-            this.$router.push({ name: 'login' })
+            var vm = this
+            vm.$http.post('user/logout/').then(function (response) {
+                vm.$store.commit('logout')
+                vm.$router.push({ name: 'login' })
+            }).catch(function () {
+                vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
+            })
         }
 
     },
@@ -148,10 +150,7 @@ export default {
                     vm.$store.commit('login')
                     if (vm.$route.meta.requiresAdmin) vm.$router.push('/')
                 }).catch(function () {
-                    vm.$notify({
-                        type: 'error',
-                        text: vm.$t('alert.authFail')
-                    })
+                    vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 })
             }
 
