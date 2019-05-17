@@ -81,9 +81,6 @@ export default {
     beforeMount () {
         var vm = this
 
-        console.log(process)
-        console.log(process.env)
-
         // Check permissions before resolving a view
         vm.$router.beforeResolve((to, from, next) => {
             vm.$store.dispatch('checkAuth')
