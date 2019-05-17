@@ -30,7 +30,9 @@
                         </td>
 
                         <td>
-                            <v-btn flat icon :disabled="isMain(props.item.main)" @click="removeRole(props.item.id)"><v-icon>delete</v-icon></v-btn>
+                            <v-btn flat icon :disabled="isMain(props.item.main)" @click="removeRole(props.item.id)">
+                                <v-icon>delete</v-icon>
+                            </v-btn>
                         </td>
 
                     </template>
