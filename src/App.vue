@@ -1,17 +1,17 @@
 <template>
     <v-app>
 
-        <Drawer/>
-        <Toolbar/>
+        <Drawer />
+        <Toolbar />
 
         <v-content>
 
             <notifications position="bottom center" :width="correctWidth" :speed="500">
                 <template slot="body" slot-scope="props">
 
-                <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
-                    {{ props.item.text }}
-                </v-alert>
+                    <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
+                        {{ props.item.text }}
+                    </v-alert>
 
                 </template>
             </notifications>
@@ -29,17 +29,17 @@
 import Drawer from '@/components/Navigation/Drawer'
 import Toolbar from '@/components/Navigation/Toolbar'
 import { mapActions } from 'vuex'
-import(/* webpackPrefetch: true */'@/assets/css/app.css')
+import(/* webpackPrefetch: true */ '@/assets/css/app.css')
 
 export default {
     name: 'App',
 
     components: {
-        Drawer, Toolbar
+        Drawer,
+        Toolbar
     },
 
     computed: {
-
         correctWidth () {
             if (this.$vuetify.breakpoint.smAndDown) return '100%'
             else if (this.$vuetify.breakpoint.mdAndDown) return '70%'
@@ -50,11 +50,9 @@ export default {
             if (this.$store.state.auth.expiration) return this.$store.state.auth.expiration
             else return 'noLogin'
         }
-
     },
 
     methods: {
-
         // Map Store-Functions/Actions
         ...mapActions(['checkAuth']),
 
@@ -77,7 +75,6 @@ export default {
             if (route.requiresAdmin === true && !this.$store.state.user.role.admin) return false
             return true
         }
-
     },
 
     beforeMount () {
@@ -98,7 +95,7 @@ export default {
 
         // Use correct Language at startup & watch Changes
         vm.$i18n.locale = vm.$store.state.user.language
-        vm.$store.watch((state) => {
+        vm.$store.watch(state => {
             return vm.$store.state.user.language
         }, (newValue, oldValue) => {
             if (newValue !== oldValue) {
@@ -107,7 +104,7 @@ export default {
         })
 
         // Use token if available
-        vm.$store.watch((state) => {
+        vm.$store.watch(state => {
             return vm.$store.state.auth.token
         }, (newValue, oldValue) => {
             if (newValue !== oldValue) {
@@ -116,6 +113,5 @@ export default {
             }
         })
     }
-
 }
 </script>
