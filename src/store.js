@@ -47,8 +47,10 @@ export default new Vuex.Store({
         },
 
         // Login-User / process token and add to state & add cookie
-        login (state) {
-            var token = Cookies.getJSON('app_token'); var now = Math.floor(Date.now() / 1000)
+        login (state, prefix) {
+            if (!prefix) prefix = Cookies.get('tkn_cookie_prfx')
+            else Cookies.set('tkn_cookie_prfx', prefix)
+            var token = Cookies.getJSON(prefix + '_app_token'); var now = Math.floor(Date.now() / 1000)
             var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
             if (state.user.team && state.user.team.id !== dec.data.team.id) {
@@ -61,7 +63,7 @@ export default new Vuex.Store({
             }
 
             if (now > dec.exp) {
-                Cookies.remove('app_token')
+                Cookies.remove(prefix + '_app_token')
                 state.auth.token = false
                 state.auth.expiration = null
                 state.user = { language: navigator.language || navigator.userLanguage }
@@ -75,7 +77,8 @@ export default new Vuex.Store({
 
         // Logout-User and remove tokens&cookies
         logout (state) {
-            Cookies.remove('app_token')
+            var prefix = Cookies.get('tkn_cookie_prfx')
+            Cookies.remove(prefix + '_app_token')
             state.auth.token = false
             state.auth.expiration = null
             state.user = { language: navigator.language || navigator.userLanguage }
@@ -88,7 +91,8 @@ export default new Vuex.Store({
         // Check if user/token valid and login/logout
         checkAuth ({ commit, state }) {
             var now = Math.floor(Date.now() / 1000)
-            if (!state.auth.token && Cookies.getJSON('app_token')) commit('login')
+            var prefix = Cookies.get('tkn_cookie_prfx')
+            if (!state.auth.token && Cookies.getJSON(prefix + '_app_token')) commit('login')
             else if (now > state.auth.expiration) commit('logout')
         }
 

@@ -61,7 +61,7 @@ export default {
             /* eslint-disable standard/no-callback-literal */
             var vm = this
             vm.$http.get('user/login/').then(function (response) {
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
                 callErr(false)
             }).catch(function (error) {
                 if (error.response.data.reason === 'not_registered') callErr('register')

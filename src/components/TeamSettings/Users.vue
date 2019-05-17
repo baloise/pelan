@@ -174,7 +174,7 @@ export default {
             else {
                 vm.$http.post('user/edit/admin/', item).then(function (response) {
                     vm.$notify({ type: 'success', text: vm.$t('alert.success') })
-                    if (item.id === vm.$store.state.user.id) vm.$store.commit('login')
+                    if (item.id === vm.$store.state.user.id) vm.$store.commit('login', response.data.content)
                 }).catch(function () {
                     vm.$notify({ type: 'error', text: vm.$t('alert.error') })
                 })

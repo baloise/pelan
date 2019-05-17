@@ -115,7 +115,7 @@ export default {
                 withLogin: 1, user: vm.fd
             }).then(function (response) {
                 vm.$data.change = false
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
                 vm.$router.push('/')
                 vm.$notify({ type: 'success', text: vm.$t('alert.register') })
             }).catch(function () {

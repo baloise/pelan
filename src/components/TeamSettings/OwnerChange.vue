@@ -104,7 +104,7 @@ export default {
             if (!vm.fd.owner) return false
             vm.sending = true
             vm.$http.post('team/edit/owner/', vm.fd).then(function (response) {
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })

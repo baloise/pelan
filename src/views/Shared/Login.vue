@@ -88,7 +88,7 @@ export default {
 
             vm.$data.sending = true
             vm.$http.post('user/login/', vm.fd).then(function (response) {
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
                 vm.$router.push('/')
             }).catch(function () {
                 vm.$data.sending = false

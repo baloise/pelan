@@ -126,7 +126,7 @@ export default {
             vm.$http.post('user/team/change/', {
                 team: teamid
             }).then(function (response) {
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
             })

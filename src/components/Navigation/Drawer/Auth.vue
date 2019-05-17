@@ -115,7 +115,7 @@ export default {
             vm.$http.post('user/team/change/', {
                 team: newTeam
             }).then(function (response) {
-                vm.$store.commit('login')
+                vm.$store.commit('login', response.data.content)
                 if (vm.$route.meta.requiresAdmin) vm.$router.push('/')
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.authFail') })
@@ -147,7 +147,7 @@ export default {
                 vm.$http.post('user/team/change/', {
                     team: newTeam
                 }).then(function (response) {
-                    vm.$store.commit('login')
+                    vm.$store.commit('login', response.data.content)
                     if (vm.$route.meta.requiresAdmin) vm.$router.push('/')
                 }).catch(function () {
                     vm.$notify({ type: 'error', text: vm.$t('alert.error') })
