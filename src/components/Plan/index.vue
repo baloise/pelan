@@ -18,7 +18,7 @@
         </table>
     </div>
 
-    <div class="scroller" id="user" @scroll.passive="scroller($event.target, 'user')">
+    <div class="scroller" id="user" :style="planHeight" @scroll.passive="scroller($event.target, 'user')">
         <table class="scroll-table">
             <UserRow v-for="u in userList" :key="u.id" :usr="u" :prc="uow" @assign="doEdit" />
         </table>
@@ -58,6 +58,11 @@ export default {
     },
 
     computed: {
+
+        planHeight () {
+            if (this.$store.state.app.denseBar) return 'height: 89vh;'
+            else return 'height: 83vh;'
+        },
 
         // Create Store-Element for assignments of each user and return list
         userList () {
