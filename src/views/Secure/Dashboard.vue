@@ -30,19 +30,7 @@
                 <v-divider></v-divider>
             </v-flex>
 
-            <v-flex xs12 sm6 class="pa-2" v-if="notes">
-                <h1 class="headline primary--text pl-2 pt-2">{{ $t('notes') }}</h1>
-                <v-card>
-                    <v-card-text class="pa-0">
-                        <div v-for="(n, index) in notes" :key="'fruit-'+index">
-                            <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
-                            <v-divider></v-divider>
-                        </div>
-                    </v-card-text>
-                </v-card>
-            </v-flex>
-
-            <v-flex xs12 md5 v-if="!loading && !assigns" class="pa-3">
+            <v-flex xs12 v-if="!loading && !assigns">
                 <v-card class="success elevation-0" dark>
                     <v-card-text>
                         <v-layout row wrap align-center>
@@ -51,6 +39,18 @@
                                 <v-icon large>check</v-icon>
                             </v-flex>
                         </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+
+            <v-flex xs12 :sm6="assigns" class="pa-2" v-if="notes">
+                <h1 class="headline primary--text pl-2 pt-2">{{ $t('notes') }}</h1>
+                <v-card>
+                    <v-card-text class="pa-0">
+                        <div v-for="(n, index) in notes" :key="'fruit-'+index">
+                            <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
+                            <v-divider></v-divider>
+                        </div>
                     </v-card-text>
                 </v-card>
             </v-flex>
