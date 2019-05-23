@@ -3,12 +3,13 @@
 
         <v-toolbar-side-icon aria-label="OpenMenu" @click.stop="drawer()"></v-toolbar-side-icon>
 
-        <v-toolbar-title class="white--text" @click="$router.push('/')">
+        <v-toolbar-title class="white--text ml-1" @click="$router.push('/')">
             <h1 class="title">{{ appTitle }}</h1>
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-img :src="require('@/assets/baloise/logo.svg')" :max-height="imgHeight" contain position="right"></v-img>
+        <v-img v-if="!$vuetify.breakpoint.xsOnly" :src="require('@/assets/baloise/logo.svg')" :max-height="imgHeight" contain position="right"></v-img>
+        <v-img v-else :src="require('@/assets/baloise/icon.png')" :max-height="imgHeight" contain position="right"></v-img>
 
     </v-toolbar>
 </template>
@@ -20,8 +21,8 @@ export default {
     computed: {
 
         imgHeight () {
-            if (this.$store.state.app.denseBar) return '30px'
-            else return '40px'
+            if (this.$store.state.app.denseBar) return '28px'
+            else return '30px'
         },
 
         // Get title of app

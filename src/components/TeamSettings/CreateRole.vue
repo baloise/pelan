@@ -2,7 +2,7 @@
     <v-dialog v-model="show" :fullscreen="$vuetify.breakpoint.xsOnly" transition="dialog-bottom-transition" max-width="500px">
 
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" small fab icon color="primary" class="mt-3">
+            <v-btn v-on="on" small fab icon color="primary" class="mt-2">
                 <v-icon>add</v-icon>
             </v-btn>
         </template>

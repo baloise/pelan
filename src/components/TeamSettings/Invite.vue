@@ -2,7 +2,7 @@
     <v-dialog v-model="show" fullscreen hide-overlay transition="dialog-bottom-transition">
 
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" small fab icon color="primary" class="mt-3 mb-0">
+            <v-btn v-on="on" small fab icon color="primary" class="mt-2">
                 <v-icon>add</v-icon>
             </v-btn>
         </template>

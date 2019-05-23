@@ -175,9 +175,8 @@ export default {
             if (count.scrollLeft !== this.scrollPos) {
                 if (part === 'head') document.getElementById('user').scrollLeft = count.scrollLeft + 3
                 else document.getElementById('head').scrollLeft = count.scrollLeft - 3
-                this.scrollPos = count
-            }
-            if (count.scrollTop > 100) this.$store.state.app.denseBar = true
+                this.scrollPos = count.scrollLeft
+            } else if (count.scrollTop > 100) this.$store.state.app.denseBar = true
             else this.$store.state.app.denseBar = false
         }
 

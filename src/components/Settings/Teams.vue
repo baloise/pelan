@@ -9,17 +9,17 @@
                         <span class="title">{{ team.title }}</span>
                     </v-flex>
 
-                    <v-flex xs12 md3>
-                        <span class="caption">{{ $t('owner') }}</span><br />
-                        <span class="">{{ team.owner.name }}</span>
-                    </v-flex>
-
-                    <v-flex xs12 md5 class="text-md-right">
+                    <v-flex xs12 md5>
                         <span class="caption">{{ $t('desc') }}</span><br />
                         <span class="">{{ team.description }}</span>
                     </v-flex>
 
-                    <v-flex xs12 md1 class="text-md-right">
+                    <v-flex xs6 md3 class="text-md-right">
+                        <span class="caption">{{ $t('owner') }}</span><br />
+                        <span class="">{{ team.owner.name }}</span>
+                    </v-flex>
+
+                    <v-flex xs6 md1 class="text-xs-right">
                         <v-btn :disabled="team.owner.id == $store.state.user.id" flat icon >
                             <v-icon>delete</v-icon>
                         </v-btn>

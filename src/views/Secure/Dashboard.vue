@@ -1,75 +1,76 @@
 <template>
-    <v-container fill-height>
-        <v-layout row wrap align-center>
-            <v-flex xs12>
+    <v-container fill-height :class="{'pl-0 pr-0':$vuetify.breakpoint.xsOnly}">
+        <v-layout row wrap v-if="$store.state.user.team">
 
+            <v-flex xs12 class="text-xs-center">
                 <h1 class="display-1 accent--text">{{ $t('views.dashboard') }}</h1>
-                <h1 class="title mb-4">{{ call }}</h1>
+                <h1 class="title">{{ call }}</h1>
+            </v-flex>
 
-                <v-layout row wrap justify-center v-if="$store.state.user.team">
-
-                    <v-flex xs12 sm6 md5 :class="style" v-if="assigns">
-                        <h1 class="headline primary--text">{{ $t('shifts') }}</h1>
-                        <v-divider></v-divider>
-                        <v-timeline dense large>
-                            <v-timeline-item v-for="a in assigns" :key="a.time.id" :color="a.shift.color" :icon="a.icon" fill-dot>
-                                <v-card>
-                                    <v-card-text>
-                                        <v-layout row wrap>
-                                            <v-flex xs8>
-                                                <h2 v-if="a.shift" class="title">{{ a.shift.title }}</h2>
-                                                <span v-if="a.note">{{ a.note }}</span>
-                                            </v-flex>
-                                            <v-flex xs4 class="text-xs-right">
-                                                <span>{{ a.time.title }}</span>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-card>
-                            </v-timeline-item>
-                        </v-timeline>
-                    </v-flex>
-
-                    <v-flex xs12 sm6 md5 :class="style" v-if="notes">
-                        <h1 class="headline primary--text">{{ $t('notes') }}</h1>
-                        <v-divider></v-divider>
-                        <v-card class="mt-4">
-                            <v-card-text class="pa-0">
-                                <div v-for="(n, index) in notes" :key="'fruit-'+index">
-                                    <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
-                                    <v-divider></v-divider>
-                                </div>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-
-                    <v-flex xs12 md5 v-if="!loading && !assigns" class="pa-3">
-                        <v-card class="success elevation-0" dark>
+            <v-flex xs12 sm6 class="pa-2" v-if="assigns">
+                <h1 class="headline primary--text pl-2 pt-2">{{ $t('shifts') }}</h1>
+                <v-divider></v-divider>
+                <v-timeline dense large>
+                    <v-timeline-item v-for="a in assigns" :key="a.time.id" :color="a.shift.color" :icon="a.icon" fill-dot>
+                        <v-card>
                             <v-card-text>
-                                <v-layout row wrap align-center>
-                                    <v-flex xs10 class="body-2">{{ $t('noAssigns') }}</v-flex>
-                                    <v-flex xs2 class="text-xs-right"><v-icon large>check</v-icon></v-flex>
+                                <v-layout row wrap>
+                                    <v-flex xs8>
+                                        <h2 v-if="a.shift" class="title">{{ a.shift.title }}</h2>
+                                        <span v-if="a.note">{{ a.note }}</span>
+                                    </v-flex>
+                                    <v-flex xs4 class="text-xs-right">
+                                        <span>{{ a.time.title }}</span>
+                                    </v-flex>
                                 </v-layout>
                             </v-card-text>
                         </v-card>
-                    </v-flex>
-
-                    <v-flex xs12 md5 v-if="loading" class="pa-1">
-                        <v-card class="accent elevation-5 text-xs-center" dark>
-                            <v-card-text>
-                                {{ $t('load') }}
-                                <v-progress-linear indeterminate class="mb-0"></v-progress-linear>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-
-                <v-layout row wrap justify-center v-else>
-                    <NoTeamDashboard />
-                </v-layout>
-
+                    </v-timeline-item>
+                </v-timeline>
+                <v-divider></v-divider>
             </v-flex>
+
+            <v-flex xs12 sm6 class="pa-2" v-if="notes">
+                <h1 class="headline primary--text pl-2 pt-2">{{ $t('notes') }}</h1>
+                <v-card>
+                    <v-card-text class="pa-0">
+                        <div v-for="(n, index) in notes" :key="'fruit-'+index">
+                            <p class="pt-2 pl-3 pr-3">{{ n.note }}</p>
+                            <v-divider></v-divider>
+                        </div>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+
+            <v-flex xs12 md5 v-if="!loading && !assigns" class="pa-3">
+                <v-card class="success elevation-0" dark>
+                    <v-card-text>
+                        <v-layout row wrap align-center>
+                            <v-flex xs10 class="body-2">{{ $t('noAssigns') }}</v-flex>
+                            <v-flex xs2 class="text-xs-right">
+                                <v-icon large>check</v-icon>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+
+            <v-flex shrink v-if="loading">
+                <span class="spinning-loader">
+                    <v-icon light>cached</v-icon>
+                </span>
+            </v-flex>
+
+            <v-flex shrink v-if="loading" class="pl-2">
+                {{ $t('load') }}
+            </v-flex>
+
         </v-layout>
+
+        <v-layout row wrap justify-center v-else>
+            <NoTeamDashboard />
+        </v-layout>
+
     </v-container>
 </template>
 
@@ -133,14 +134,6 @@ export default {
             return assigns
         },
 
-        // Style elements responsive
-        style () {
-            return {
-                'pb-1 pt-1': this.$vuetify.breakpoint.xsOnly,
-                'pa-2': !this.$vuetify.breakpoint.xsOnly
-            }
-        },
-
         // Use diffrent welcome-text at diffrent times
         call () {
             var hour = (new Date()).getHours()
@@ -168,7 +161,7 @@ export default {
                 if (cont.notes) vm.noteList = cont.notes
                 else vm.noteList = []
             }
-        }).catch(function () {}).then(function () {
+        }).catch(function () { }).then(function () {
             vm.loading = false
         })
     },

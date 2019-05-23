@@ -2,16 +2,16 @@
     <v-container class="pl-0 pr-0">
         <v-layout row wrap>
 
-            <v-flex xs12 class="pl-3 pr-3">
+            <v-flex xs12 :class="{'pl-3 pr-3':!$vuetify.breakpoint.xsOnly}">
                 <v-layout row wrap>
 
                     <v-flex xs12 sm6>
-                        <h1 class="headline primary--text pt-3">{{ $t('detail') }}</h1>
+                        <h1 class="headline primary--text pl-2 pb-3">{{ $t('detail') }}</h1>
                     </v-flex>
                     <v-flex xs12 sm6>
                         <OwnerChange />
                     </v-flex>
-                    <v-flex xs12>
+                    <v-flex xs12 class="pl-3 pr-3">
                         <Details />
                     </v-flex>
 
@@ -22,13 +22,13 @@
                 <v-divider></v-divider>
             </v-flex>
 
-            <v-flex xs12 class="pl-3 pr-3">
+            <v-flex xs12 :class="{'pl-3 pr-3':!$vuetify.breakpoint.xsOnly}">
                 <v-layout row wrap>
 
                     <v-flex xs10>
-                        <h1 class="headline primary--text pt-3">{{ $t('roles') }}</h1>
+                        <h1 class="headline primary--text pa-2">{{ $t('roles') }}</h1>
                     </v-flex>
-                    <v-flex xs2 class="text-xs-right pr-3">
+                    <v-flex xs2 class="text-xs-right pr-2">
                         <CreateRole />
                     </v-flex>
                     <Roles />
@@ -40,13 +40,13 @@
                 <v-divider></v-divider>
             </v-flex>
 
-            <v-flex xs12 class="pl-3 pr-3">
+            <v-flex xs12 :class="{'pl-3 pr-3':!$vuetify.breakpoint.xsOnly}">
                 <v-layout row wrap>
 
                     <v-flex xs10>
-                        <h1 class="headline primary--text pt-3">{{ $t('users') }}</h1>
+                        <h1 class="headline primary--text pa-2">{{ $t('users') }}</h1>
                     </v-flex>
-                    <v-flex xs2 class="text-xs-right pr-3">
+                    <v-flex xs2 class="text-xs-right pr-2">
                         <Invite />
                     </v-flex>
                     <Users />

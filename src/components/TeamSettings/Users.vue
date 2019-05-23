@@ -25,8 +25,8 @@
                                 <v-chip class="clickable" v-if="!props.item.owner">
                                     {{ (getGroup(props.item.role))['title'] }}
                                 </v-chip>
-                                <span v-else class="title">
-                                    {{ $t('owner') }}
+                                <span v-else>
+                                    {{ (getGroup(props.item.role))['title'] }}
                                 </span>
                                 <template v-slot:input>
                                     <v-select :disabled="props.item.owner" v-model="props.item.role" :items="roleItems" item-text="title" item-value="id" aria-label="Roles"></v-select>
