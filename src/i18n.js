@@ -35,6 +35,7 @@ export default new VueI18n({
                 login: 'Login',
                 logout: 'Logout',
                 register: 'Get Access',
+                verify: 'Verify account',
                 notfound: 'Page not found',
                 nopermission: 'No Permissions'
             },
@@ -58,7 +59,8 @@ export default new VueI18n({
                 password: 'Password',
                 title: 'Title',
                 desc: 'Description',
-                owner: 'Owner'
+                owner: 'Owner',
+                code: 'Code'
             },
             btn: {
                 save: 'Save',
@@ -98,6 +100,7 @@ export default new VueI18n({
                 login: 'Anmelden',
                 logout: 'Abmelden',
                 register: 'Konto erstellen',
+                verify: 'Konto bestätigen',
                 notfound: 'Seite nicht gefunden',
                 nopermission: 'Keine Rechte'
             },
@@ -121,7 +124,8 @@ export default new VueI18n({
                 password: 'Passwort',
                 title: 'Titel',
                 desc: 'Beschreibung',
-                owner: 'Inhaber'
+                owner: 'Inhaber',
+                code: 'Code'
             },
             btn: {
                 save: 'Speichern',

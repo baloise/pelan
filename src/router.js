@@ -62,8 +62,19 @@ export default new Router({
         },
         {
             path: '/register',
-            name: 'register',
-            component: () => import('./views/Shared/Register.vue'),
+            component: () => import('./views/Shared/Register/'),
+            children: [
+                {
+                    path: '',
+                    name: 'register',
+                    component: () => import('./views/Shared/Register/Form')
+                },
+                {
+                    path: 'verify',
+                    name: 'verify',
+                    component: () => import('./views/Shared/Register/Verify')
+                }
+            ],
             meta: {
                 requiresAuth: false,
                 requiresAdmin: false
