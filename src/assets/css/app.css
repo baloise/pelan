@@ -41,18 +41,18 @@
 /* Baloise-specific Design */
 .baloise-drawer .v-list__tile .v-list__tile__title {
     font-family: 'MetaP_Medium', sans-serif !important;
-    color: rgb(0, 51, 153) !important;
+    color: #009EE7 !important;
     font-size: 19px !important;
 }
 .baloise-drawer .v-list__tile.v-list__tile--active .v-list__tile__title {
-    color: #009EE7 !important;
+    color: rgb(0, 51, 153) !important;
 }
 
 .baloise-drawer .v-icon {
-    color: rgb(0, 51, 153) !important;
+    color: #009EE7 !important;
 }
 .baloise-drawer .v-list__tile.v-list__tile--active .v-icon {
-    color: #009EE7 !important;
+    color: rgb(0, 51, 153) !important;
 }
 .v-btn {
     text-transform: none;

@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer app v-model="drawer" class="baloise-drawer secondary" clipped floating>
+    <v-navigation-drawer app v-model="drawer" class="baloise-drawer secondary lighten2" clipped floating>
 
         <Auth v-if="this.$store.state.auth.token" />
 
