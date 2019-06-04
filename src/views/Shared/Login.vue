@@ -84,17 +84,17 @@ export default {
         login () {
             var vm = this
             vm.$refs.form.validate()
-            if (!vm.$data.rule.valid) return false
+            if (!vm.rule.valid) return false
 
-            vm.$data.sending = true
+            vm.sending = true
             vm.$http.post('user/login/', vm.fd).then(function (response) {
                 vm.$store.commit('login', response.data.content)
                 vm.$router.push('/')
             }).catch(function () {
-                vm.$data.sending = false
+                vm.sending = false
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {
-                vm.$data.sending = false
+                vm.sending = false
             })
         }
 

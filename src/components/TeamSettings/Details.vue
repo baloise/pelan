@@ -47,17 +47,17 @@ export default {
         save () {
             var vm = this
             vm.$refs.form.validate()
-            if (!vm.$data.rule.valid) return false
+            if (!vm.rule.valid) return false
 
-            vm.$data.sending = true
+            vm.sending = true
             vm.$http.post('team/edit/', vm.fd).then(function (response) {
-                vm.$data.change = false
+                vm.change = false
                 vm.$store.commit('login', response.data.content)
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {
-                vm.$data.sending = false
+                vm.sending = false
             })
         }
 

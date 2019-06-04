@@ -120,7 +120,7 @@ export default {
 
         deleteShift () {
             var vm = this
-            vm.$data.sending = true
+            vm.sending = true
             vm.$http.post('assignment/delete/', {
                 user: vm.content.user.id,
                 time: vm.content.time.id,
@@ -132,7 +132,7 @@ export default {
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {
-                vm.$data.sending = false
+                vm.sending = false
             })
         },
 
@@ -142,24 +142,24 @@ export default {
             vm.formdata.user = vm.content.user.id
             vm.formdata.time = vm.content.time.id
 
-            if (!vm.$data.rules.valid) return false
+            if (!vm.rules.valid) return false
             if (!vm.content.user.id || !vm.content.time.id) return false
             if (!vm.formdata.shift && !vm.formdata.note) {
                 vm.$notify({ type: 'error', text: vm.$t('emptyInputs') })
                 return false
             }
 
-            vm.$data.sending = true
+            vm.sending = true
             vm.$http.post('assignment/set/', vm.formdata).then(function (response) {
                 vm.removeObj(vm.formdata.time, vm.content.dateFull.getTime())
                 vm.$store.state.data.assigns[vm.content.user.id].assigns.push(vm.formdata)
-                vm.$data.change = false
+                vm.change = false
                 vm.$emit('close')
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {
-                vm.$data.sending = false
+                vm.sending = false
             })
         }
 

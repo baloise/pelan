@@ -170,7 +170,7 @@ export default {
         close (item) {
             var vm = this
             vm.$refs.formData.validate()
-            if (!vm.$data.isValid) vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
+            if (!vm.isValid) vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
             else {
                 vm.$http.post('user/edit/admin/', item).then(function (response) {
                     vm.$notify({ type: 'success', text: vm.$t('alert.success') })

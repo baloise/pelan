@@ -67,21 +67,21 @@ export default {
         save () {
             var vm = this
             vm.$refs.form.validate()
-            if (!vm.$data.rule.valid) return false
+            if (!vm.rule.valid) return false
 
             var lastLang = vm.$store.state.user.language
-            vm.$store.state.user.language = vm.$data.fd.language
+            vm.$store.state.user.language = vm.fd.language
 
-            vm.$data.sending = true
+            vm.sending = true
             vm.$http.post('user/edit/', vm.fd).then(function (response) {
-                vm.$data.change = false
+                vm.change = false
                 vm.$store.commit('login', response.data.content)
                 vm.$notify({ type: 'success', text: vm.$t('alert.success') })
             }).catch(function () {
                 vm.$store.state.user.language = lastLang
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {
-                vm.$data.sending = false
+                vm.sending = false
             })
         }
 

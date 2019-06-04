@@ -124,7 +124,7 @@ export default {
         close (item) {
             var vm = this
             vm.$refs.formData.validate()
-            if (!vm.$data.isValid) {
+            if (!vm.isValid) {
                 vm.$notify({ type: 'error', text: vm.$t('valueWrong') })
             } else {
                 vm.$http.post('role/edit/', item).then(function (response) {

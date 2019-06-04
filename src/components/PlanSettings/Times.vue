@@ -110,7 +110,7 @@ export default {
         // Check if new title (from editor-dialog) is valid
         validTitle () {
             this.$refs.editorForm.validate()
-            if (this.$data.rules.valid) this.dialog = false
+            if (this.rules.valid) this.dialog = false
         },
 
         // Save changes and/or delete time, if selected
@@ -150,7 +150,7 @@ export default {
             vm.$refs.adderForm.validate()
             if (vm.list.length) newPosition = parseInt(vm.list[vm.list.length - 1].position) + 1
 
-            if (vm.$data.rules.valid) {
+            if (vm.rules.valid) {
                 vm.$http.post('daytime/create/', {
                     title: vm.newElement.title,
                     abbreviation: vm.newElement.title.substring(0, 4),

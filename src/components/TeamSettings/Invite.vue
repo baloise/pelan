@@ -134,7 +134,7 @@ export default {
         create () {
             var vm = this
             vm.$refs.form.validate()
-            if (!vm.$data.rule.valid) return false
+            if (!vm.rule.valid) return false
             vm.$http.post('team/invite/create/', vm.fd).then(function (response) {
                 vm.getInvites()
                 vm.$refs.form.reset()

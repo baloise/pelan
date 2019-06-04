@@ -58,9 +58,9 @@ export default {
     },
     mounted () {
         if (this.$route.query.email) {
-            this.$data.fd.email = this.$route.query.email
+            this.fd.email = this.$route.query.email
             if (this.$route.query.code) {
-                this.$data.fd.code = this.$route.query.code
+                this.fd.code = this.$route.query.code
                 this.verify()
             }
         }
