@@ -4,6 +4,8 @@ const webpack = require('webpack')
 
 module.exports = {
 
+    baseUrl: process.env.BASE_URL,
+
     pwa: {
         name: 'Pelan',
         themeColor: '#008AC9',
