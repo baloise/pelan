@@ -6,13 +6,20 @@
 
         <v-content>
 
+            <v-dialog v-model="$store.state.app.loginLoad" width="300" persistent>
+                <v-card>
+                    <v-card-text class="text-xs-center">
+                        {{ $t('alert.loginLoad') }}
+                        <v-progress-linear indeterminate color="primary" class="mb-0"></v-progress-linear>
+                    </v-card-text>
+                </v-card>
+            </v-dialog>
+
             <notifications position="bottom center" :width="correctWidth" :speed="500">
                 <template slot="body" slot-scope="props">
-
                     <v-alert :value="true" :type="props.item.type" @click="props.close" class="elevation-5 mb-0">
                         {{ props.item.text }}
                     </v-alert>
-
                 </template>
             </notifications>
 
@@ -35,8 +42,7 @@ export default {
     name: 'App',
 
     components: {
-        Drawer,
-        Toolbar
+        Drawer, Toolbar
     },
 
     computed: {
@@ -45,7 +51,6 @@ export default {
             else if (this.$vuetify.breakpoint.mdAndDown) return '70%'
             else return '50%'
         },
-
         key () {
             if (this.$store.state.auth.expiration) return this.$store.state.auth.expiration
             else return 'noLogin'
@@ -57,8 +62,8 @@ export default {
         ...mapActions(['checkAuth']),
 
         // Get token/login from API
+        /* eslint-disable standard/no-callback-literal */
         getLogin (callErr) {
-            /* eslint-disable standard/no-callback-literal */
             var vm = this
             vm.$http.get('user/login/').then(function (response) {
                 vm.$store.commit('login', response.data.content)
@@ -67,9 +72,11 @@ export default {
                 if (error.response.data.reason === 'not_registered') callErr('register')
                 else if (error.response.data.reason === 'credentials_needed') callErr('login')
                 else callErr('nopermission')
+            }).then(function () {
+                vm.$store.state.app.loginLoad = false
             })
-            /* eslint-enable standard/no-callback-literal */
         },
+        /* eslint-enable standard/no-callback-literal */
 
         // Check Permissions before going to a view
         checkPerms (route) {
@@ -83,15 +90,18 @@ export default {
 
         // Check permissions before resolving a view
         vm.$router.beforeResolve((to, from, next) => {
-            vm.$store.dispatch('checkAuth')
             document.title = vm.$store.state.app.title + ' | ' + vm.$t('views.' + to.name)
+            vm.$store.dispatch('checkAuth')
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {
                 vm.getLogin(function (state) {
                     if (!state && vm.checkPerms(to.meta)) next()
                     else vm.$router.push({ name: state })
                 })
-            } else if (vm.checkPerms(to.meta)) next()
-            else vm.$router.push({ name: 'nopermission' })
+            } else {
+                vm.$store.state.app.loginLoad = false
+                if (vm.checkPerms(to.meta)) next()
+                else vm.$router.push({ name: 'nopermission' })
+            }
         })
 
         // Use correct Language at startup & watch Changes

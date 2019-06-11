@@ -11,7 +11,9 @@ export default new Vuex.Store({
         app: {
             title: 'Pelan',
             version: '1.0',
-            drawer: true
+            env: process.env.VUE_APP_ENV,
+            drawer: true,
+            loginLoad: true
         },
 
         // Auth/Token Info
@@ -57,6 +59,7 @@ export default new Vuex.Store({
                 state.data.roles = []
                 state.data.shifts = []
                 state.data.times = []
+                state.data.teams = []
                 state.data.assigns = []
                 state.data.invites = []
             }
@@ -78,9 +81,16 @@ export default new Vuex.Store({
         logout (state) {
             var prefix = Cookies.get('tkn_cookie_prfx')
             Cookies.remove(prefix + '_app_token')
-            state.auth.token = false
-            state.auth.expiration = null
+            state.data.users = []
+            state.data.roles = []
+            state.data.shifts = []
+            state.data.times = []
+            state.data.teams = []
+            state.data.assigns = []
+            state.data.invites = []
             state.user = { language: navigator.language || navigator.userLanguage }
+            state.auth.expiration = null
+            state.auth.token = false
         }
 
     },

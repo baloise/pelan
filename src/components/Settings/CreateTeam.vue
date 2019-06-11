@@ -112,7 +112,11 @@ export default {
                 vm.$store.state.data.teams.push({
                     id: response.data.content.id,
                     title: vm.fnew.title,
-                    description: vm.fnew.description
+                    description: vm.fnew.description,
+                    owner: {
+                        id: vm.$store.state.user.id,
+                        name: vm.$store.state.user.firstname + ' ' + vm.$store.state.user.lastname
+                    }
                 })
                 vm.change(response.data.content.id)
                 vm.$notify({ type: 'success', text: vm.$t('notif.created') })

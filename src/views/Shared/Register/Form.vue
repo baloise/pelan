@@ -7,7 +7,7 @@
         <v-card>
             <v-card-text>
                 <v-form v-model="rule.valid" ref="form">
-                    <v-layout row wrap @click="change = true">
+                    <v-layout row wrap @click="change = true" v-if="this.$store.state.app.env !== 'MEDUSA'">
 
                         <v-flex xs12>
                             <h1 class="title primary--text">Grundlagen</h1>
@@ -34,6 +34,27 @@
                         </v-flex>
                         <v-flex xs12 md4>
                             <v-text-field :label="$t('ft.password')" v-model="fd.password" :rules="[rule.min]" type="password" />
+                        </v-flex>
+
+                        <v-flex xs12 class="pa-2">
+                            <v-divider class="pb-3"></v-divider>
+                            <v-btn @click="register()" color="primary" depressed block :disabled="!change || sending" :loading="sending">
+                                {{ $t('btn.send') }}
+                                <span slot="loader" class="spinning-loader">
+                                    <v-icon light>cached</v-icon>
+                                </span>
+                            </v-btn>
+                        </v-flex>
+
+                    </v-layout>
+
+                    <v-layout row wrap @click="change = true" v-else>
+
+                        <v-flex xs12 md6>
+                            <v-text-field :label="$t('ft.nickname')" v-model="fd.nickname" :rules="[rule.min, rule.max]" counter="10" />
+                        </v-flex>
+                        <v-flex xs12 md6>
+                            <v-select :label="$t('ft.language')" v-model="fd.language" :rules="[rule.min]" :items="langItems" hide-selected />
                         </v-flex>
 
                         <v-flex xs12 class="pa-2">
@@ -103,7 +124,8 @@ export default {
             vm.sending = true
             vm.$http.post('user/create/', vm.fd).then(function (response) {
                 vm.change = false
-                vm.$router.push({ name: 'verify', query: { email: vm.fd.email } })
+                if (vm.$store.state.app.env === 'MEDUSA') vm.$router.push({ name: 'dashboard' })
+                else vm.$router.push({ name: 'verify', query: { email: vm.fd.email } })
             }).catch(function () {
                 vm.$notify({ type: 'error', text: vm.$t('alert.error') })
             }).then(function () {

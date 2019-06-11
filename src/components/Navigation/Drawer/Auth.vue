@@ -17,7 +17,7 @@
                     <v-list-tile-title>{{ $t('views.plan') }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-group prepend-icon="cached" v-if="$store.state.user.team && teams">
+            <v-list-group prepend-icon="cached" v-if="$store.state.user.team && teams" :key="$store.state.data.teams.length">
                 <template v-slot:activator>
                     <v-list-tile>
                         <v-list-tile-title>{{ $t('views.teamchange') }}</v-list-tile-title>
@@ -71,7 +71,7 @@
                     <v-list-tile-title>{{ $t('views.settings') }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile @click="logout()">
+            <v-list-tile v-if="!ssoNav" @click="logout()">
                 <v-list-tile-action>
                     <v-icon>exit_to_app</v-icon>
                 </v-list-tile-action>
@@ -107,6 +107,7 @@ export default {
             var vm = this
             vm.$http.post('team/read/').then(function (response) {
                 if (response.data.content) vm.$store.state.data.teams = response.data.content
+                else vm.$store.state.data.teams = false
             })
         },
 
@@ -135,6 +136,11 @@ export default {
     },
 
     computed: {
+
+        ssoNav () {
+            if (process.env.VUE_APP_ENV === 'MEDUSA') return true
+            return false
+        },
 
         doTeam: {
 

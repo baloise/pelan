@@ -1,7 +1,7 @@
 <template>
     <v-layout column fill-height>
         <v-list>
-            <v-list-tile :to="{name: 'login'}">
+            <v-list-tile v-if="!ssoNav" :to="{name: 'login'}">
                 <v-list-tile-action>
                     <v-icon>lock_open</v-icon>
                 </v-list-tile-action>
@@ -45,6 +45,11 @@ export default {
     name: 'NoAuth',
 
     computed: {
+
+        ssoNav () {
+            if (this.$store.state.app.env === 'MEDUSA') return true
+            return false
+        },
 
         // Get Infos about the App
         info () {

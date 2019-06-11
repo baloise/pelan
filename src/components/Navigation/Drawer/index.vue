@@ -1,10 +1,7 @@
 <template>
     <v-navigation-drawer app v-model="drawer" class="baloise-drawer secondary lighten2" clipped floating>
-
-        <Auth v-if="this.$store.state.auth.token" />
-
-        <NoAuth v-else />
-
+        <Auth v-if="$store.state.auth.token" />
+        <NoAuth v-else-if="!$store.state.app.loginLoad" />
     </v-navigation-drawer>
 </template>
 

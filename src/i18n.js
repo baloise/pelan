@@ -47,7 +47,8 @@ export default new VueI18n({
                 length: 'Value is too long',
                 authFail: 'Authentication was not successful',
                 loadFail: 'There was an error while loading the data',
-                registered: 'Your Account has been created. Welcome to Pelan!'
+                registered: 'Your Account has been created. Welcome to Pelan!',
+                loginLoad: 'Authenticating...'
             },
             ft: {
                 name: 'Name',
@@ -112,7 +113,8 @@ export default new VueI18n({
                 length: 'Wert ist zu lang',
                 authFail: 'Authentifizierung war nicht erfolgreich',
                 loadFail: 'Während dem Laden der Daten ist ein Fehler aufgetreten.',
-                register: 'Dein Account wurde erstellt. Willkommen bei Pelan!'
+                register: 'Dein Account wurde erstellt. Willkommen bei Pelan!',
+                loginLoad: 'Anmeldung wird durchgeführt'
             },
             ft: {
                 name: 'Name',
