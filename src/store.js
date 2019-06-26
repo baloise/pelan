@@ -48,11 +48,10 @@ export default new Vuex.Store({
         },
 
         // Login-User / process token and add to state & add cookie
-        login (state, tokenInfo) {
-            if (!tokenInfo || !tokenInfo.prefix) tokenInfo.prefix = Cookies.get('tkn_cookie_prfx')
-            else Cookies.set('tkn_cookie_prfx', tokenInfo.prefix)
-            var token = tokenInfo.token
-            var now = Math.floor(Date.now() / 1000)
+        login (state, prefix) {
+            if (!prefix) prefix = Cookies.get('tkn_cookie_prfx')
+            else Cookies.set('tkn_cookie_prfx', prefix)
+            var token = Cookies.getJSON(prefix + '_app_token'); var now = Math.floor(Date.now() / 1000)
             var dec = JSON.parse(window.atob((token.split('.')[1]).replace('-', '+').replace('_', '/')))
 
             if (state.user.team && state.user.team.id !== dec.data.team.id) {
