@@ -65,7 +65,7 @@ export default new Vuex.Store({
             }
 
             if (now > dec.exp) {
-                Cookies.remove(tokenInfo.prefix + '_app_token')
+                Cookies.remove(prefix + '_app_token')
                 state.auth.token = false
                 state.auth.expiration = null
                 state.user = { language: navigator.language || navigator.userLanguage }

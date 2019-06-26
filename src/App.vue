@@ -87,13 +87,16 @@ export default {
 
     beforeMount () {
         var vm = this
-        vm.getLogin(function (state) {})
 
         // Check permissions before resolving a view
         vm.$router.beforeResolve((to, from, next) => {
             document.title = vm.$store.state.app.title + ' | ' + vm.$t('views.' + to.name)
             vm.$store.dispatch('checkAuth')
             if (to.meta.requiresAuth === true && !vm.$store.state.auth.token) {
+                vm.getLogin(function (state) {
+                    if (!state && vm.checkPerms(to.meta)) next()
+                    else vm.$router.push({ name: state })
+                })
             } else {
                 vm.$store.state.app.loginLoad = false
                 if (vm.checkPerms(to.meta)) next()
